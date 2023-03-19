@@ -10,7 +10,7 @@ Here are some ideas to get you started:
 - 🔭 I’m currently studying Information Technology at BUT FIT
 - 🌱 I’m currently learning C#, Unity
 - 👯 I’m looking to collaborate on some game development stuff
-- 📫 How to reach me: [Telegram](https://t.me/Jekwwer), ICQ(@Jekwwer)
+- 📫 How to reach me: [Telegram](https://t.me/Jekwwer)
 - 🌲 Fun fact: I have 4 Gravity Falls Dipper's hats
 
 <!--
