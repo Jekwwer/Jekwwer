@@ -15,10 +15,10 @@
 
 ---
 
-<h3 align="center">🔭 Currently Learning</h3>
+<h3 align="center">🔭 Currently Improving</h3>
 <p align="center">
-  [Python]
-  [C lang]
+  <a href="PLACEHOLDER" target="blank"><img align="center" src="assets/python-127-svgrepo-com.svg" alt="python" height="40" width="40" /></a>
+  <a href="PLACEHOLDER" target="blank"><img align="center" src="assets/letter-c-svgrepo-com.svg" alt="clangs" height="40" width="40" /></a>
 </p>
 
 ---
