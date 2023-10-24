@@ -42,4 +42,8 @@
   <img src="https://github-readme-stats.vercel.app/api/pin/?username=Jekwwer&repo=IZHV-GameJamProject-2022&bg_color=eff1f5&text_color=4c4f69&icon_color=8839ef&title_color=179299" alt="IZHV-GameJamProject-2022 repo">
 </p>
 
+<p align="center">
+  <img src="assets/waves-footer.svg" width="100%" alt="footer image" >
+</p>
+
 <!--- End of README.md --->
