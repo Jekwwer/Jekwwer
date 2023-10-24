@@ -3,7 +3,7 @@
         Date:    24.10.2023        -->
 
 <p align="center">
-  <img src="assets/photo.jpg" width="250" height="250">
+  <img src="assets/waves-header.png" width="100%" alt="header image" >
 </p>
 
 <h1 align="center">👋 Hello World! I'm Evgenii Shiliaev</h1>
