@@ -11,6 +11,14 @@
 
 ---
 
+<h3 align="center">🔭 Currently Studying</h3>
+<p align="center">
+  [Python]
+  [C lang]
+</p>
+
+---
+
 <h3 align="center">📫 How to Reach Me</h3>
 <p align="center">
   <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="blank"><img align="center" src="assets/iconmonstr-linkedin-3.svg" alt="linkedin" height="30" width="30" /></a>
