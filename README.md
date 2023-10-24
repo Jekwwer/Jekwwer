@@ -1,3 +1,7 @@
+<!--    Project: Profile Page
+        Author:  Evgenii Shiliaev
+        Date:    24.10.2023        -->
+
 <p align="center">
   <img src="assets/photo.jpg" width="250" height="250">
 </p>
@@ -24,3 +28,5 @@
   <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="blank"><img align="center" src="assets/iconmonstr-linkedin-3.svg" alt="linkedin" height="30" width="30" /></a>
   <a href="https://www.t.me/jekwwer/" target="blank"><img align="center" src="assets/iconmonstr-telegram-3.svg" alt="telegram" height="30" width="30" /></a>
 </p>
+
+<!--- End of README.md --->
