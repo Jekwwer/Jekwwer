@@ -31,15 +31,15 @@
 
 <h3 align="center">📈 GitHub Stats</h3>
 <p align="center">
-  <img src="https://streak-stats.demolab.com?user=jekwwer&theme=catppuccin-latte" alt="GitHub Stats">
+  <img src="https://streak-stats.demolab.com?user=jekwwer&theme=catppuccin-latte&card_width=802" alt="GitHub Stats">
 </p>
 
 ---
 
 <h3 align="center">💼 Check these repos out!</h3>
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/pin/?username=Jekwwer&repo=IVS-Project2-WaterLift-Calc&bg_color=eff1f5&text_color=4c4f69&icon_color=8839ef&title_color=179299" alt="IVS-Project2-WaterLift-Calc repo">
-  <img src="https://github-readme-stats.vercel.app/api/pin/?username=Jekwwer&repo=IZHV-GameJamProject-2022&bg_color=eff1f5&text_color=4c4f69&icon_color=8839ef&title_color=179299" alt="IZHV-GameJamProject-2022 repo">
+  <img src="https://github-readme-stats.vercel.app/api/pin/?username=Jekwwer&repo=IVS-Project2-WaterLift-Calc&card_width&bg_color=eff1f5&text_color=4c4f69&icon_color=8839ef&title_color=179299&card_width=400" alt="IVS-Project2-WaterLift-Calc repo">
+  <img src="https://github-readme-stats.vercel.app/api/pin/?username=Jekwwer&repo=IZHV-GameJamProject-2022&bg_color=eff1f5&text_color=4c4f69&icon_color=8839ef&title_color=179299&card_width=400" alt="IZHV-GameJamProject-2022 repo">
 </p>
 
 <p align="center">
