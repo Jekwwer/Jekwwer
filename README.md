@@ -1,6 +1,6 @@
 <!--    Project: Profile Page
         Author:  Evgenii Shiliaev
-        Date:    24.10.2023        -->
+        Date:    26.10.2023        -->
 
 <p align="center">
   <img src="assets/waves-header.png" width="100%" alt="header image" >
@@ -11,21 +11,23 @@
   <a href="https://www.linkedin.com/in/evgenii-shiliaev/" style="font-size: 150%">LinkedIn</a>
 </p>
 
----
+<table align="center"; width=100%>
+    <tr align="center">
+        <td><h3>🔭 Currently Improving</h3></td>
+        <td><h3>📫 How to Reach Me</h3></td>
+    </tr>
+    <tr align="center">
+        <td>
+            <a href="PLACEHOLDER" target="blank"><img align="center" src="assets/python-127-svgrepo-com.svg" alt="python" height="40" width="40" /></a>
+            <a href="PLACEHOLDER" target="blank"><img align="center" src="assets/letter-c-svgrepo-com.svg" alt="clangs" height="40" width="40" /></a>
+        </td>
+        <td>
+            <a href="https://www.t.me/jekwwer/" target="blank"><img align="center" src="assets/iconmonstr-telegram-3.svg" alt="telegram" height="40" width="40" /></a>
+            <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="blank"><img align="center" src="assets/iconmonstr-linkedin-3.svg" alt="linkedin" height="40" width="40" /></a>
+        </td>
+    </tr>
 
-<h3 align="center">🔭 Currently Improving</h3>
-<p align="center">
-  <a href="PLACEHOLDER" target="blank"><img align="center" src="assets/python-127-svgrepo-com.svg" alt="python" height="40" width="40" /></a>
-  <a href="PLACEHOLDER" target="blank"><img align="center" src="assets/letter-c-svgrepo-com.svg" alt="clangs" height="40" width="40" /></a>
-</p>
-
----
-
-<h3 align="center">📫 How to Reach Me</h3>
-<p align="center">
-  <a href="https://www.t.me/jekwwer/" target="blank"><img align="center" src="assets/iconmonstr-telegram-3.svg" alt="telegram" height="40" width="40" /></a>
-  <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="blank"><img align="center" src="assets/iconmonstr-linkedin-3.svg" alt="linkedin" height="40" width="40" /></a>
-</p>
+</table>
 
 ---
 
