@@ -7,14 +7,14 @@
 </p>
 
 <h3 align="center">
-  <a href="https://drive.proton.me/urls/AS61GNH84W#Tdrj09dYHllo">Resume</a>
+  <a href="https://drive.proton.me/urls/AS61GNH84W#Tdrj09dYHllo">📄Resume</a>
   <span> • </span>
-  <a href="https://www.linkedin.com/in/evgenii-shiliaev/">LinkedIn</a>
+  <a href="https://www.linkedin.com/in/evgenii-shiliaev/">LinkedIn 🌐</a>
 </h3>
 
 ---
 
-<h3 align="center">🔭 Now Learning<span style="font-size:25px;"> • </span> 📫 Find Me Here</h3>
+<h3 align="center">🔭 Now Learning<span> • </span> Find Me Here 📫</h3>
 <h3 align="center">
   <a href="PLACEHOLDER" target="blank"><img align="center" src="assets/python-127-svgrepo-com.svg" alt="python" height="40" width="40" /></a>
   <a href="PLACEHOLDER" target="blank"><img align="center" src="assets/letter-c-svgrepo-com.svg" alt="clangs" height="40" width="40 " /></a>
