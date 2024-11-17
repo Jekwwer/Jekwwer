@@ -1,18 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="600" height="450" style="font-family: Arial, sans-serif;">
 
+    <!-- Background Gradient -->
+    <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f4dbd6">
+                <animate attributeName="stop-color"
+                    values="#f4dbd6; #f5bde6; #c6a0f6; #8aadf4; #91d7e3; #a6da95; #f4dbd6" dur="15s"
+                    repeatCount="indefinite" />
+            </stop>
+            <stop offset="100%" stop-color="#a6da95">
+                <animate attributeName="stop-color"
+                    values="#a6da95; #91d7e3; #8aadf4; #c6a0f6; #f5bde6; #f4dbd6; #a6da95" dur="15s"
+                    repeatCount="indefinite" />
+            </stop>
+        </linearGradient>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#bgGradient)" />
+
     <!-- Header Text -->
-    <text x="20" y="40" font-size="24" font-weight="bold" fill="#494d64">
+    <text x="20" y="40" font-size="24" font-weight="bold" fill="#24273a">
         Hi, I'm Evgenii! 👋
     </text>
-    <text x="20" y="70" font-size="16" fill="#5b6078">
+    <text x="20" y="70" font-size="16" fill="#363a4f">
         Automation Enthusiast | Python Developer | Content Creator
     </text>
 
     <!-- Subtext -->
-    <text x="20" y="100" font-size="14" fill="#6e738d">
+    <text x="20" y="100" font-size="14" fill="#363a4f">
         Exploring the world of automation, crafting solutions with Python, and sharing knowledge.
     </text>
-    <text x="20" y="120" font-size="14" fill="#6e738d">
+    <text x="20" y="120" font-size="14" fill="#363a4f">
         Always learning, building, and simplifying workflows to work smarter, not harder.
     </text>
 
@@ -20,15 +37,15 @@
     <g style="cursor: pointer;">
         <a href="https://jekwwer.com" target="_blank">
             <rect x="20" y="150" width="220" height="30" rx="10" />
-            <text x="30" y="170" font-size="14" fill="#cad3f5">📝 My Blog</text>
+            <text x="30" y="170" font-size="14" fill="url(#bgGradient)">📝 My Blog</text>
         </a>
         <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="_blank">
             <rect x="20" y="190" width="220" height="30" rx="10" />
-            <text x="30" y="210" font-size="14" fill="#cad3f5">💼 LinkedIn Profile</text>
+            <text x="30" y="210" font-size="14" fill="url(#bgGradient)">💼 LinkedIn Profile</text>
         </a>
         <a href="https://www.youtube.com/c/Jekwwer" target="_blank">
             <rect x="20" y="230" width="220" height="30" rx="10" />
-            <text x="30" y="250" font-size="14" fill="#cad3f5">🎥 YouTube Channel</text>
+            <text x="30" y="250" font-size="14" fill="url(#bgGradient)">🎥 YouTube Channel</text>
         </a>
     </g>
 
