@@ -8,4 +8,12 @@
         Automation Enthusiast | Python Developer | Content Creator
     </text>
 
+    <!-- Subtext -->
+    <text x="20" y="100" font-size="14" fill="#6e738d">
+        Exploring the world of automation, crafting solutions with Python, and sharing knowledge.
+    </text>
+    <text x="20" y="120" font-size="14" fill="#6e738d">
+        Always learning, building, and simplifying workflows to work smarter, not harder.
+    </text>
+
 </svg>
