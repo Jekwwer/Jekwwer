@@ -16,4 +16,20 @@
         Always learning, building, and simplifying workflows to work smarter, not harder.
     </text>
 
+    <!-- Links -->
+    <g style="cursor: pointer;">
+        <a href="https://jekwwer.com" target="_blank">
+            <rect x="20" y="150" width="220" height="30" rx="10" />
+            <text x="30" y="170" font-size="14" fill="#cad3f5">📝 My Blog</text>
+        </a>
+        <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="_blank">
+            <rect x="20" y="190" width="220" height="30" rx="10" />
+            <text x="30" y="210" font-size="14" fill="#cad3f5">💼 LinkedIn Profile</text>
+        </a>
+        <a href="https://www.youtube.com/c/Jekwwer" target="_blank">
+            <rect x="20" y="230" width="220" height="30" rx="10" />
+            <text x="30" y="250" font-size="14" fill="#cad3f5">🎥 YouTube Channel</text>
+        </a>
+    </g>
+
 </svg>
