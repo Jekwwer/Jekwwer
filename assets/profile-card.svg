@@ -5,12 +5,25 @@
         <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#f4dbd6">
                 <animate attributeName="stop-color"
-                    values="#f4dbd6; #f5bde6; #c6a0f6; #8aadf4; #91d7e3; #a6da95; #f4dbd6" dur="15s"
+                    values="#f4dbd6; #f5bde6; #c6a0f6; #8aadf4; #91d7e3; #a6da95; #f4dbd6" dur="10s"
                     repeatCount="indefinite" />
             </stop>
             <stop offset="100%" stop-color="#a6da95">
                 <animate attributeName="stop-color"
-                    values="#a6da95; #91d7e3; #8aadf4; #c6a0f6; #f5bde6; #f4dbd6; #a6da95" dur="15s"
+                    values="#a6da95; #91d7e3; #8aadf4; #c6a0f6; #f5bde6; #f4dbd6; #a6da95" dur="10s"
+                    repeatCount="indefinite" />
+            </stop>
+        </linearGradient>
+
+        <linearGradient id="bgTextGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f9e6e3">
+                <animate attributeName="stop-color"
+                    values="#f9e6e3; #f7cee9; #d3bcf9; #b3c7f9; #c1eaf0; #d5efb3; #f9e6e3" dur="10s"
+                    repeatCount="indefinite" />
+            </stop>
+            <stop offset="100%" stop-color="#d5efb3">
+                <animate attributeName="stop-color"
+                    values="#d5efb3; #c1eaf0; #b3c7f9; #d3bcf9; #f7cee9; #f9e6e3; #d5efb3" dur="10s"
                     repeatCount="indefinite" />
             </stop>
         </linearGradient>
@@ -71,15 +84,15 @@
     <g style="cursor: pointer;">
         <a href="https://jekwwer.com" target="_blank">
             <rect x="20" y="150" width="220" height="30" fill="url(#blogButtonGradient)" rx="10" />
-            <text x="30" y="170" font-size="14" fill="url(#bgGradient)">📝 My Blog</text>
+            <text x="30" y="170" font-size="14" fill="url(#bgTextGradient)">📝 My Blog</text>
         </a>
         <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="_blank">
             <rect x="20" y="190" width="220" height="30" fill="url(#linkedinButtonGradient)" rx="10" />
-            <text x="30" y="210" font-size="14" fill="url(#bgGradient)">💼 LinkedIn Profile</text>
+            <text x="30" y="210" font-size="14" fill="url(#bgTextGradient)">💼 LinkedIn Profile</text>
         </a>
         <a href="https://www.youtube.com/c/Jekwwer" target="_blank">
             <rect x="20" y="230" width="220" height="30" fill="url(#youtubeButtonGradient)" rx="10" />
-            <text x="30" y="250" font-size="14" fill="url(#bgGradient)">🎥 YouTube Channel</text>
+            <text x="30" y="250" font-size="14" fill="url(#bgTextGradient)">🎥 YouTube Channel</text>
         </a>
     </g>
 
