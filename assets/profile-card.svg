@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="450" style="font-family: Arial, sans-serif;">
+
+    <!-- Header Text -->
+    <text x="20" y="40" font-size="24" font-weight="bold" fill="#494d64">
+        Hi, I'm Evgenii! 👋
+    </text>
+    <text x="20" y="70" font-size="16" fill="#5b6078">
+        Automation Enthusiast | Python Developer | Content Creator
+    </text>
+
+</svg>
