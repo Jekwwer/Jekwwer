@@ -76,47 +76,57 @@
     <rect width="100%" height="100%" fill="url(#bgGradient)" rx="10" stroke="#24273a" stroke-width="2" />
 
     <!-- Header Text -->
-    <text x="20" y="40" font-size="24" font-weight="bold" fill="#24273a">
+    <text x="25" y="50" font-size="24" font-weight="bold" fill="#24273a" style="text-shadow: 1px 1px 2px #24273a;">
         Hi, I'm Evgenii! 👋
     </text>
-    <text x="20" y="70" font-size="16" fill="#363a4f">
+    <text x="25" y="80" font-size="16" fill="#363a4f" style="text-shadow: 1px 1px 1.5px #24273a;">
         Automation Enthusiast | Python Developer | Content Creator
     </text>
 
     <!-- Subtext -->
-    <text x="20" y="100" font-size="14" fill="#363a4f">
+    <text x="25" y="110" font-size="14" fill="#363a4f" style="text-shadow: 0.5px 0.5px 1px #24273a;">
         Exploring the world of automation, crafting solutions with Python, and sharing knowledge.
     </text>
-    <text x="20" y="120" font-size="14" fill="#363a4f">
+    <text x="25" y="130" font-size="14" fill="#363a4f" style="text-shadow: 0.5px 0.5px 1px #24273a;">
         Always learning, building, and simplifying workflows to work smarter, not harder.
     </text>
 
     <!-- Links -->
     <g style="cursor: pointer;">
         <a href="https://jekwwer.com" target="_blank">
-            <rect x="20" y="150" width="220" height="30" fill="url(#blogButtonGradient)" rx="10" />
-            <text x="30" y="170" font-size="14" fill="url(#bgTextGradient)">📝 My Blog</text>
+            <rect x="20" y="170" width="220" height="30" fill="url(#blogButtonGradient)" rx="10" />
+            <text x="30" y="190" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">📝
+                My Blog</text>
         </a>
         <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="_blank">
-            <rect x="20" y="190" width="220" height="30" fill="url(#linkedinButtonGradient)" rx="10" />
-            <text x="30" y="210" font-size="14" fill="url(#bgTextGradient)">💼 LinkedIn Profile</text>
+            <rect x="20" y="210" width="220" height="30" fill="url(#linkedinButtonGradient)" rx="10" />
+            <text x="30" y="230" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">💼
+                LinkedIn Profile</text>
         </a>
         <a href="https://www.youtube.com/c/Jekwwer" target="_blank">
-            <rect x="20" y="230" width="220" height="30" fill="url(#youtubeButtonGradient)" rx="10" />
-            <text x="30" y="250" font-size="14" fill="url(#bgTextGradient)">🎥 YouTube Channel</text>
+            <rect x="20" y="250" width="220" height="30" fill="url(#youtubeButtonGradient)" rx="10" />
+            <text x="30" y="270" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">🎥
+                YouTube Channel</text>
         </a>
     </g>
 
     <!-- GitHub Stats -->
     <g>
-        <rect x="260" y="150" width="320" height="110" rx="15" fill="url(#githubButtonGradient)" />
-        <text x="280" y="175" font-size="16" font-weight="bold" fill="url(#bgTextGradient)">📊 GitHub Stats</text>
-        <text x="280" y="200" font-size="14" fill="url(#bgTextGradient)">Total Contributions:</text>
-        <text x="500" y="200" font-size="14" font-weight="bold" fill="url(#bgTextGradient)">1,222</text>
-        <text x="280" y="220" font-size="14" fill="url(#bgTextGradient)">Current Streak:</text>
-        <text x="500" y="220" font-size="14" font-weight="bold" fill="url(#bgTextGradient)">0</text>
-        <text x="280" y="240" font-size="14" fill="url(#bgTextGradient)">Longest Streak:</text>
-        <text x="500" y="240" font-size="14" font-weight="bold" fill="url(#bgTextGradient)">24</text>
+        <rect x="260" y="170" width="320" height="110" rx="15" fill="url(#githubButtonGradient)" />
+        <text x="280" y="195" font-size="16" font-weight="bold" fill="url(#bgTextGradient)"
+            style="text-shadow: 2px 2px 4px #000000;">📊 GitHub Stats</text>
+        <text x="280" y="220" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">Total
+            Contributions:</text>
+        <text x="500" y="220" font-size="14" font-weight="bold" fill="url(#bgTextGradient)"
+            style="text-shadow: 1px 1px 2px #000000;">1,222</text>
+        <text x="280" y="240" font-size="14" fill="url(#bgTextGradient)"
+            style="text-shadow: 1px 1px 2px #000000;">Current Streak:</text>
+        <text x="500" y="240" font-size="14" font-weight="bold" fill="url(#bgTextGradient)"
+            style="text-shadow: 1px 1px 2px #000000;">0</text>
+        <text x="280" y="260" font-size="14" fill="url(#bgTextGradient)"
+            style="text-shadow: 1px 1px 2px #000000;">Longest Streak:</text>
+        <text x="500" y="260" font-size="14" font-weight="bold" fill="url(#bgTextGradient)"
+            style="text-shadow: 1px 1px 2px #000000;">24</text>
     </g>
 
 </svg>
