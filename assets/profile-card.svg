@@ -14,6 +14,40 @@
                     repeatCount="indefinite" />
             </stop>
         </linearGradient>
+
+        <!-- Button Gradients -->
+        <linearGradient id="blogButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#a77bca">
+                <animate attributeName="stop-color" values="#a77bca; #702082; #a77bca" dur="4s"
+                    repeatCount="indefinite" />
+            </stop>
+            <stop offset="100%" stop-color="#702082">
+                <animate attributeName="stop-color" values="#702082; #a77bca; #702082" dur="4s"
+                    repeatCount="indefinite" />
+            </stop>
+        </linearGradient>
+
+        <linearGradient id="linkedinButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0a66c2">
+                <animate attributeName="stop-color" values="#0a66c2; #004182; #0a66c2" dur="4s"
+                    repeatCount="indefinite" />
+            </stop>
+            <stop offset="100%" stop-color="#004182">
+                <animate attributeName="stop-color" values="#004182; #0a66c2; #004182" dur="4s"
+                    repeatCount="indefinite" />
+            </stop>
+        </linearGradient>
+
+        <linearGradient id="youtubeButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FF0000">
+                <animate attributeName="stop-color" values="#FF0000; #90030c; #FF0000" dur="4s"
+                    repeatCount="indefinite" />
+            </stop>
+            <stop offset="100%" stop-color="#90030c">
+                <animate attributeName="stop-color" values="#90030c; #FF0000; #90030c" dur="4s"
+                    repeatCount="indefinite" />
+            </stop>
+        </linearGradient>
     </defs>
     <rect width="100%" height="100%" fill="url(#bgGradient)" rx="10" stroke="#24273a" stroke-width="2" />
 
@@ -36,15 +70,15 @@
     <!-- Links -->
     <g style="cursor: pointer;">
         <a href="https://jekwwer.com" target="_blank">
-            <rect x="20" y="150" width="220" height="30" rx="10" />
+            <rect x="20" y="150" width="220" height="30" fill="url(#blogButtonGradient)" rx="10" />
             <text x="30" y="170" font-size="14" fill="url(#bgGradient)">📝 My Blog</text>
         </a>
         <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="_blank">
-            <rect x="20" y="190" width="220" height="30" rx="10" />
+            <rect x="20" y="190" width="220" height="30" fill="url(#linkedinButtonGradient)" rx="10" />
             <text x="30" y="210" font-size="14" fill="url(#bgGradient)">💼 LinkedIn Profile</text>
         </a>
         <a href="https://www.youtube.com/c/Jekwwer" target="_blank">
-            <rect x="20" y="230" width="220" height="30" rx="10" />
+            <rect x="20" y="230" width="220" height="30" fill="url(#youtubeButtonGradient)" rx="10" />
             <text x="30" y="250" font-size="14" fill="url(#bgGradient)">🎥 YouTube Channel</text>
         </a>
     </g>
