@@ -88,7 +88,7 @@
 
     <!-- Subtext -->
     <text x="25" y="110" font-size="14" fill="#363a4f" style="text-shadow: 0.5px 0.5px 1px #24273a;">
-        Exploring the world of automation, crafting solutions with Python, and sharing knowledge.
+        Exploring automation, crafting solutions with Python, and sharing knowledge.
     </text>
     <text x="25" y="130" font-size="14" fill="#363a4f" style="text-shadow: 0.5px 0.5px 1px #24273a;">
         Always learning, building, and simplifying workflows to work smarter, not harder.
@@ -131,5 +131,7 @@
         <text x="500" y="260" font-size="14" font-weight="bold" fill="url(#bgTextGradient)"
             style="text-shadow: 1px 1px 2px #000000;">24</text>
     </g>
+
+    <!-- Contribution Grid -->
 
 </svg>
