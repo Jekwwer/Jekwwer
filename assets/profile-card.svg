@@ -1,137 +1,125 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="600" height="430" style="font-family: Arial, sans-serif;">
 
-    <!-- Background Gradient -->
-    <defs>
-        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#f4dbd6">
-                <animate attributeName="stop-color"
-                    values="#f4dbd6; #f5bde6; #c6a0f6; #8aadf4; #91d7e3; #a6da95; #f4dbd6" dur="10s"
-                    repeatCount="indefinite" />
-            </stop>
-            <stop offset="100%" stop-color="#a6da95">
-                <animate attributeName="stop-color"
-                    values="#a6da95; #91d7e3; #8aadf4; #c6a0f6; #f5bde6; #f4dbd6; #a6da95" dur="10s"
-                    repeatCount="indefinite" />
-            </stop>
-        </linearGradient>
+  <!-- Background Gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f4dbd6">
+        <animate attributeName="stop-color" values="#f4dbd6; #f5bde6; #c6a0f6; #8aadf4; #91d7e3; #a6da95; #f4dbd6"
+          dur="10s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" stop-color="#a6da95">
+        <animate attributeName="stop-color" values="#a6da95; #91d7e3; #8aadf4; #c6a0f6; #f5bde6; #f4dbd6; #a6da95"
+          dur="10s" repeatCount="indefinite" />
+      </stop>
+    </linearGradient>
 
-        <linearGradient id="bgTextGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#f9e6e3">
-                <animate attributeName="stop-color"
-                    values="#f9e6e3; #f7cee9; #d3bcf9; #b3c7f9; #c1eaf0; #d5efb3; #f9e6e3" dur="10s"
-                    repeatCount="indefinite" />
-            </stop>
-            <stop offset="100%" stop-color="#d5efb3">
-                <animate attributeName="stop-color"
-                    values="#d5efb3; #c1eaf0; #b3c7f9; #d3bcf9; #f7cee9; #f9e6e3; #d5efb3" dur="10s"
-                    repeatCount="indefinite" />
-            </stop>
-        </linearGradient>
+    <linearGradient id="bgTextGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f9e6e3">
+        <animate attributeName="stop-color" values="#f9e6e3; #f7cee9; #d3bcf9; #b3c7f9; #c1eaf0; #d5efb3; #f9e6e3"
+          dur="10s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" stop-color="#d5efb3">
+        <animate attributeName="stop-color" values="#d5efb3; #c1eaf0; #b3c7f9; #d3bcf9; #f7cee9; #f9e6e3; #d5efb3"
+          dur="10s" repeatCount="indefinite" />
+      </stop>
+    </linearGradient>
 
-        <!-- Button Gradients -->
-        <linearGradient id="blogButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#a77bca">
-                <animate attributeName="stop-color" values="#a77bca; #702082; #a77bca" dur="4s"
-                    repeatCount="indefinite" />
-            </stop>
-            <stop offset="100%" stop-color="#702082">
-                <animate attributeName="stop-color" values="#702082; #a77bca; #702082" dur="4s"
-                    repeatCount="indefinite" />
-            </stop>
-        </linearGradient>
+    <!-- Button Gradients -->
+    <linearGradient id="blogButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a77bca">
+        <animate attributeName="stop-color" values="#a77bca; #702082; #a77bca" dur="4s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" stop-color="#702082">
+        <animate attributeName="stop-color" values="#702082; #a77bca; #702082" dur="4s" repeatCount="indefinite" />
+      </stop>
+    </linearGradient>
 
-        <linearGradient id="linkedinButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#0a66c2">
-                <animate attributeName="stop-color" values="#0a66c2; #004182; #0a66c2" dur="4s"
-                    repeatCount="indefinite" />
-            </stop>
-            <stop offset="100%" stop-color="#004182">
-                <animate attributeName="stop-color" values="#004182; #0a66c2; #004182" dur="4s"
-                    repeatCount="indefinite" />
-            </stop>
-        </linearGradient>
+    <linearGradient id="linkedinButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a66c2">
+        <animate attributeName="stop-color" values="#0a66c2; #004182; #0a66c2" dur="4s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" stop-color="#004182">
+        <animate attributeName="stop-color" values="#004182; #0a66c2; #004182" dur="4s" repeatCount="indefinite" />
+      </stop>
+    </linearGradient>
 
-        <linearGradient id="youtubeButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#FF0000">
-                <animate attributeName="stop-color" values="#FF0000; #90030c; #FF0000" dur="4s"
-                    repeatCount="indefinite" />
-            </stop>
-            <stop offset="100%" stop-color="#90030c">
-                <animate attributeName="stop-color" values="#90030c; #FF0000; #90030c" dur="4s"
-                    repeatCount="indefinite" />
-            </stop>
-        </linearGradient>
+    <linearGradient id="youtubeButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF0000">
+        <animate attributeName="stop-color" values="#FF0000; #90030c; #FF0000" dur="4s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" stop-color="#90030c">
+        <animate attributeName="stop-color" values="#90030c; #FF0000; #90030c" dur="4s" repeatCount="indefinite" />
+      </stop>
+    </linearGradient>
 
-        <linearGradient id="githubButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#2b3137">
-                <animate attributeName="stop-color" values="#2b3137; #24292e; #2b3137" dur="4s"
-                    repeatCount="indefinite" />
-            </stop>
-            <stop offset="100%" stop-color="#24292e">
-                <animate attributeName="stop-color" values="#24292e; #2b3137; #24292e" dur="4s"
-                    repeatCount="indefinite" />
-            </stop>
-        </linearGradient>
-    </defs>
-    <rect width="100%" height="100%" fill="url(#bgGradient)" rx="10" stroke="#24273a" stroke-width="2" />
+    <linearGradient id="githubButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2b3137">
+        <animate attributeName="stop-color" values="#2b3137; #24292e; #2b3137" dur="4s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" stop-color="#24292e">
+        <animate attributeName="stop-color" values="#24292e; #2b3137; #24292e" dur="4s" repeatCount="indefinite" />
+      </stop>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bgGradient)" rx="10" stroke="#24273a" stroke-width="2" />
 
-    <!-- Header Text and Subtext Background -->
-    <rect x="20" y="20" width="560" height="130" rx="15" fill="url(#bgTextGradient)" />
+  <!-- Header Text and Subtext Background -->
+  <rect x="20" y="20" width="560" height="130" rx="15" fill="url(#bgTextGradient)" />
 
-    <!-- Header Text -->
-    <text x="25" y="50" font-size="24" font-weight="bold" fill="#24273a" style="text-shadow: 1px 1px 2px #24273a;">
-        Hi, I'm Evgenii! 👋
-    </text>
-    <text x="25" y="80" font-size="16" fill="#363a4f" style="text-shadow: 1px 1px 1.5px #24273a;">
-        Automation Enthusiast | Python Developer | Content Creator
-    </text>
+  <!-- Header Text -->
+  <text x="25" y="50" font-size="24" font-weight="bold" fill="#24273a" style="text-shadow: 1px 1px 2px #24273a;">
+    Hi, I'm Evgenii! 👋
+  </text>
+  <text x="25" y="80" font-size="16" fill="#363a4f" style="text-shadow: 1px 1px 1.5px #24273a;">
+    Automation Enthusiast | Python Developer | Content Creator
+  </text>
 
-    <!-- Subtext -->
-    <text x="25" y="110" font-size="14" fill="#363a4f" style="text-shadow: 0.5px 0.5px 1px #24273a;">
-        Exploring automation, crafting solutions with Python, and sharing knowledge.
-    </text>
-    <text x="25" y="130" font-size="14" fill="#363a4f" style="text-shadow: 0.5px 0.5px 1px #24273a;">
-        Always learning, building, and simplifying workflows to work smarter, not harder.
-    </text>
+  <!-- Subtext -->
+  <text x="25" y="110" font-size="14" fill="#363a4f" style="text-shadow: 0.5px 0.5px 1px #24273a;">
+    Exploring automation, crafting solutions with Python, and sharing knowledge.
+  </text>
+  <text x="25" y="130" font-size="14" fill="#363a4f" style="text-shadow: 0.5px 0.5px 1px #24273a;">
+    Always learning, building, and simplifying workflows to work smarter, not harder.
+  </text>
 
-    <!-- Links -->
-    <g style="cursor: pointer;">
-        <a href="https://jekwwer.com" target="_blank">
-            <rect x="20" y="170" width="220" height="30" fill="url(#blogButtonGradient)" rx="10" />
-            <text x="30" y="190" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">📝
-                My Blog</text>
-        </a>
-        <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="_blank">
-            <rect x="20" y="210" width="220" height="30" fill="url(#linkedinButtonGradient)" rx="10" />
-            <text x="30" y="230" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">💼
-                LinkedIn Profile</text>
-        </a>
-        <a href="https://www.youtube.com/c/Jekwwer" target="_blank">
-            <rect x="20" y="250" width="220" height="30" fill="url(#youtubeButtonGradient)" rx="10" />
-            <text x="30" y="270" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">🎥
-                YouTube Channel</text>
-        </a>
-    </g>
+  <!-- Links -->
+  <g style="cursor: pointer;">
+    <a href="https://jekwwer.com" target="_blank">
+      <rect x="20" y="170" width="220" height="30" fill="url(#blogButtonGradient)" rx="10" />
+      <text x="30" y="190" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">📝
+        My Blog</text>
+    </a>
+    <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="_blank">
+      <rect x="20" y="210" width="220" height="30" fill="url(#linkedinButtonGradient)" rx="10" />
+      <text x="30" y="230" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">💼
+        LinkedIn Profile</text>
+    </a>
+    <a href="https://www.youtube.com/c/Jekwwer" target="_blank">
+      <rect x="20" y="250" width="220" height="30" fill="url(#youtubeButtonGradient)" rx="10" />
+      <text x="30" y="270" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">🎥
+        YouTube Channel</text>
+    </a>
+  </g>
 
-    <!-- GitHub Stats -->
-    <g>
-        <rect x="260" y="170" width="320" height="110" rx="15" fill="url(#githubButtonGradient)" />
-        <text x="280" y="195" font-size="16" font-weight="bold" fill="url(#bgTextGradient)"
-            style="text-shadow: 2px 2px 4px #000000;">📊 GitHub Stats</text>
-        <text x="280" y="220" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">Total
-            Contributions:</text>
-        <text x="500" y="220" font-size="14" font-weight="bold" fill="url(#bgTextGradient)"
-            style="text-shadow: 1px 1px 2px #000000;">1,222</text>
-        <text x="280" y="240" font-size="14" fill="url(#bgTextGradient)"
-            style="text-shadow: 1px 1px 2px #000000;">Current Streak:</text>
-        <text x="500" y="240" font-size="14" font-weight="bold" fill="url(#bgTextGradient)"
-            style="text-shadow: 1px 1px 2px #000000;">0</text>
-        <text x="280" y="260" font-size="14" fill="url(#bgTextGradient)"
-            style="text-shadow: 1px 1px 2px #000000;">Longest Streak:</text>
-        <text x="500" y="260" font-size="14" font-weight="bold" fill="url(#bgTextGradient)"
-            style="text-shadow: 1px 1px 2px #000000;">24</text>
-    </g>
+  <!-- GitHub Stats -->
+  <g>
+    <rect x="260" y="170" width="320" height="110" rx="15" fill="url(#githubButtonGradient)" />
+    <text x="280" y="195" font-size="16" font-weight="bold" fill="url(#bgTextGradient)"
+      style="text-shadow: 2px 2px 4px #000000;">📊 GitHub Stats</text>
+    <text x="280" y="220" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">Total
+      Contributions:</text>
+    <text x="500" y="220" font-size="14" font-weight="bold" fill="url(#bgTextGradient)"
+      style="text-shadow: 1px 1px 2px #000000;">1,222</text>
+    <text x="280" y="240" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">Current
+      Streak:</text>
+    <text x="500" y="240" font-size="14" font-weight="bold" fill="url(#bgTextGradient)"
+      style="text-shadow: 1px 1px 2px #000000;">0</text>
+    <text x="280" y="260" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">Longest
+      Streak:</text>
+    <text x="500" y="260" font-size="14" font-weight="bold" fill="url(#bgTextGradient)"
+      style="text-shadow: 1px 1px 2px #000000;">24</text>
+  </g>
 
-    <!-- Contribution Grid -->
+  <!-- Contribution Grid -->
 
 </svg>
