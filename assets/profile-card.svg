@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="600" height="430" style="font-family: Arial, sans-serif;">
 
-  <!-- Background Gradient -->
   <defs>
+    <!-- Background Gradients -->
     <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#f4dbd6">
         <animate attributeName="stop-color" values="#f4dbd6; #f5bde6; #c6a0f6; #8aadf4; #91d7e3; #a6da95; #f4dbd6"
@@ -82,75 +82,135 @@
       <stop offset="0%" stop-color="rgba(255, 255, 255, 0.4)" />
       <stop offset="100%" stop-color="rgba(255, 255, 255, 0.4)" />
     </linearGradient>
+
     <!-- Define Shadow -->
     <filter id="glassShadow" x="-20%" y="-20%" width="150%" height="150%">
       <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="rgba(0, 0, 0, 0.4)" />
     </filter>
   </defs>
 
+  <style>
+    .background {
+      fill: url(#bgGradient);
+    }
+
+    .glass-box {
+      fill: url(#glassGradient);
+      filter: url(#glassShadow);
+      stroke: rgba(255, 255, 255, 0.4);
+      stroke-width: 2;
+    }
+
+    .header-title {
+      font-size: 24px;
+      font-weight: bold;
+      fill: #24273a;
+      text-shadow: 1px 1px 2px #24273a;
+    }
+
+    .header-subtitle {
+      font-size: 16px;
+      fill: #363a4f;
+      text-shadow: 1px 1px 1.5px #24273a;
+    }
+
+    .header-text {
+      font-size: 14px;
+      fill: #363a4f;
+      text-shadow: 0.5px 0.5px 1px #24273a;
+    }
+
+    .button {
+      filter: url(#glassShadow);
+      stroke: rgba(255, 255, 255, 0.4);
+      stroke-width: 2;
+    }
+
+    .button-text {
+      font-size: 14px;
+      fill: url(#bgTextGradient);
+      text-shadow: 1px 1px 2px #000000;
+    }
+
+    .stats-box {
+      fill: url(#githubButtonGradient);
+      filter: url(#glassShadow);
+      stroke: rgba(255, 255, 255, 0.4);
+      stroke-width: 2;
+    }
+
+    .stats-title {
+      font-size: 16px;
+      font-weight: bold;
+      fill: url(#bgTextGradient);
+      text-shadow: 2px 2px 4px #000000;
+    }
+
+    .stats-text {
+      font-size: 14px;
+      fill: url(#bgTextGradient);
+      text-shadow: 1px 1px 2px #000000;
+    }
+
+    .stats-value {
+      font-size: 14px;
+      font-weight: bold;
+      fill: url(#bgTextGradient);
+      text-shadow: 1px 1px 2px #000000;
+    }
+  </style>
+
+  <title id="title">Jekwwer GitHub Profile Card</title>
+  <desc id="desc">An SVG profile card showcasing links to a blog, LinkedIn, YouTube, and GitHub stats.</desc>
+
   <!-- Background -->
-  <rect width="100%" height="100%" fill="url(#bgGradient)" rx="10" stroke="#24273a" stroke-width="2" />
+  <rect class="background" width="100%" height="100%" rx="10" stroke="#24273a" stroke-width="2" />
 
-  <!-- Header Text and Subtext Background with Glass Effect-->
-  <rect x="20" y="20" width="560" height="130" rx="15" fill="url(#glassGradient)" filter="url(#glassShadow)"
-    stroke="rgba(255, 255, 255, 0.4)" stroke-width="2" />
-
-  <!-- Header Text -->
-  <text x="25" y="50" font-size="24" font-weight="bold" fill="#24273a" style="text-shadow: 1px 1px 2px #24273a;">
-    Hi, I'm Evgenii! 👋
-  </text>
-  <text x="25" y="80" font-size="16" fill="#363a4f" style="text-shadow: 1px 1px 1.5px #24273a;">
-    Automation Enthusiast | Python Developer | Content Creator
-  </text>
-
-  <!-- Subtext -->
-  <text x="25" y="110" font-size="14" fill="#363a4f" style="text-shadow: 0.5px 0.5px 1px #24273a;">
+  <!-- Header Section -->
+  <rect class="glass-box" x="20" y="20" width="560" height="130" rx="15" />
+  <text class="header-title" x="25" y="50">Hi, I'm Evgenii! 👋</text>
+  <text class="header-subtitle" x="25" y="80">Automation Enthusiast | Python Developer | Content Creator</text>
+  <text class="header-text" x="25" y="110">
     Exploring automation, crafting solutions with Python, and sharing knowledge.
   </text>
-  <text x="25" y="130" font-size="14" fill="#363a4f" style="text-shadow: 0.5px 0.5px 1px #24273a;">
+  <text class="header-text" x="25" y="130">
     Always learning, building, and simplifying workflows to work smarter, not harder.
   </text>
 
-  <!-- Links -->
   <g style="cursor: pointer;">
+    <!-- Blog Button -->
     <a href="https://jekwwer.com" target="_blank">
-      <rect x="20" y="170" width="220" height="30" fill="url(#blogButtonGradient)" filter="url(#glassShadow)"
-        stroke="rgba(255, 255, 255, 0.4)" stroke-width="2" rx="10" />
-      <text x="30" y="190" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">📝
-        My Blog</text>
+      <rect class="button" x="20" y="170" width="220" height="30" rx="10" fill="url(#blogButtonGradient)" />
+      <text class="button-text" x="30" y="190">📝 My Blog</text>
     </a>
+
+    <!-- LinkedIn Button -->
     <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="_blank">
-      <rect x="20" y="210" width="220" height="30" fill="url(#linkedinButtonGradient)" filter="url(#glassShadow)"
-        stroke="rgba(255, 255, 255, 0.4)" stroke-width="2" rx="10" />
-      <text x="30" y="230" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">💼
-        LinkedIn Profile</text>
+      <rect class="button" x="20" y="210" width="220" height="30" rx="10" fill="url(#linkedinButtonGradient)" />
+      <text class="button-text" x="30" y="230">💼 LinkedIn Profile</text>
     </a>
+
+    <!-- YouTube Button -->
     <a href="https://www.youtube.com/c/Jekwwer" target="_blank">
-      <rect x="20" y="250" width="220" height="30" fill="url(#youtubeButtonGradient)" filter="url(#glassShadow)"
-        stroke="rgba(255, 255, 255, 0.4)" stroke-width="2" rx="10" />
-      <text x="30" y="270" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">🎥
-        YouTube Channel</text>
+      <rect class="button" x="20" y="250" width="220" height="30" rx="10" fill="url(#youtubeButtonGradient)" />
+      <text class="button-text" x="30" y="270">🎥 YouTube Channel</text>
     </a>
   </g>
 
   <!-- GitHub Stats -->
   <g>
-    <rect x="260" y="170" width="320" height="110" rx="15" fill="url(#githubButtonGradient)" filter="url(#glassShadow)"
-      stroke="rgba(255, 255, 255, 0.4)" stroke-width="2" />
-    <text x="280" y="195" font-size="16" font-weight="bold" fill="url(#bgTextGradient)"
-      style="text-shadow: 2px 2px 4px #000000;">📊 GitHub Stats</text>
-    <text x="280" y="220" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">Total
-      Contributions:</text>
-    <text x="500" y="220" font-size="14" font-weight="bold" fill="url(#bgTextGradient)"
-      style="text-shadow: 1px 1px 2px #000000;">1,222</text>
-    <text x="280" y="240" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">Current
-      Streak:</text>
-    <text x="500" y="240" font-size="14" font-weight="bold" fill="url(#bgTextGradient)"
-      style="text-shadow: 1px 1px 2px #000000;">0</text>
-    <text x="280" y="260" font-size="14" fill="url(#bgTextGradient)" style="text-shadow: 1px 1px 2px #000000;">Longest
-      Streak:</text>
-    <text x="500" y="260" font-size="14" font-weight="bold" fill="url(#bgTextGradient)"
-      style="text-shadow: 1px 1px 2px #000000;">24</text>
+    <rect class="stats-box" x="260" y="170" width="320" height="110" rx="15" />
+    <text class="stats-title" x="280" y="195">📊 GitHub Stats</text>
+
+    <!-- Stats Content -->
+    <text class="stats-text" x="280" y="220">Total Contributions:</text>
+    <text class="stats-value" x="500" y="220">Plchldr</text>
+
+    <text class="stats-text" x="280" y="240">Current Streak:</text>
+    <text class="stats-value" x="500" y="240">Plchldr</text>
+
+    <text class="stats-text" x="280" y="260">Longest Streak:</text>
+    <text class="stats-value" x="500" y="260">Plchldr</text>
   </g>
 
   <!-- Contribution Grid -->
