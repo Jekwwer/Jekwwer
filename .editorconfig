@@ -1,0 +1,50 @@
+# .editorconfig: Enforces consistent coding styles across the project.
+
+# Top-most EditorConfig file
+root = true
+
+# Global settings: Unix-style newlines and UTF-8 encoding
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 2
+indent_style = space
+insert_final_newline = true
+max_line_length = 88
+trim_trailing_whitespace = true
+
+# Configuration file settings (e.g., .editorconfig, .gitignore)
+[*.{dockerignore,editorconfig,gitignore,ini,pylintrc,toml}]
+trim_trailing_whitespace = false
+
+# Dockerfile-specific settings
+[Dockerfile]
+indent_size = 4
+indent_style = space
+max_line_length = 120
+
+# JSON-specific settings
+[*.json]
+indent_size = 2
+indent_style = space
+
+# Markdown-specific settings
+[*.md]
+max_line_length = 120
+
+# Python-specific settings
+[*.py]
+indent_style = space
+indent_size = 4
+max_line_length = 88
+trim_trailing_whitespace = true
+
+# SVG-specific settings
+[*.svg]
+indent_size = 2
+indent_style = space
+
+# YAML-specific settings
+[*.{yml,yaml}]
+indent_size = 2
+indent_style = space

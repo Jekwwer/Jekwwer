@@ -1,0 +1,124 @@
+# .pre-commit-config.yaml: Sets up pre-commit hooks to automate code quality checks.
+---
+# Sets up CI to automatically update pre-commit hooks
+ci:
+  run_on_all_branches: true # ci runs on all branches and  dependabot PRs
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit hooks
+  autofix_prs: true
+  autoupdate_branch: "main"
+  autoupdate_commit_msg: "deps: [pre-commit.ci] bump hooks"
+  autoupdate_schedule: quarterly
+  skip:
+    - autoupdate # ci can't run local hooks
+    - hadolint # ci can't install system dependencies
+
+repos:
+  # Pre-defined hooks from pre-commit-hooks repository
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      # Verifies that the code can be parsed into an abstract syntax tree
+      - id: check-ast
+        name: "check abstract syntax tree"
+      # Ensures no debug statements (like print or pdb) are left in the code
+      - id: debug-statements
+        name: "check for debug statements"
+      # Ensures files end with a newline
+      - id: end-of-file-fixer
+        name: "fix end of file"
+      # Removes any trailing whitespace
+      - id: trailing-whitespace
+        name: "remove trailing whitespace"
+      # Fixes mixed line endings (uses LF by default)
+      - id: mixed-line-ending
+        name: "fix mixed line endings"
+        args: [--fix=lf]
+      # Detects accidentally committed private keys
+      - id: detect-private-key
+        name: "detect private keys"
+      # Checks that docstrings come first in modules and functions
+      - id: check-docstring-first
+        name: "check docstring first"
+      # Validates the syntax of YAML files
+      - id: check-yaml
+        name: "validate yaml"
+      # Validates the syntax of JSON files
+      - id: check-json
+        name: "validate json"
+      # Replaces single quotes with double quotes in strings
+      - id: double-quote-string-fixer
+        name: "fix double quoted strings"
+      # Ensures there are no unresolved merge conflicts in the code
+      - id: check-merge-conflict
+        name: "check for merge conflicts"
+      # Detects files that would conflict in case-insensitive filesystems
+      - id: check-case-conflict
+        name: "check for case conflicts"
+      # Checks that files with a shebang (`#!`) are executable
+      - id: check-shebang-scripts-are-executable
+        name: "check shebang scripts are executable"
+
+  # Lints Dockerfiles
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.13.1-beta
+    hooks:
+      - id: hadolint
+        name: "lint dockerfiles"
+
+  # Lints Shell scripts
+  - repo: https://github.com/Jarmos-san/shellcheck-precommit
+    rev: v0.2.0
+    hooks:
+      - id: shellcheck-system
+        name: "lint shell scripts"
+
+  # Lints YAML files
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        name: "lint yaml files"
+        args: ["--config-data", "{extends: default, rules: {line-length: {max: 88}}}"]
+
+  # Local custom hooks using tox environments
+  - repo: local
+    hooks:
+      - id: lint
+        name: linting
+        entry: tox -e lint
+        language: system
+        pass_filenames: true
+        files: \.py$ # Only trigger for Python files
+        args: ["--", "{filenames}"]
+
+      - id: format
+        name: formatting
+        entry: tox -e format
+        language: system
+        pass_filenames: true
+        files: \.py$ # Only trigger for Python files
+        args: ["--", "{filenames}"]
+
+      - id: bandit
+        name: security checks
+        language: system
+        entry: tox -e bandit
+        pass_filenames: true
+        files: \.py$ # Only trigger for Python files
+        args: ["--", "{filenames}"]
+
+      - id: mypy
+        name: type checks
+        language: system
+        entry: tox -e mypy
+        pass_filenames: true
+        files: \.py$ # Only trigger for Python files
+        args: ["--", "{filenames}"]
+
+      # Updates pre-commit hooks versions
+      - id: autoupdate
+        name: "autoupdate pre-commit hooks"
+        entry: pre-commit autoupdate
+        language: system
+        pass_filenames: false

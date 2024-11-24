@@ -1,0 +1,64 @@
+[project]
+name = "jekwwer-jekwwer"
+version = "1.0.0"
+requires-python = ">=3.12"
+dependencies = [
+    "types-requests==2.31.0.10",
+    "requests==2.32.3"]
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit==4.0.1",
+    "tox==4.23.0"]
+lint = [
+    "flake8==7.1.0",
+    "flake8-annotations==3.1.1",
+    "flake8-bugbear==24.8.19",
+    "flake8-comprehensions==3.15.0",
+    "flake8-docstrings==1.7.0",
+    "flake8-import-order==0.18.2",
+    "flake8-pyproject==1.2.3",
+    "pydocstyle==6.3.0"]
+format = [
+    "autopep8==2.3.1",
+    "isort==5.13.2"]
+mypy = [
+    "mypy==1.12.0"]
+bandit = [
+    "bandit==1.7.10"]
+
+[tool.autopep8]
+max_line_length = 88
+recursive = true
+aggressive = 3
+
+[tool.bandit]
+exclude_dirs = ["migrations", "env"]
+severity = ["HIGH", "MEDIUM", "LOW"]
+confidence = ["HIGH", "MEDIUM", "LOW"]
+
+[tool.flake8]
+max_line_length = 88
+docstring_convention = "google"
+ignore = ["I201"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "env",
+    "venv",
+    "migrations"]
+
+[tool.isort]
+profile = "black"
+known_third_party = ""
+known_first_party = "utils,tests"
+skip = "migrations,env,venv"
+sections = "FUTURE,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.12"
+platform = "linux"
+strict = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
