@@ -1,0 +1,77 @@
+{
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "workspaceFolder": "/workspaces/Jekwwer",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "catppuccin.catppuccin-vsc",
+        "catppuccin.catppuccin-vsc-icons",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "george-alisson.html-preview-vscode",
+        "github.copilot",
+        "github.copilot-chat",
+        "github.vscode-github-actions",
+        "github.vscode-pull-request-github",
+        "jock.svg",
+        "ms-azuretools.vscode-docker",
+        "ms-python.autopep8",
+        "ms-python.debugpy",
+        "ms-python.flake8",
+        "ms-python.mypy",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-vscode-remote.remote-containers",
+        "redhat.vscode-yaml",
+        "shd101wyy.markdown-preview-enhanced",
+        "streetsidesoftware.code-spell-checker",
+        "vitaliymaz.vscode-svg-previewer"
+      ],
+      "settings": {
+        "[dockerfile]": {
+          "editor.rulers": [
+            120
+          ]
+        },
+        "[json]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[markdown]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.rulers": [
+            120
+          ]
+        },
+        "[python]": {
+          "defaultInterpreterPath": "/usr/local/bin/python",
+          "editor.defaultFormatter": "ms-python.autopep8"
+        },
+        "[yaml]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "editor.bracketPairColorization.enabled": true,
+        "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+        "editor.fontSize": 14,
+        "editor.formatOnPaste": true,
+        "editor.formatOnSave": true,
+        "editor.rulers": [
+          88
+        ],
+        "files.autoSave": "afterDelay",
+        "files.autoSaveWhenNoErrors": true,
+        "markdown-preview-enhanced.previewTheme": "github-dark.css",
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "workbench.activityBar.location": "top",
+        "workbench.colorTheme": "Catppuccin Macchiato",
+        "workbench.iconTheme": "catppuccin-macchiato",
+        "yaml.format.enable": true
+      }
+    }
+  },
+  "name": "jekwwer/jekwwer",
+  "postStartCommand": "pre-commit install",
+  "remoteUser": "vscode"
+}
