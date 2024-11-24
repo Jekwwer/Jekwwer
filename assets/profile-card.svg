@@ -13,13 +13,13 @@
       </stop>
     </linearGradient>
 
-    <linearGradient id="bgTextGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f9e6e3">
-        <animate attributeName="stop-color" values="#f9e6e3; #f7cee9; #d3bcf9; #b3c7f9; #c1eaf0; #d5efb3; #f9e6e3"
+    <linearGradient id="bgTextGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff">
+        <animate attributeName="stop-color" values="#ffffff; #ffe6f7; #e3d7ff; #d6f1ff; #e6fff7; #f7ffe6; #ffffff"
           dur="10s" repeatCount="indefinite" />
       </stop>
-      <stop offset="100%" stop-color="#d5efb3">
-        <animate attributeName="stop-color" values="#d5efb3; #c1eaf0; #b3c7f9; #d3bcf9; #f7cee9; #f9e6e3; #d5efb3"
+      <stop offset="100%" stop-color="#ffe6f7">
+        <animate attributeName="stop-color" values="#ffe6f7; #e3d7ff; #d6f1ff; #e6fff7; #f7ffe6; #ffffff; #ffe6f7"
           dur="10s" repeatCount="indefinite" />
       </stop>
     </linearGradient>
