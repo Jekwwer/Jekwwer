@@ -197,7 +197,7 @@
   </g>
 
   <rect class="stats-box" x="30" y="455" width="834" height="195" rx="25" />
-  <text class="stats-title" x="50" y="495"> 📆 Contributions in the Last Year:</text>
+  <text class="stats-title" x="50" y="495"> 📆 Contributions in the Last 52 Weeks</text>
   <!-- Contribution Grid -->
 
 </svg>

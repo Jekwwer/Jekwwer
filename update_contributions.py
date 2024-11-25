@@ -40,10 +40,10 @@ def fetch_contributions_from_github(username: str, token: str) -> ContributionDa
         token (str): GitHub personal access token.
 
     Returns:
-        dict[str, int]: A dictionary mapping dates to contribution counts.
+        ContributionData: A dictionary with contribution stats.
     """
-    contributions: dict[str, int] = {}
-    calendar = {'totalContributions': 0}
+    all_contributions: dict[str, int] = {}
+    contributions_last_year: dict[str, int] = {}
     streaks = {'current_streak': 0, 'longest_streak': 0}
 
     url = 'https://api.github.com/graphql'
@@ -85,16 +85,26 @@ def fetch_contributions_from_github(username: str, token: str) -> ContributionDa
             weeks: list[dict[str, Any]] = raw_weeks if isinstance(
                 raw_weeks, list) else []
 
+            # Calculate the start date for the last 52 weeks
+            start_date = datetime.now(timezone.utc).date() - timedelta(weeks=52)
+
             if isinstance(weeks, list):
                 for week in weeks:
                     for day in week.get('contributionDays', []):
+                        date_str = day.get('date')
                         contribution_count = day.get('contributionCount', 0)
-                        if isinstance(
-                                contribution_count,
-                                int):  # Ensure it's an integer
-                            contributions[str(day['date'])] = contribution_count
 
-                streaks = calculate_streaks(contributions)
+                        if date_str and isinstance(contribution_count, int):
+                            # Store all contributions
+                            all_contributions[date_str] = contribution_count
+
+                            # Filter contributions within the last 52 weeks
+                            date = datetime.fromisoformat(date_str).date()
+                            if date >= start_date:
+                                contributions_last_year[date_str] = contribution_count
+
+                # Calculate streaks for all history
+                streaks = calculate_streaks(all_contributions)
             else:
                 print("Error: 'weeks' is not a list:", weeks)
         else:
@@ -104,8 +114,8 @@ def fetch_contributions_from_github(username: str, token: str) -> ContributionDa
         print(f"Failed to fetch data: {response.status_code}, {response.text}")
 
     return {
-        'contributions': contributions,
-        'total_contributions': calendar.get('totalContributions', 0),
+        'contributions': contributions_last_year,
+        'total_contributions': sum(all_contributions.values()),
         'current_streak': streaks['current_streak'],
         'longest_streak': streaks['longest_streak'],
     }
