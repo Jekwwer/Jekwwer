@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jekwwer</title>
+    <link
+      rel="preload"
+      href="https://raw.githubusercontent.com/jekwwer/jekwwer/main/assets/bg.svg"
+      as="image"
+    />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-image: url("https://raw.githubusercontent.com/jekwwer/jekwwer/main/assets/bg.svg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+    </style>
+  </head>
+  <body>
+    <img
+      src="https://raw.githubusercontent.com/jekwwer/jekwwer/main/assets/profile-card-no-bg-latest.svg"
+      alt="GitHub Profile README"
+      onerror="this.style.display='none'; alert('Image failed to load. Check the source URL.');"
+    />
+    <noscript>
+      <p>Please enable JavaScript to view the content.</p>
+    </noscript>
+  </body>
+</html>
