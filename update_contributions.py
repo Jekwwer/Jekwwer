@@ -254,7 +254,8 @@ def replace_placeholders_in_svg(svg_content: str, stats: dict[str, int]) -> str:
     return updated_svg
 
 
-if __name__ == '__main__':
+def main() -> None:
+    """Main function to fetch contributions and update SVG files."""
     username = 'jekwwer'
     token = os.getenv('GITHUB_TOKEN', 'default_token')
 
@@ -270,15 +271,26 @@ if __name__ == '__main__':
     contributions = map_contributions_to_levels(raw_contributions)
     contribution_grid = create_svg_grid_with_heatmap(contributions)
 
-    # Read the target SVG file
-    with open('assets/profile-card.svg', 'r', encoding='utf-8') as svg_file:
-        original_svg = svg_file.read()
+    # Read and update the SVG files
+    for file_name, updated_file_name in [
+        ('profile-card.svg', 'profile-card-latest.svg'),
+        ('profile-card-no-bg.svg', 'profile-card-no-bg-latest.svg')
+    ]:
+        with open(f'assets/{file_name}', 'r', encoding='utf-8') as svg_file:
+            original_svg = svg_file.read()
 
-    # Insert the contribution grid
-    updated_svg = original_svg.replace('<!-- Contribution Grid -->', contribution_grid)
-    updated_svg = replace_placeholders_in_svg(updated_svg, stats)
+        # Insert the contribution grid and replace placeholders
+        updated_svg = original_svg.replace(
+            '<!-- Contribution Grid -->', contribution_grid
+        )
+        updated_svg = replace_placeholders_in_svg(updated_svg, stats)
 
-    # Save the updated SVG
-    with open('assets/profile-card-latest.svg', 'w',
-              encoding='utf-8') as updated_svg_file:
-        updated_svg_file.write(updated_svg)
+        # Save the updated SVG
+        with open(
+            f'assets/{updated_file_name}', 'w', encoding='utf-8'
+        ) as updated_svg_file:
+            updated_svg_file.write(updated_svg)
+
+
+if __name__ == '__main__':
+    main()
