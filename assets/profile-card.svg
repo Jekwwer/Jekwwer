@@ -208,14 +208,15 @@
     <rect class="stats-box" x="360" y="260" width="504" height="165" rx="25" />
     <text class="stats-title" x="380" y="300">📊 GitHub Stats</text>
     <text class="stats-text" x="380" y="340">Total Contributions:</text>
-    <text class="stats-value" x="840" y="340">Plchldr</text>
+    <text class="stats-value" x="840" y="340">total-contributions-ph</text>
     <text class="stats-text" x="380" y="370">Current Streak:</text>
-    <text class="stats-value" x="840" y="370">Plchldr</text>
+    <text class="stats-value" x="840" y="370">current-streak-ph</text>
     <text class="stats-text" x="380" y="400">Longest Streak:</text>
-    <text class="stats-value" x="840" y="400">Plchldr</text>
-
+    <text class="stats-value" x="840" y="400">longest-streak-ph</text>
   </g>
 
+  <rect class="stats-box" x="30" y="455" width="834" height="195" rx="25" />
+  <text class="stats-title" x="50" y="495"> 📆 Contributions in the Last Year:</text>
   <!-- Contribution Grid -->
 
 </svg>
