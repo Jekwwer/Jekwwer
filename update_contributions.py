@@ -2,7 +2,7 @@
 
 import os
 from datetime import datetime, timedelta, timezone
-from typing import TypedDict
+from typing import Any, TypedDict
 
 import requests
 
@@ -15,11 +15,15 @@ class ContributionData(TypedDict):
         total_contributions (int): Total contributions.
         current_streak (int): Current streak.
         longest_streak (int): Longest streak.
+        longest_streak_start (str | None): Start date of the longest streak.
+        longest_streak_end (str | None): End date of the longest streak.
     """
     contributions: dict[str, int]
     total_contributions: int
     current_streak: int
     longest_streak: int
+    longest_streak_start: str | None
+    longest_streak_end: str | None
 
 
 # Define contribution levels and corresponding colors
@@ -118,46 +122,51 @@ def fetch_contributions_from_github(username: str, token: str) -> ContributionDa
         'total_contributions': sum(all_contributions.values()),
         'current_streak': streaks['current_streak'],
         'longest_streak': streaks['longest_streak'],
+        'longest_streak_start': streaks.get('longest_streak_start'),
+        'longest_streak_end': streaks.get('longest_streak_end'),
     }
 
 
-def calculate_streaks(contributions: dict[str, int]) -> dict[str, int]:
-    """Calculate the current and longest streaks from contribution data.
+def calculate_streaks(contributions: dict[str, int]) -> dict[str, Any]:
+    """Calculate the current and longest streaks with dates, from contribution data.
 
     Args:
         contributions (dict[str, int]): Contribution counts by date.
 
     Returns:
-        dict[str, int]: Current and longest streaks.
+        dict[str, Any]: Current streak, longest streak, and their respective dates.
     """
     sorted_dates = sorted(contributions.keys(), key=lambda x: datetime.fromisoformat(x))
     current_streak = 0
     longest_streak = 0
-    streak = 0
-    # Updated to use timezone-aware UTC datetime
-    today = datetime.now(timezone.utc).date()
+    longest_streak_start = None
+    longest_streak_end = None
+    streak_start = None
 
-    for i, date_str in enumerate(sorted_dates):
+    for _, date_str in enumerate(sorted_dates):
         date = datetime.fromisoformat(date_str).date()
-        if contributions[date_str] > 0:
-            # Start or continue a streak
-            if i == 0 or (
-                date - datetime.fromisoformat(sorted_dates[i - 1]).date()
-            ) == timedelta(days=1):
-                streak += 1
-            else:
-                # Reset streak if not consecutive
-                streak = 1
-            longest_streak = max(longest_streak, streak)
+        if contributions[date_str] > 0:  # Active streak
+            if current_streak == 0:
+                streak_start = date  # Start a new streak
+            current_streak += 1
 
-            # Check if this is part of the current streak
-            if date == today or (i > 0 and datetime.fromisoformat(
-                    sorted_dates[i - 1]).date() == today - timedelta(days=1)):
-                current_streak = streak
-        else:
-            streak = 0
+            # Update longest streak
+            if current_streak > longest_streak:
+                longest_streak = current_streak
+                longest_streak_start = streak_start
+                longest_streak_end = date
+        else:  # No contributions; reset current streak
+            current_streak = 0
+            streak_start = None
 
-    return {'current_streak': current_streak, 'longest_streak': longest_streak}
+    return {
+        'current_streak': current_streak,
+        'longest_streak': longest_streak,
+        'longest_streak_start':
+            longest_streak_start.isoformat() if longest_streak_start else None,
+        'longest_streak_end':
+        longest_streak_end.isoformat() if longest_streak_end else None,
+    }
 
 
 def map_contributions_to_levels(contributions: dict[str, int]) -> dict[str, int]:
@@ -241,16 +250,21 @@ def create_svg_grid_with_heatmap(contributions: dict[str, int],
     return '\n'.join(svg_parts)
 
 
-def replace_placeholders_in_svg(svg_content: str, stats: dict[str, int]) -> str:
+def replace_placeholders_in_svg(svg_content: str, stats: dict[str, Any]) -> str:
     """Replace placeholders in the SVG file with the fetched statistics.
 
     Args:
         svg_content (str): SVG content with placeholders.
-        stats (dict[str, int]): Fetched statistics.
+        stats (dict[str, Any]): Fetched statistics.
 
     Returns:
         str: SVG content with placeholders replaced by statistics.
     """
+    # Format the longest streak with dates and count
+    longest_streak_text = f"( {stats.get('longest_streak_start', 'N/A')} " \
+        f"to {stats.get('longest_streak_end', 'N/A')} ) " \
+        f"{stats['longest_streak']}"
+
     updated_svg = svg_content
     updated_svg = updated_svg.replace(
         'total-contributions-ph', str(stats['total_contributions'])
@@ -259,7 +273,7 @@ def replace_placeholders_in_svg(svg_content: str, stats: dict[str, int]) -> str:
         'current-streak-ph', str(stats['current_streak'])
     )
     updated_svg = updated_svg.replace(
-        'longest-streak-ph', str(stats['longest_streak'])
+        'longest-streak-ph', longest_streak_text
     )
     return updated_svg
 
@@ -272,10 +286,12 @@ def main() -> None:
     # Fetch contributions and stats
     data = fetch_contributions_from_github(username, token)
     raw_contributions = data['contributions']
-    stats: dict[str, int] = {
+    stats: dict[str, Any] = {
         'total_contributions': data['total_contributions'],
         'current_streak': data['current_streak'],
         'longest_streak': data['longest_streak'],
+        'longest_streak_start': data.get('longest_streak_start'),
+        'longest_streak_end': data.get('longest_streak_end'),
     }
 
     contributions = map_contributions_to_levels(raw_contributions)
