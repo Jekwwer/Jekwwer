@@ -11,6 +11,10 @@ ci:
   autoupdate_schedule: quarterly
   skip:
     - autoupdate # ci can't run local hooks
+    - lint # ci can't run local hooks
+    - format # ci can't run local hooks
+    - bandit # ci can't run local hooks
+    - mypy # ci can't run local hooks
     - hadolint # ci can't install system dependencies
 
 repos:
