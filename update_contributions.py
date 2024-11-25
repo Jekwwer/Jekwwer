@@ -2,7 +2,7 @@
 
 import os
 from datetime import datetime, timedelta, timezone
-from typing import Any, TypedDict
+from typing import TypedDict
 
 import requests
 
@@ -40,18 +40,15 @@ def fetch_contributions_from_github(username: str, token: str) -> ContributionDa
         token (str): GitHub personal access token.
 
     Returns:
-        dict[str, int]: A dictionary mapping dates to contribution counts.
+        ContributionData: A dictionary with contribution stats.
     """
-    contributions: dict[str, int] = {}
-    calendar = {'totalContributions': 0}
-    streaks = {'current_streak': 0, 'longest_streak': 0}
-
+    all_contributions: dict[str, int] = {}
     url = 'https://api.github.com/graphql'
     headers = {'Authorization': f"Bearer {token}"}
     query = '''
-    query($username: String!) {
+    query($username: String!, $from: DateTime!, $to: DateTime!) {
       user(login: $username) {
-        contributionsCollection {
+        contributionsCollection(from: $from, to: $to) {
           contributionCalendar {
             weeks {
               contributionDays {
@@ -59,53 +56,66 @@ def fetch_contributions_from_github(username: str, token: str) -> ContributionDa
                 contributionCount
               }
             }
-            totalContributions
           }
         }
       }
     }
     '''
-    variables = {'username': username}
 
-    response = requests.post(
-        url,
-        json={'query': query, 'variables': variables},
-        headers=headers,
-        timeout=10
-    )
+    # Start date for contributions (adjust to your earliest contribution date)
+    start_date = datetime(2018, 7, 25, tzinfo=timezone.utc)
+    end_date = datetime.now(timezone.utc)
+    one_year = timedelta(days=365)
 
-    if response.status_code == 200:
-        data = response.json()
-        if 'data' in data and data['data'].get('user'):
-            calendar = data['data']['user'][
-                'contributionsCollection']['contributionCalendar']
+    # Fetch contributions year by year
+    while start_date < end_date:
+        chunk_end_date = min(start_date + one_year, end_date)
+        variables = {
+            'username': username,
+            'from': start_date.isoformat(),
+            'to': chunk_end_date.isoformat()
+        }
 
-            # Safely retrieve "weeks" and ensure it is a list
-            raw_weeks: list[dict[str, Any]] | int | None = calendar.get('weeks')
-            weeks: list[dict[str, Any]] = raw_weeks if isinstance(
-                raw_weeks, list) else []
+        response = requests.post(
+            url,
+            json={'query': query, 'variables': variables},
+            headers=headers,
+            timeout=10
+        )
 
-            if isinstance(weeks, list):
+        if response.status_code == 200:
+            data = response.json()
+            if 'data' in data and data['data'].get('user'):
+                calendar = data['data']['user'][
+                    'contributionsCollection']['contributionCalendar']
+                weeks = calendar.get('weeks', [])
+
                 for week in weeks:
                     for day in week.get('contributionDays', []):
+                        date_str = day.get('date')
                         contribution_count = day.get('contributionCount', 0)
-                        if isinstance(
-                                contribution_count,
-                                int):  # Ensure it's an integer
-                            contributions[str(day['date'])] = contribution_count
-
-                streaks = calculate_streaks(contributions)
+                        if date_str and isinstance(contribution_count, int):
+                            all_contributions[date_str] = contribution_count
             else:
-                print("Error: 'weeks' is not a list:", weeks)
+                print('Error in API response:', data)
         else:
-            print('Error in API response:', data)
+            print(f"Failed to fetch data: {response.status_code}, {response.text}")
 
-    else:
-        print(f"Failed to fetch data: {response.status_code}, {response.text}")
+        # Move to the next year
+        start_date = chunk_end_date
+
+    # Filter contributions for the last 52 weeks
+    last_52_weeks_start = (
+        datetime.now(timezone.utc).date() - timedelta(weeks=52)).isoformat()
+    contributions_last_year = {
+        date: count for date,
+        count in all_contributions.items() if date >= last_52_weeks_start}
+
+    streaks = calculate_streaks(all_contributions)
 
     return {
-        'contributions': contributions,
-        'total_contributions': calendar.get('totalContributions', 0),
+        'contributions': contributions_last_year,  # Last 52 weeks for the heatmap
+        'total_contributions': sum(all_contributions.values()),
         'current_streak': streaks['current_streak'],
         'longest_streak': streaks['longest_streak'],
     }
