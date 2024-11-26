@@ -3,7 +3,7 @@ name = "jekwwer-jekwwer"
 version = "1.0.0"
 requires-python = ">=3.12"
 dependencies = [
-    "types-requests==2.31.0.10",
+    "types-requests==2.32.0.20241016",
     "requests==2.32.3"]
 
 [project.optional-dependencies]
