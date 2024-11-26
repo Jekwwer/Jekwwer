@@ -1,0 +1,29 @@
+# .github/dependabot.yml: Automates dependency updates.
+---
+version: 2
+updates:
+  # GitHub Actions Dependencies
+  - package-ecosystem: "github-actions"
+    directory: ".github"
+    schedule:
+      interval: "monthly"
+    reviewers:
+      - "Jekwwer"
+    assignees:
+      - "Jekwwer"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 5
+
+  # Python Dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    reviewers:
+      - "Jekwwer"
+    assignees:
+      - "Jekwwer"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 5
