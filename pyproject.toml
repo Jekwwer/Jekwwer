@@ -9,7 +9,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pre-commit==4.0.1",
-    "tox==4.23.0"]
+    "tox==4.23.2"]
 lint = [
     "flake8==7.1.0",
     "flake8-annotations==3.1.1",
