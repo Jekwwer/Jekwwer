@@ -20,6 +20,10 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    groups:
+      flake8-packages:
+        patterns:
+          - "flake8*"
     reviewers:
       - "Jekwwer"
     assignees:
