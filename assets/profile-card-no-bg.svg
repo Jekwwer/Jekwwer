@@ -1,74 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="894" height="680" style="font-family: Arial, sans-serif;">
 
   <defs>
-    <linearGradient id="bgTextGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#ffffff">
-        <animate attributeName="stop-color" values="#ffffff; #ffe6f7; #e3d7ff; #d6f1ff; #e6fff7; #f7ffe6; #ffffff"
-          dur="10s" repeatCount="indefinite" />
-      </stop>
-      <stop offset="100%" stop-color="#ffe6f7">
-        <animate attributeName="stop-color" values="#ffe6f7; #e3d7ff; #d6f1ff; #e6fff7; #f7ffe6; #ffffff; #ffe6f7"
-          dur="10s" repeatCount="indefinite" />
-      </stop>
-    </linearGradient>
-
-    <!-- Button Gradients -->
-    <!-- Blog Button Gradient -->
-    <linearGradient id="blogButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="rgba(167, 123, 202, 0.95)">
-        <animate attributeName="stop-color"
-          values="rgba(167, 123, 202, 0.95); rgba(112, 32, 130, 0.95); rgba(167, 123, 202, 0.95)" dur="4s"
-          repeatCount="indefinite" />
-      </stop>
-      <stop offset="100%" stop-color="rgba(112, 32, 130, 0.95)">
-        <animate attributeName="stop-color"
-          values="rgba(112, 32, 130, 0.95); rgba(167, 123, 202, 0.95); rgba(112, 32, 130, 0.95)" dur="4s"
-          repeatCount="indefinite" />
-      </stop>
-    </linearGradient>
-
-    <!-- LinkedIn Button Gradient -->
-    <linearGradient id="linkedinButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="rgba(10, 102, 194, 0.95)">
-        <animate attributeName="stop-color"
-          values="rgba(10, 102, 194, 0.95); rgba(0, 65, 130, 0.95); rgba(10, 102, 194, 0.95)" dur="4s"
-          repeatCount="indefinite" />
-      </stop>
-      <stop offset="100%" stop-color="rgba(0, 65, 130, 0.95)">
-        <animate attributeName="stop-color"
-          values="rgba(0, 65, 130, 0.95); rgba(10, 102, 194, 0.95); rgba(0, 65, 130, 0.95)" dur="4s"
-          repeatCount="indefinite" />
-      </stop>
-    </linearGradient>
-
-    <!-- YouTube Button Gradient -->
-    <linearGradient id="youtubeButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="rgba(255, 0, 0, 0.95)">
-        <animate attributeName="stop-color"
-          values="rgba(255, 0, 0, 0.95); rgba(144, 3, 12, 0.95); rgba(255, 0, 0, 0.95)" dur="4s"
-          repeatCount="indefinite" />
-      </stop>
-      <stop offset="100%" stop-color="rgba(144, 3, 12, 0.95)">
-        <animate attributeName="stop-color"
-          values="rgba(144, 3, 12, 0.95); rgba(255, 0, 0, 0.95); rgba(144, 3, 12, 0.95)" dur="4s"
-          repeatCount="indefinite" />
-      </stop>
-    </linearGradient>
-
-    <!-- GitHub Button Gradient -->
-    <linearGradient id="githubButtonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="rgba(43, 49, 55, 0.95)">
-        <animate attributeName="stop-color"
-          values="rgba(43, 49, 55, 0.95); rgba(36, 41, 46, 0.95); rgba(43, 49, 55, 0.95)" dur="4s"
-          repeatCount="indefinite" />
-      </stop>
-      <stop offset="100%" stop-color="rgba(36, 41, 46, 0.95)">
-        <animate attributeName="stop-color"
-          values="rgba(36, 41, 46, 0.95); rgba(43, 49, 55, 0.95); rgba(36, 41, 46, 0.95)" dur="4s"
-          repeatCount="indefinite" />
-      </stop>
-    </linearGradient>
-
     <!-- Glass Effect Gradient -->
     <linearGradient id="glassGradient" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="rgba(255, 255, 255, 0.4)" />
@@ -82,70 +14,79 @@
   </defs>
 
   <style>
-    .glass-box {
+    /* General Styles */
+    .text-shadow {
+      text-shadow: 0.25px 0.25px 1.5px #24273a;
+    }
+
+    .font-light {
+      fill: #363a4f;
+    }
+
+    .font-bold {
+      font-weight: bold;
+    }
+
+    /* Background */
+    .background {
+      fill: url(#bgGradient);
+    }
+
+    /* Glass Effect */
+    .glass-effect {
       fill: url(#glassGradient);
       filter: url(#glassShadow);
       stroke: rgba(255, 255, 255, 0.4);
       stroke-width: 3;
     }
 
+    /* Header Styles */
     .header-title {
       font-size: 36px;
       font-weight: bold;
       fill: #24273a;
-      text-shadow: 1.5px 1.5px 2px #24273a;
+      text-shadow: 0.5px 0.5px 3px #24273a;
     }
 
-    .header-subtitle {
-      font-size: 24px;
-      fill: #363a4f;
-      text-shadow: 1px 1px 1.5px #24273a;
-    }
-
-    .header-text {
-      font-size: 20px;
-      fill: #363a4f;
-      text-shadow: 0.75px 0.75px 1.25px #24273a;
-    }
-
-    .button {
-      filter: url(#glassShadow);
-      stroke: rgba(255, 255, 255, 0.4);
-      stroke-width: 3;
-    }
-
-    .button-text {
-      font-size: 20px;
-      fill: url(#bgTextGradient);
-      text-shadow: 1px 1px 2px #000000;
-    }
-
-    .stats-box {
-      fill: url(#githubButtonGradient);
-      filter: url(#glassShadow);
-      stroke: rgba(255, 255, 255, 0.4);
-      stroke-width: 3;
-    }
-
+    .header-subtitle,
     .stats-title {
       font-size: 24px;
-      font-weight: bold;
-      fill: url(#bgTextGradient);
-      text-shadow: 2px 2px 4px #000000;
     }
 
-    .stats-text {
+    .header-text,
+    .button-text,
+    .stats-text,
+    .stats-value {
       font-size: 20px;
-      fill: url(#bgTextGradient);
-      text-shadow: 1px 1px 2px #000000;
+    }
+
+    .header-subtitle,
+    .stats-title,
+    .header-text,
+    .button-text,
+    .stats-text,
+    .stats-value {
+      fill: #363a4f;
+      text-shadow: 0.25px 0.25px 1.5px #24273a;
+    }
+
+    .stats-title,
+    .stats-value {
+      font-weight: bold;
     }
 
     .stats-value {
-      font-size: 20px;
-      font-weight: bold;
-      fill: url(#bgTextGradient);
       text-anchor: end;
-      text-shadow: 1px 1px 2px #000000;
+    }
+
+    /* Buttons and Boxes */
+    .button,
+    .stats-box,
+    .glass-box {
+      fill: url(#glassGradient);
+      filter: url(#glassShadow);
+      stroke: rgba(255, 255, 255, 0.4);
+      stroke-width: 3;
     }
   </style>
 
@@ -167,23 +108,22 @@
   <g style="cursor: pointer;">
     <!-- Blog Button -->
     <a href="https://jekwwer.com" target="_blank">
-      <rect class="button" x="30" y="260" width="300" height="45" rx="15" fill="url(#blogButtonGradient)" />
+      <rect class="button" x="30" y="260" width="300" height="45" rx="15" />
       <text class="button-text" x="50" y="290">📝 My Blog</text>
     </a>
 
     <!-- LinkedIn Button -->
     <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="_blank">
-      <rect class="button" x="30" y="320" width="300" height="45" rx="15" fill="url(#linkedinButtonGradient)" />
+      <rect class="button" x="30" y="320" width="300" height="45" rx="15" />
       <text class="button-text" x="50" y="350">💼 LinkedIn Profile</text>
     </a>
 
     <!-- YouTube Button -->
     <a href="https://www.youtube.com/c/Jekwwer" target="_blank">
-      <rect class="button" x="30" y="380" width="300" height="45" rx="15" fill="url(#youtubeButtonGradient)" />
+      <rect class="button" x="30" y="380" width="300" height="45" rx="15" />
       <text class="button-text" x="50" y="410">🎥 YouTube Channel</text>
     </a>
   </g>
-
   <!-- GitHub Stats -->
   <g>
     <rect class="stats-box" x="360" y="260" width="504" height="165" rx="25" />
