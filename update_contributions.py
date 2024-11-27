@@ -26,13 +26,13 @@ class ContributionData(TypedDict):
     longest_streak_end: str | None
 
 
-# Define contribution levels and corresponding colors
+# Define contribution levels and corresponding colors for the heatmap (defined in CSS)
 contribution_colors = {
-    0: '#363a4f',   # No contributions
-    1: '#ee99a0',   # 1-5 contributions
-    2: '#f5a97f',   # 6-10 contributions
-    3: '#eed49f',   # 11-15 contributions
-    4: '#a6da95',   # 16+ contributions
+    0: 'no_contribution',       # No contributions
+    1: 'contribution_1_5',      # 1-5 contributions
+    2: 'contribution_6_10',     # 6-10 contributions
+    3: 'contribution_11_15',    # 11-15 contributions
+    4: 'contribution_16',       # 16+ contributions
 }
 
 
@@ -237,8 +237,9 @@ def create_svg_grid_with_heatmap(contributions: dict[str, int],
     for index, (date, level) in enumerate(trimmed_contributions):
         color = contribution_colors.get(level, '#363a4f')
         svg_parts.append(
-            f'<rect x="{x}" y="{y}" width="{cell_size}" height="{cell_size}" '
-            f'rx="2" fill="{color}" title="{date}: {level} contributions"/>'
+            f'<rect class=\"grid-cell\" x="{x}" y="{y}" width="{cell_size}" '
+            f' height="{cell_size}" fill="url(#{color})" stroke="url(#{color}_stroke)" '
+            f' title="{date}: {level} contributions"/>'
         )
         y += cell_size + cell_spacing
 
