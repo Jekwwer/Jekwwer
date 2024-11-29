@@ -27,10 +27,10 @@ jobs:
 
       - name: Generate Updated SVG
         env:
-          GITHUB_USERNAME: ${{ secrets.GITHUB_USERNAME }}
+          USERNAME: ${{ secrets.USERNAME }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python update_contributions.py
+          python3 update_contributions.py
 
       - name: Commit Updated SVG
         run: |

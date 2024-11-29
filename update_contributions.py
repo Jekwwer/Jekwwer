@@ -281,7 +281,7 @@ def replace_placeholders_in_svg(svg_content: str, stats: dict[str, Any]) -> str:
 
 def main() -> None:
     """Main function to fetch contributions and update SVG files."""
-    username = os.getenv('GITHUB_USERNAME', 'default_username')
+    username = os.getenv('USERNAME', 'default_username')
     token = os.getenv('GITHUB_TOKEN', 'default_token')
 
     # Fetch contributions and stats
