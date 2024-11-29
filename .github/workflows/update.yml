@@ -1,6 +1,6 @@
 # .github/workflows/update.yml: Updates the SVG file daily.
 ---
-name: Daily SVG Update
+name: daily-svg-update
 
 on:
   schedule:

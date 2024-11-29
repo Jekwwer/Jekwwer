@@ -1,6 +1,6 @@
 # .github/workflows/deploy.yml: Deploys the web page to GitHub Pages.
 ---
-name: Deploy Web to GitHub Pages
+name: deploy-web-to-github-pages
 
 on:
   workflow_dispatch:
