@@ -239,7 +239,7 @@ def create_svg_grid_with_heatmap(contributions: dict[str, int],
         svg_parts.append(
             f'<rect class=\"grid-cell\" x="{x}" y="{y}" width="{cell_size}" '
             f' height="{cell_size}" fill="url(#{color})" stroke="url(#{color}_stroke)" '
-            f' title="{date}: {level} contributions"/>'
+            f' rx="2" title="{date}: {level} contributions"/>'
         )
         y += cell_size + cell_spacing
 
