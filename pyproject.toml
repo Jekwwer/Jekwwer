@@ -23,7 +23,7 @@ format = [
     "autopep8==2.3.1",
     "isort==5.13.2"]
 mypy = [
-    "mypy==1.13.0"]
+    "mypy==1.14.1"]
 bandit = [
     "bandit==1.8.0"]
 
