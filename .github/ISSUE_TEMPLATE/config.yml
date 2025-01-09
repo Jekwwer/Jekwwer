@@ -1,0 +1,23 @@
+# .github/ISSUE_TEMPLATE/config.yml:
+# Configurates the issue templates for the repository.
+---
+blank_issues_enabled: false
+
+contact_links:
+  - name: Report Security Issues
+    url: https://github.com/jekwwer/jekwwer/security/advisories
+    about: >
+      For security issues, contact us privately at
+      report@jekwwer.com before opening a public issue.
+      Alternatively, you can open a private Security Advisory on GitHub.
+  - name: Contribution Guidelines
+    url: https://github.com/jekwwer/jekwwer/blob/main/CONTRIBUTING.md
+    about: >
+      Read the contribution guidelines before
+      submitting an issue.
+  - name: Questions or Community Discussions
+    url: https://github.com/jekwwer/jekwwer/discussions
+    about: >
+      For quick questions or community discussions,
+      please use our Discussions page instead of
+      opening an issue.
