@@ -200,7 +200,7 @@
     <rect class="stats-box" x="360" y="260" width="504" height="165" rx="25" />
     <text class="stats-title" x="380" y="300">📊 GitHub Stats</text>
     <text class="stats-text" x="380" y="340">Total Contributions:</text>
-    <text class="stats-value" x="840" y="340">1541</text>
+    <text class="stats-value" x="840" y="340">1555</text>
     <text class="stats-text" x="380" y="370">Current Streak:</text>
     <text class="stats-value" x="840" y="370">17</text>
     <text class="stats-text" x="380" y="400">Longest Streak:</text>
@@ -574,7 +574,7 @@
 <rect class="grid-cell" x="780.2999999999995" y="45.900000000000006" width="13.74" height="13.74" fill="url(#contribution_1_5)" stroke="url(#contribution_1_5_stroke)" rx="2" title="2025-01-14: 1 contributions"/>
 <rect class="grid-cell" x="780.2999999999995" y="61.2" width="13.74" height="13.74" fill="url(#contribution_1_5)" stroke="url(#contribution_1_5_stroke)" rx="2" title="2025-01-15: 1 contributions"/>
 <rect class="grid-cell" x="780.2999999999995" y="76.5" width="13.74" height="13.74" fill="url(#contribution_11_15)" stroke="url(#contribution_11_15_stroke)" rx="2" title="2025-01-16: 3 contributions"/>
-<rect class="grid-cell" x="780.2999999999995" y="91.8" width="13.74" height="13.74" fill="url(#contribution_1_5)" stroke="url(#contribution_1_5_stroke)" rx="2" title="2025-01-17: 1 contributions"/>
+<rect class="grid-cell" x="780.2999999999995" y="91.8" width="13.74" height="13.74" fill="url(#contribution_16)" stroke="url(#contribution_16_stroke)" rx="2" title="2025-01-17: 4 contributions"/>
 </g>
 
 </svg>
