@@ -4,7 +4,7 @@ name: daily-svg-update
 
 on:
   schedule:
-    - cron: "0 12 * * *" # Runs daily at noon UTC
+    - cron: "0 22 * * *" # Runs daily at 10:00 PM UTC
   workflow_dispatch:
 
 jobs:
