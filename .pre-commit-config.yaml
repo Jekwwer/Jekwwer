@@ -15,7 +15,6 @@ ci:
     - format # ci can't run local hooks
     - bandit # ci can't run local hooks
     - mypy # ci can't run local hooks
-    - hadolint # ci can't install system dependencies
 
 repos:
   # Pre-defined hooks from pre-commit-hooks repository
@@ -62,13 +61,6 @@ repos:
       # Checks that files with a shebang (`#!`) are executable
       - id: check-shebang-scripts-are-executable
         name: "check shebang scripts are executable"
-
-  # Lints Dockerfiles
-  - repo: https://github.com/hadolint/hadolint
-    rev: v2.13.1-beta
-    hooks:
-      - id: hadolint
-        name: "lint dockerfiles"
 
   # Lints Shell scripts
   - repo: https://github.com/Jarmos-san/shellcheck-precommit

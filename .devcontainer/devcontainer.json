@@ -1,9 +1,6 @@
 {
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
-  "workspaceFolder": "/workspaces/Jekwwer",
+  "name": "jekwwer/jekwwer",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -17,7 +14,6 @@
         "github.vscode-github-actions",
         "github.vscode-pull-request-github",
         "jock.svg",
-        "ms-azuretools.vscode-docker",
         "ms-python.autopep8",
         "ms-python.debugpy",
         "ms-python.flake8",
@@ -28,14 +24,9 @@
         "redhat.vscode-yaml",
         "shd101wyy.markdown-preview-enhanced",
         "streetsidesoftware.code-spell-checker",
-        "vitaliymaz.vscode-svg-previewer"
+        "yzhang.markdown-all-in-one"
       ],
       "settings": {
-        "[dockerfile]": {
-          "editor.rulers": [
-            120
-          ]
-        },
         "[json]": {
           "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
@@ -47,7 +38,7 @@
         },
         "[python]": {
           "defaultInterpreterPath": "/usr/local/bin/python",
-          "editor.defaultFormatter": "ms-python.autopep8"
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[yaml]": {
           "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -71,7 +62,5 @@
       }
     }
   },
-  "name": "jekwwer/jekwwer",
-  "postStartCommand": "pre-commit install",
-  "remoteUser": "vscode"
+  "postCreateCommand": "pip install '.[dev,lint,format,mypy,bandit]' && pre-commit install"
 }
