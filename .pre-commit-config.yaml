@@ -84,6 +84,23 @@ repos:
         name: 'format:prettier'
         args: ['--write', '--config', '.prettierrc']
 
+  # Checks spelling in files
+  - repo: https://github.com/streetsidesoftware/cspell-cli
+    rev: v8.17.2
+    hooks:
+      - id: cspell
+        name: 'check:spelling-files'
+      - id: cspell
+        name: 'check:commit-msg-spelling'
+        args:
+          - --no-must-find-files
+          - --no-progress
+          - --no-summary
+          - --files
+          - .git/COMMIT_EDITMSG
+        stages: [commit-msg]
+        always_run: true
+
   # Local custom hooks using tox environments
   - repo: local
     hooks:
