@@ -3,31 +3,31 @@
 version: 2
 updates:
   # GitHub Actions Dependencies
-  - package-ecosystem: "github-actions"
-    directory: ".github"
+  - package-ecosystem: 'github-actions'
+    directory: '.github'
     schedule:
-      interval: "monthly"
+      interval: 'monthly'
     reviewers:
-      - "Jekwwer"
+      - 'Jekwwer'
     assignees:
-      - "Jekwwer"
+      - 'Jekwwer'
     commit-message:
-      prefix: "deps"
+      prefix: 'deps'
     open-pull-requests-limit: 5
 
   # Python Dependencies
-  - package-ecosystem: "pip"
-    directory: "/"
+  - package-ecosystem: 'pip'
+    directory: '/'
     schedule:
-      interval: "monthly"
+      interval: 'monthly'
     groups:
       flake8-packages:
         patterns:
-          - "flake8*"
+          - 'flake8*'
     reviewers:
-      - "Jekwwer"
+      - 'Jekwwer'
     assignees:
-      - "Jekwwer"
+      - 'Jekwwer'
     commit-message:
-      prefix: "deps"
+      prefix: 'deps'
     open-pull-requests-limit: 5

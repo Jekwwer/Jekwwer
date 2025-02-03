@@ -1,9 +1,9 @@
 ---
 name: Code Enhancement Request
 about: Suggest an enhancement to the existing code
-title: "Code Enhancement: [Descriptive Title]"
+title: 'Code Enhancement: [Descriptive Title]'
 labels: enhancement
-assignees: ""
+assignees: ''
 ---
 
 ## Description

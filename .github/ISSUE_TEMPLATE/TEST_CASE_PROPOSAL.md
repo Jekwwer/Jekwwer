@@ -1,9 +1,9 @@
 ---
 name: Test Case Proposal
 about: Propose a new test case or report a missing test
-title: "Test Case: [Descriptive Title]"
+title: 'Test Case: [Descriptive Title]'
 labels: test-case
-assignees: ""
+assignees: ''
 ---
 
 ## Test Description

@@ -1,9 +1,9 @@
 ---
 name: Other Issue
 about: Use this template for any issues not covered by other templates
-title: "Issue: [Short Description]"
-labels: ""
-assignees: ""
+title: 'Issue: [Short Description]'
+labels: ''
+assignees: ''
 ---
 
 ## Description

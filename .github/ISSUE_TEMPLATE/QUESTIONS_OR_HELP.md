@@ -1,9 +1,9 @@
 ---
 name: Questions or Help
 about: Ask a question or seek help regarding the project
-title: "Question: [Your Question]"
+title: 'Question: [Your Question]'
 labels: question
-assignees: ""
+assignees: ''
 ---
 
 ## Detailed Question
