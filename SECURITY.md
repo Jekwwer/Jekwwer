@@ -8,8 +8,6 @@ and provides instructions for reporting vulnerabilities.
 As this repository does not host a software application, version-specific support is not applicable.
 However, all assets and scripts within this repository are actively monitored, and any identified vulnerabilities will be addressed promptly.
 
----
-
 ## Reporting a Vulnerability
 
 If you find a vulnerability in this repository:
@@ -27,8 +25,6 @@ If you find a vulnerability in this repository:
 
 I aim to respond to vulnerability reports within **72** hours
 and provide a resolution or update within **14** days.
-
----
 
 ## Disclaimer
 
