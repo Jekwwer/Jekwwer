@@ -9,11 +9,11 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pre-commit==4.0.1",
-    "tox==4.23.2"]
+    "tox==4.24.1"]
 lint = [
     "flake8==7.1.1",
     "flake8-annotations==3.1.1",
-    "flake8-bugbear==24.10.31",
+    "flake8-bugbear==24.12.12",
     "flake8-comprehensions==3.16.0",
     "flake8-docstrings==1.7.0",
     "flake8-import-order==0.18.2",
@@ -21,11 +21,11 @@ lint = [
     "pydocstyle==6.3.0"]
 format = [
     "autopep8==2.3.1",
-    "isort==5.13.2"]
+    "isort==6.0.0"]
 mypy = [
-    "mypy==1.13.0"]
+    "mypy==1.14.1"]
 bandit = [
-    "bandit==1.8.0"]
+    "bandit==1.8.2"]
 
 [tool.autopep8]
 max_line_length = 88
