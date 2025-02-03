@@ -32,9 +32,7 @@
         },
         "[markdown]": {
           "editor.defaultFormatter": "esbenp.prettier-vscode",
-          "editor.rulers": [
-            120
-          ]
+          "editor.rulers": [120]
         },
         "[python]": {
           "defaultInterpreterPath": "/usr/local/bin/python",
@@ -48,9 +46,7 @@
         "editor.fontSize": 14,
         "editor.formatOnPaste": true,
         "editor.formatOnSave": true,
-        "editor.rulers": [
-          88
-        ],
+        "editor.rulers": [88],
         "files.autoSave": "afterDelay",
         "files.autoSaveWhenNoErrors": true,
         "markdown-preview-enhanced.previewTheme": "github-dark.css",

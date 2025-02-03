@@ -1,19 +1,7 @@
 {
-  "ignorePaths": [
-    "*.ini",
-    "*.json",
-    "*.svg",
-    "*.toml",
-    "*.yaml",
-    "*.yml",
-    ".*"
-  ],
+  "ignorePaths": ["*.ini", "*.json", "*.svg", "*.toml", "*.yaml", "*.yml", ".*"],
   "language": "en",
   "useGitignore": true,
   "version": "0.2",
-  "words": [
-    "Evgenii",
-    "Jekwwer",
-    "Shiliaev"
-  ]
+  "words": ["Evgenii", "Jekwwer", "Shiliaev"]
 }

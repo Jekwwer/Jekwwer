@@ -1,9 +1,9 @@
 ---
 name: User Story
 about: Describe a new feature or functionality from a user's perspective
-title: "User Story: [Descriptive Title]"
+title: 'User Story: [Descriptive Title]'
 labels: user-story
-assignees: ""
+assignees: ''
 ---
 
 ## Description

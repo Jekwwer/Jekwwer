@@ -1,9 +1,9 @@
 ---
 name: Security Issue Report
 about: Report a security vulnerability in the project
-title: "Security: [Short Description]"
+title: 'Security: [Short Description]'
 labels: security
-assignees: ""
+assignees: ''
 ---
 
 ## Description

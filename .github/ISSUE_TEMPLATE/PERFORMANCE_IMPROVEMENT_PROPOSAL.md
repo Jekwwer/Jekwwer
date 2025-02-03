@@ -1,9 +1,9 @@
 ---
 name: Performance Improvement Proposal
 about: Suggest an improvement for enhancing the performance of the project
-title: "Performance Improvement: [Short Description]"
+title: 'Performance Improvement: [Short Description]'
 labels: performance
-assignees: ""
+assignees: ''
 ---
 
 ## Description

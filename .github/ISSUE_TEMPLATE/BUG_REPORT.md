@@ -1,9 +1,9 @@
 ---
 name: Bug Report
 about: Report a bug to help improve the project
-title: "Bug: [Short Description]"
+title: 'Bug: [Short Description]'
 labels: bug
-assignees: ""
+assignees: ''
 ---
 
 ## Description

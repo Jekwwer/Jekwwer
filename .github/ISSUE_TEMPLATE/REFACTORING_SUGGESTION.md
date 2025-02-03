@@ -1,9 +1,9 @@
 ---
 name: Refactoring Suggestion
 about: Suggest a code improvement for better readability or performance
-title: "Refactor: [Suggestion Title]"
+title: 'Refactor: [Suggestion Title]'
 labels: refactor
-assignees: ""
+assignees: ''
 ---
 
 ## Description

@@ -1,9 +1,9 @@
 ---
 name: Dependency Update Request
 about: Suggest an update to a project dependency
-title: "Dependency Update: [Dependency Name]"
+title: 'Dependency Update: [Dependency Name]'
 labels: dependencies
-assignees: ""
+assignees: ''
 ---
 
 ## Dependency

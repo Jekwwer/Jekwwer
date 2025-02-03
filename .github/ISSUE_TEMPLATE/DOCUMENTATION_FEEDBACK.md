@@ -1,9 +1,9 @@
 ---
 name: Documentation Feedback
 about: Report errors or propose improvements in the documentation
-title: "Docs: [Short Description]"
+title: 'Docs: [Short Description]'
 labels: documentation
-assignees: ""
+assignees: ''
 ---
 
 ## Document

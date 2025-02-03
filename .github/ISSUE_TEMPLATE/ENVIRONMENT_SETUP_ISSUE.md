@@ -1,9 +1,9 @@
 ---
 name: Environment Setup Issue
 about: Report issues related to setting up the development or deployment environment
-title: "Environment Issue: [Short Description]"
+title: 'Environment Issue: [Short Description]'
 labels: environment
-assignees: ""
+assignees: ''
 ---
 
 ## Issue Description

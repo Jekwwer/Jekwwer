@@ -1,9 +1,9 @@
 ---
 name: Community Guidelines Violation
 about: Report a violation of the community guidelines or code of conduct
-title: "Violation: [Short Description]"
+title: 'Violation: [Short Description]'
 labels: violation
-assignees: ""
+assignees: ''
 ---
 
 ## Description of the Violation
