@@ -19,26 +19,25 @@ trim_trailing_whitespace = false
 
 # JSON-specific settings
 [*.json]
-indent_size = 2
-indent_style = space
+max_line_length = off
 
 # Markdown-specific settings
 [*.md]
 max_line_length = 120
+trim_trailing_whitespace = false
 
 # Python-specific settings
 [*.py]
-indent_style = space
 indent_size = 4
-max_line_length = 88
-trim_trailing_whitespace = true
 
-# SVG-specific settings
+# SVG-specific settings (Present in the repository but no special rules needed)
 [*.svg]
-indent_size = 2
-indent_style = space
+# No overrides, but this section helps indicate SVG files exist in the project.
 
-# YAML-specific settings
+# YAML-specific settings (Present in the repository but follows global rules)
 [*.{yml,yaml}]
-indent_size = 2
-indent_style = space
+# No overrides, but keeping this as a placeholder for potential future rules.
+
+# Text and log files
+[*.{txt,log}]
+trim_trailing_whitespace = false
