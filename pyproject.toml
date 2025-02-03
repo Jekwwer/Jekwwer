@@ -21,7 +21,7 @@ lint = [
     "pydocstyle==6.3.0"]
 format = [
     "autopep8==2.3.1",
-    "isort==5.13.2"]
+    "isort==6.0.0"]
 mypy = [
     "mypy==1.13.0"]
 bandit = [
