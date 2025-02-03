@@ -3,7 +3,7 @@
 import logging
 import os
 from datetime import datetime, timedelta, timezone
-from typing import Any, TypedDict
+from typing import Any, Optional, TypedDict
 
 import requests
 
@@ -328,28 +328,33 @@ def replace_placeholders_in_svg(svg_content: str, stats: dict[str, Any]) -> str:
         str: SVG content with placeholders replaced by statistics.
     """
     logger.info('Replacing placeholders in SVG content...')
-    longest_streak_text = f"( {stats.get('longest_streak_start', 'N/A')} " \
-        f"to {stats.get('longest_streak_end', 'N/A')} ) " \
-        f"{stats['longest_streak']}"
+
+    # Format dates as YYYY/MM/DD instead of YYYY-MM-DD
+    def format_date(date_value: Optional[str]) -> str:
+        """Convert YYYY-MM-DD to YYYY/MM/DD or return 'N/A' if None."""
+        if isinstance(date_value, str):
+            return date_value.replace('-', '/')
+        return 'N/A'  # Handle None and other invalid cases
+
+    longest_streak_start = format_date(stats.get('longest_streak_start'))
+    longest_streak_end = format_date(stats.get('longest_streak_end'))
+
+    # Format longest streak with date range
+    longest_streak_text = f"{longest_streak_start} ➝ {longest_streak_end} : " \
+        f"{stats['longest_streak']}🏆"
     logger.debug('Formatted longest streak text: %s', longest_streak_text)
 
-    updated_svg = svg_content
-    updated_svg = updated_svg.replace(
-        'total-contributions-ph', str(stats['total_contributions'])
-    )
-    logger.debug(
-        "Replaced 'total-contributions-ph' with %d",
-        stats['total_contributions'])
+    # Format numbers with thousand separators
+    total_contributions = f"{stats['total_contributions']:,}🌟"
+    current_streak = f"{stats['current_streak']}🔥"
 
-    updated_svg = updated_svg.replace(
-        'current-streak-ph', str(stats['current_streak'])
-    )
-    logger.debug("Replaced 'current-streak-ph' with %d", stats['current_streak'])
+    logger.debug('Formatted total contributions: %s', total_contributions)
+    logger.debug('Formatted current streak: %s', current_streak)
 
-    updated_svg = updated_svg.replace(
-        'longest-streak-ph', longest_streak_text
-    )
-    logger.debug("Replaced 'longest-streak-ph' with '%s'", longest_streak_text)
+    # Replace placeholders in the SVG content
+    updated_svg = svg_content.replace('total-contributions-ph', total_contributions)
+    updated_svg = updated_svg.replace('current-streak-ph', current_streak)
+    updated_svg = updated_svg.replace('longest-streak-ph', longest_streak_text)
 
     logger.info('SVG placeholders replaced successfully.')
     return updated_svg
