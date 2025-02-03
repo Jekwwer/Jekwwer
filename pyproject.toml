@@ -25,7 +25,7 @@ format = [
 mypy = [
     "mypy==1.13.0"]
 bandit = [
-    "bandit==1.8.0"]
+    "bandit==1.8.2"]
 
 [tool.autopep8]
 max_line_length = 88
