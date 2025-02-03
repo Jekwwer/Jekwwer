@@ -14,7 +14,7 @@ max_line_length = 88
 trim_trailing_whitespace = true
 
 # Configuration file settings (e.g., .editorconfig, .gitignore)
-[*.{editorconfig,gitignore,ini,pylintrc,toml}]
+[*.{editorconfig,gitignore,ini,prettierrc,toml}]
 trim_trailing_whitespace = false
 
 # JSON-specific settings

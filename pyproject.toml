@@ -62,3 +62,6 @@ platform = "linux"
 strict = true
 warn_unused_ignores = true
 disallow_untyped_defs = true
+
+[tool.setuptools.packages.find]
+exclude = ["node_modules", "assets"]

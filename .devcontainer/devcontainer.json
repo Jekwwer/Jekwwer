@@ -38,7 +38,7 @@
         },
         "[python]": {
           "defaultInterpreterPath": "/usr/local/bin/python",
-          "editor.defaultFormatter": "esbenp.prettier-vscode"
+          "editor.defaultFormatter": "ms-python.autopep8"
         },
         "[yaml]": {
           "editor.defaultFormatter": "esbenp.prettier-vscode"
