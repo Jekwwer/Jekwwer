@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="894" height="680" style="font-family: Arial, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" width="894" height="690" style="font-family: Arial, sans-serif;">
 
   <defs>
     <!-- Glass Effect Gradient -->
@@ -151,6 +151,20 @@
     .grid-cell {
       stroke-width: 0.5px;
     }
+
+    .legend {
+      transform: translate(50px, 636px);
+    }
+
+    .legend-label {
+      font-size: 10px;
+    }
+
+    .legend-cell {
+      width: 13.74px;
+      height: 13.74px;
+      rx: 2px;
+    }
   </style>
 
   <title id="title">Jekwwer GitHub Profile Card</title>
@@ -187,6 +201,7 @@
       <text class="button-text" x="50" y="410">🎥 YouTube Channel</text>
     </a>
   </g>
+
   <!-- GitHub Stats -->
   <g>
     <rect class="stats-box" x="360" y="260" width="504" height="165" rx="25" />
@@ -199,8 +214,32 @@
     <text class="stats-value" x="840" y="400">longest-streak-ph</text>
   </g>
 
-  <rect class="stats-box" x="30" y="455" width="834" height="195" rx="25" />
+  <rect class="stats-box" x="30" y="455" width="834" height="205" rx="25" />
   <text class="stats-title" x="50" y="495"> 📆 Contributions in the Last 52 Weeks</text>
+
+  <!-- Contribution Grid Legend -->
+  <g class="legend">
+    <rect class="legend-cell" x="0" y="0" fill="url(#no_contribution)" stroke="url(#no_contribution_stroke)" rx="2" />
+    <text class="legend-label" x="20" y="12">0</text>
+
+    <rect class="legend-cell" x="61.2" y="0" fill="url(#contribution_1_10)" stroke="url(#contribution_1_10_stroke)"
+      rx="2" />
+    <text class="legend-label" x="81.2" y="12">1-10</text>
+
+    <rect class="legend-cell" x="122.39999999999999" y="0" fill="url(#contribution_11_20)"
+      stroke="url(#contribution_11_20_stroke)" rx="2" />
+    <text class="legend-label" x="142.39999999999999" y="12">11-20</text>
+
+    <rect class="legend-cell" x="183.60000000000002" y="0" fill="url(#contribution_21_30)"
+      stroke="url(#contribution_21_30_stroke)" rx="2" />
+    <text class="legend-label" x="203.60000000000002" y="12">21-30</text>
+
+    <rect class="legend-cell" x="244.80000000000007" y="0" fill="url(#contribution_50)"
+      stroke="url(#contribution_50_stroke)" rx="2" />
+    <text class="legend-label" x="264.80000000000007" y="12">50+</text>
+  </g>t class="legend-label" x="264.8" y="12">50+</text>
+  </g>
+
   <!-- Contribution Grid -->
 
 </svg>
