@@ -174,7 +174,9 @@
     }
 
     .legend-label {
+      fill: #363a4f;
       font-size: 10px;
+      text-shadow: 0.125px 0.125px 0.5px #24273a;
     }
 
     .legend-cell {
