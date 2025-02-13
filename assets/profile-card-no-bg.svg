@@ -236,9 +236,13 @@
       stroke="url(#contribution_21_30_stroke)" rx="2" />
     <text class="legend-label" x="203.60000000000002" y="12">21-30</text>
 
-    <rect class="legend-cell" x="244.80000000000007" y="0" fill="url(#contribution_50)"
+    <rect class="legend-cell" x="244.80000000000007" y="0" fill="url(#contribution_31_49)"
       stroke="url(#contribution_50_stroke)" rx="2" />
-    <text class="legend-label" x="264.80000000000007" y="12">50+</text>
+    <text class="legend-label" x="264.80000000000007" y="12">30-49</text>
+
+    <rect class="legend-cell" x="306.0000000000001" y="0" fill="url(#contribution_50)"
+      stroke="url(#contribution_50_stroke)" rx="2" />
+    <text class="legend-label" x="326.0000000000001" y="12">50+</text>
   </g>
 
   <!-- Contribution Grid -->
