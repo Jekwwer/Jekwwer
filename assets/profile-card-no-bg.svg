@@ -21,44 +21,59 @@
       <stop offset="100%" stop-color="rgba(54, 58, 79, 0.45)" />
     </linearGradient>
 
-    <linearGradient id="contribution_1_5" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="contribution_1_10" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="rgba(122, 198, 122, 0.85)" />
       <stop offset="100%" stop-color="rgba(122, 198, 122, 0.95)" />
     </linearGradient>
 
-    <linearGradient id="contribution_1_5_stroke" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="contribution_1_10_stroke" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="rgba(54, 58, 79, 0.35)" />
       <stop offset="100%" stop-color="rgba(54, 58, 79, 0.45)" />
     </linearGradient>
 
-    <linearGradient id="contribution_6_10" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="contribution_11_20" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="rgba(92, 184, 92, 0.85)" />
       <stop offset="100%" stop-color="rgba(92, 184, 92, 0.95)" />
     </linearGradient>
 
-    <linearGradient id="contribution_6_10_stroke" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="contribution_11_20_stroke" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="rgba(54, 58, 79, 0.35)" />
       <stop offset="100%" stop-color="rgba(54, 58, 79, 0.45)" />
     </linearGradient>
 
-    <linearGradient id="contribution_11_15" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="contribution_21_30" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="rgba(64, 160, 43, 0.85)" />
       <stop offset="100%" stop-color="rgba(64, 160, 43, 0.95)" />
     </linearGradient>
 
-    <linearGradient id="contribution_11_15_stroke" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="contribution_21_30_stroke" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="rgba(54, 58, 79, 0.35)" />
       <stop offset="100%" stop-color="rgba(54, 58, 79, 0.45)" />
     </linearGradient>
 
-    <linearGradient id="contribution_16" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="contribution_31_49" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="rgba(42, 107, 29, 0.65)" />
       <stop offset="100%" stop-color="rgba(42, 107, 29, 0.75)" />
     </linearGradient>
 
-    <linearGradient id="contribution_16_stroke" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="contribution_31_49_stroke" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="rgba(54, 58, 79, 0.35)" />
       <stop offset="100%" stop-color="rgba(54, 58, 79, 0.45)" />
+    </linearGradient>
+
+    <radialGradient id="contribution_50" cx="50%" cy="50%" r="62%" fx="50%" fy="50%">
+      <animateTransform attributeName="gradientTransform" attributeType="XML" type="rotate" from="0 0.5 0.5"
+        to="360 0.5 0.5" dur="5s" repeatCount="indefinite" />
+      <stop offset="0%" stop-color="#FFEA00" />
+      <stop offset="40%" stop-color="#FFD700" />
+      <stop offset="60%" stop-color="#FFD700" />
+      <stop offset="100%" stop-color="#B8860B" />
+    </radialGradient>
+
+    <linearGradient id="contribution_50_stroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(54,58,79,0.35)" />
+      <stop offset="50%" stop-color="rgba(54,58,79,0.65)" />
+      <stop offset="100%" stop-color="rgba(54,58,79,0.35)" />
     </linearGradient>
   </defs>
 

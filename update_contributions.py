@@ -36,10 +36,11 @@ class ContributionData(TypedDict):
 # Define contribution levels and corresponding colors for the heatmap (defined in CSS)
 contribution_colors = {
     0: 'no_contribution',       # No contributions
-    1: 'contribution_1_5',      # 1-5 contributions
-    2: 'contribution_6_10',     # 6-10 contributions
-    3: 'contribution_11_15',    # 11-15 contributions
-    4: 'contribution_16',       # 16+ contributions
+    1: 'contribution_1_10',     # 1-10 contributions
+    2: 'contribution_11_20',    # 11-20 contributions
+    3: 'contribution_21_30',    # 21-30 contributions
+    4: 'contribution_31_49',    # 31-49 contributions
+    5: 'contribution_50',       # 50+ contributions
 }
 
 
@@ -225,14 +226,16 @@ def map_contributions_to_levels(contributions: dict[str, int]) -> dict[str, int]
     for date, count in contributions.items():
         if count == 0:
             level = 0
-        elif count <= 5:
-            level = 1
         elif count <= 10:
+            level = 1
+        elif count <= 20:
             level = 2
-        elif count <= 15:
+        elif count <= 30:
             level = 3
-        else:
+        elif count <= 49:
             level = 4
+        else:
+            level = 5
         mapped[date] = level
         logger.debug('Date: %s, Count: %d, Level: %d', date, count, level)
 
