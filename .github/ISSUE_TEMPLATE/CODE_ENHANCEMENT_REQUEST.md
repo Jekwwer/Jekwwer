@@ -41,3 +41,7 @@ assignees: ''
 - [ ] I have checked that this enhancement has not already been requested.
 - [ ] I have provided a clear and concise description of the enhancement.
 - [ ] I have included any benefits and potential implementation ideas.
+
+<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
+<!-- https://github.com/Jekwwer/markdown-docs-kit -->
+<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

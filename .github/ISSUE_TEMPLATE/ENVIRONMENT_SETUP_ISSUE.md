@@ -43,3 +43,7 @@ assignees: ''
 - [ ] I have provided detailed steps to reproduce.
 - [ ] I have outlined the expected behavior.
 - [ ] I have included relevant screenshots.
+
+<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
+<!-- https://github.com/Jekwwer/markdown-docs-kit -->
+<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

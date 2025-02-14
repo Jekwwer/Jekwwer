@@ -13,9 +13,15 @@
   "useGitignore": true,
   "version": "0.2",
   "words": [
+    "autopep",
     "Evgenii",
+    "isort",
     "Jekwwer",
     "levelname",
-    "Shiliaev"
+    "mypy",
+    "pylint",
+    "pyproject",
+    "Shiliaev",
+    "styleguide"
   ]
 }

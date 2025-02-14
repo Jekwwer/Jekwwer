@@ -41,3 +41,7 @@ assignees: ''
 - [ ] I have verified that the issue exists in the current documentation.
 - [ ] I have provided all necessary information, including examples and references.
 - [ ] I have described any proposed changes or corrections clearly.
+
+<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
+<!-- https://github.com/Jekwwer/markdown-docs-kit -->
+<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

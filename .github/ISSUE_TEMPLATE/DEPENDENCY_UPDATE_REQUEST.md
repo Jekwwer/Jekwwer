@@ -47,3 +47,7 @@ assignees: ''
 - [ ] I have checked that this update has not already been requested.
 - [ ] I have provided detailed information about the current issues with the dependency and the benefits of updating.
 - [ ] I have suggested a specific version for the update and justified my choice.
+
+<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
+<!-- https://github.com/Jekwwer/markdown-docs-kit -->
+<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

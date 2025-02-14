@@ -1,6 +1,6 @@
 # Contributor Covenant Code of Conduct
 
-## My Pledge
+## Our Pledge
 
 I pledge to make participation in this project a harassment-free experience for everyone, regardless of age, body size,
 visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience,
@@ -10,7 +10,7 @@ and orientation.
 I am committed to acting and interacting in ways that contribute to an open, welcoming, diverse, inclusive, and healthy
 project environment.
 
-## My Standards
+## Our Standards
 
 Examples of behavior that contribute to a positive environment include:
 
@@ -81,18 +81,24 @@ with the maintainer or project allowed during this time. Violations may lead to 
 
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor Covenant][homepage],
-version 2.1, available [here][v2.1].
+This Code of Conduct is adapted from the [Contributor Covenant][contributor-covenant-web],
+version 2.1, available [here][v2.1], with modifications by [Evgenii Shiliaev][evgenii-shiliaev-github],
+including rewording the entire document, as well as changing the reporting contact method
+to a script-friendly placeholder, available at [markdown-docs-kit][jekwwer-markdown-docs-kit]
+and licensed under [CC BY 4.0][jekwwer-markdown-docs-kit-license].
 
 Community Impact Guidelines were inspired by
-[Mozilla's code of conduct enforcement ladder][Mozilla CoC].
+[Mozilla's code of conduct enforcement ladder][mozilla-code-of-conduct].
 
-For answers to common questions about this code of conduct, see the [FAQ][FAQ].
-Translations are available [here][translations].
+For answers to common questions about this code of conduct, see the [FAQ][contributor-covenant-faq].
+Translations are available [here][contributor-covenant-translations].
 
-[homepage]: https://www.contributor-covenant.org
-[v2.1]: https://www.contributor-covenant.org/version/2/1/code_of_conduct.html
-[Mozilla CoC]: https://github.com/mozilla/diversity
-[FAQ]: https://www.contributor-covenant.org/faq
-[translations]: https://www.contributor-covenant.org/translations
+[contributor-covenant-faq]: https://www.contributor-covenant.org/faq
+[contributor-covenant-translations]: https://www.contributor-covenant.org/translations
+[contributor-covenant-web]: https://www.contributor-covenant.org
+[evgenii-shiliaev-github]: https://github.com/Jekwwer
+[jekwwer-markdown-docs-kit]: https://github.com/Jekwwer/markdown-docs-kit/blob/main/templates/CODE_OF_CONDUCT.md
+[jekwwer-markdown-docs-kit-license]: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE
+[mozilla-code-of-conduct]: https://github.com/mozilla/diversity
 [report@jekwwer.com]: mailto:report@jekwwer.com
+[v2.1]: https://www.contributor-covenant.org/version/2/1/code_of_conduct.html

@@ -30,3 +30,7 @@
 - [ ] I have added tests to cover this feature.
 - [ ] I have documented this feature (if applicable).
 - [ ] I have ensured that this feature does not introduce any breaking changes.
+
+<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
+<!-- https://github.com/Jekwwer/markdown-docs-kit -->
+<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

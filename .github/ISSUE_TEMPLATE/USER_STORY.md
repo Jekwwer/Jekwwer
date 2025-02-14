@@ -41,3 +41,7 @@ assignees: ''
 - [ ] I have clearly described the user's needs and the corresponding functionality.
 - [ ] I have defined clear acceptance criteria.
 - [ ] I have added any necessary additional context.
+
+<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
+<!-- https://github.com/Jekwwer/markdown-docs-kit -->
+<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

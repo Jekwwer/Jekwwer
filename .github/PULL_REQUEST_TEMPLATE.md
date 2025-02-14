@@ -40,3 +40,7 @@
 - [ ] I have added tests that prove my changes are effective.
 - [ ] I have added necessary documentation (if applicable).
 - [ ] My changes do not introduce any breaking changes.
+
+<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
+<!-- https://github.com/Jekwwer/markdown-docs-kit -->
+<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

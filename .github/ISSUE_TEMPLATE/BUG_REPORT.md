@@ -85,3 +85,7 @@ assignees: ''
 
 - [ ] I have checked that this issue has not already been reported.
 - [ ] I have provided all necessary information.
+
+<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
+<!-- https://github.com/Jekwwer/markdown-docs-kit -->
+<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

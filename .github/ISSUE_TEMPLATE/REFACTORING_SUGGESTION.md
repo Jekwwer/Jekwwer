@@ -42,3 +42,7 @@ assignees: ''
 - [ ] I have provided a clear and concise description of the refactoring idea.
 - [ ] I have included the potential benefits of the refactoring.
 - [ ] I have added any additional context that could be helpful in understanding the suggestion.
+
+<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
+<!-- https://github.com/Jekwwer/markdown-docs-kit -->
+<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

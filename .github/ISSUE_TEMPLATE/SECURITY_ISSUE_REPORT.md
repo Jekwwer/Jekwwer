@@ -44,5 +44,9 @@ _Note: For any security issues, please contact me privately at [report@jekwwer.c
 - [ ] I understand the security implications of this report and have provided detailed information responsibly.
 - [ ] I have provided steps to reproduce the issue and an assessment of the potential impact.
 
+[security-advisories]: https://github.com/Jekwwer/Jekwwer/security/advisories
 [report@jekwwer.com]: mailto:report@jekwwer.com
-[security-advisories]: https://github.com/jekwwer/jekwwer/security/advisories
+
+<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
+<!-- https://github.com/Jekwwer/markdown-docs-kit -->
+<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

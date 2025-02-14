@@ -42,3 +42,7 @@ assignees: ''
 - [ ] I have outlined the expected behavior.
 - [ ] I have explained the importance of this test.
 - [ ] I have provided any necessary additional context.
+
+<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
+<!-- https://github.com/Jekwwer/markdown-docs-kit -->
+<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

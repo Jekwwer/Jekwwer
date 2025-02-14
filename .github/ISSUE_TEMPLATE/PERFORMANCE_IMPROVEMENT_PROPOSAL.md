@@ -37,3 +37,7 @@ assignees: ''
 - [ ] I have clearly described the performance issue and my proposed solution.
 - [ ] I have provided benchmark or profile data, if available.
 - [ ] I have outlined the expected benefits of the proposed solution.
+
+<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
+<!-- https://github.com/Jekwwer/markdown-docs-kit -->
+<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

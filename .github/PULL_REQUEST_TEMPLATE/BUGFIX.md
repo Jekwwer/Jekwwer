@@ -30,3 +30,7 @@
 - [ ] I have added tests to verify the fix.
 - [ ] I have documented the fix where applicable.
 - [ ] I have confirmed that this bug fix does not introduce any new issues.
+
+<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
+<!-- https://github.com/Jekwwer/markdown-docs-kit -->
+<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->
