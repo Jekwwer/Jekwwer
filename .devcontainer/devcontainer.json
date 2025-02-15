@@ -1,6 +1,7 @@
 {
   "name": "jekwwer/jekwwer",
   "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "postCreateCommand": "pip install '.[dev,lint,format,mypy,bandit]' && pre-commit install",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -42,6 +43,5 @@
         "prettier.configPath": "./.prettierrc"
       }
     }
-  },
-  "postCreateCommand": "pip install '.[dev,lint,format,mypy,bandit]' && pre-commit install"
+  }
 }
