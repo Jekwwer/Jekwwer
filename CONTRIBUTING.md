@@ -237,6 +237,54 @@ to use the new OAuth2 endpoints as described in the migration guide.
 This repository does not include automated tests since its primary focus is on delivering dynamic visual assets.
 Quality is ensured through manual reviews.
 
+For tasks like code quality checks, formatting, security analysis, and type hint validation,
+`tox` is used to automate these jobs in isolated environments. Below are the details on how `tox` is configured for the project:
+
+- **Tox Configuration**: The `tox.ini` file defines environments for various tasks such as linting, formatting,
+  security checks, and type hint checking.
+
+- **Running Jobs with Tox**:
+  To execute all tasks configured in `tox`, simply run:
+
+  ```bash
+  tox
+  ```
+
+  This will automatically run the following environments:
+
+  - **`py312`**: Runs the project in Python 3.12.
+  - **`lint`**: Executes linters (`flake8`, `isort`, `autopep8`) to check code quality.
+  - **`format`**: Formats the code using `isort` and `autopep8`.
+  - **`bandit`**: Checks for security vulnerabilities using the `bandit` tool.
+  - **`mypy`**: Validates type hints using `mypy`.
+
+- **Specific Environments**:
+  You can also run individual environments to focus on specific tasks:
+
+  - To run linters and check code quality:
+
+    ```bash
+    tox -e lint
+    ```
+
+  - To format the code:
+
+    ```bash
+    tox -e format
+    ```
+
+  - To run a security check with Bandit:
+
+    ```bash
+    tox -e bandit
+    ```
+
+  - To validate type hints with `mypy`:
+
+    ```bash
+    tox -e mypy
+    ```
+
 ## Proposing Changes
 
 1. **Check for Existing Issues**:
