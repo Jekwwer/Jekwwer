@@ -22,6 +22,16 @@
         "streetsidesoftware.code-spell-checker"
       ],
       "settings": {
+        "[css]": {
+          "editor.rulers": [
+            120
+          ]
+        },
+        "[html]": {
+          "editor.rulers": [
+            120
+          ]
+        },
         "[markdown]": {
           "editor.rulers": [
             120
@@ -31,6 +41,11 @@
           "defaultInterpreterPath": "/usr/local/bin/python",
           "editor.defaultFormatter": "ms-python.autopep8"
         },
+        "[svg]": {
+          "editor.rulers": [
+            120
+          ]
+        },
         "editor.fontSize": 14,
         "editor.formatOnPaste": true,
         "editor.formatOnSave": true,
@@ -39,8 +54,8 @@
         ],
         "files.autoSave": "onFocusChange",
         "files.autoSaveWhenNoErrors": true,
-        "terminal.integrated.shell.linux": "/bin/bash",
-        "prettier.configPath": "./.prettierrc"
+        "prettier.configPath": "./.prettierrc",
+        "terminal.integrated.shell.linux": "/bin/bash"
       }
     }
   }
