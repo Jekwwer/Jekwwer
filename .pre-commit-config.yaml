@@ -48,9 +48,6 @@ repos:
       # Validates the syntax of JSON files
       - id: check-json
         name: 'validate:json'
-      # Replaces single quotes with double quotes in strings
-      - id: double-quote-string-fixer
-        name: 'fix:double-quote-strings'
       # Ensures there are no unresolved merge conflicts in the code
       - id: check-merge-conflict
         name: 'check:merge-conflicts'
@@ -60,13 +57,6 @@ repos:
       # Checks that files with a shebang (#!) are executable
       - id: check-shebang-scripts-are-executable
         name: 'check:shebang-scripts-executable'
-
-  # Lints Shell scripts
-  - repo: https://github.com/Jarmos-san/shellcheck-precommit
-    rev: v0.2.0
-    hooks:
-      - id: shellcheck-system
-        name: 'lint:shell'
 
   # Lints YAML files
   - repo: https://github.com/adrienverge/yamllint
