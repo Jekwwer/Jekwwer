@@ -18,8 +18,8 @@
     "isort",
     "Jekwwer",
     "levelname",
+    "markdownlintignore",
     "mypy",
-    "pylint",
     "pyproject",
     "Shiliaev",
     "styleguide"
