@@ -8,6 +8,18 @@
   "printWidth": 88,
   "overrides": [
     {
+      "files": "*.css",
+      "options": {
+        "printWidth": 120
+      }
+    },
+    {
+      "files": "*.html",
+      "options": {
+        "printWidth": 120
+      }
+    },
+    {
       "files": "*.md",
       "options": {
         "printWidth": 120

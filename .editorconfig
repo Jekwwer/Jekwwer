@@ -1,5 +1,9 @@
 # .editorconfig: Enforces consistent coding styles across the project.
 
+# NOTE: 'max_line_length' is included as a style guideline reference.
+# It is not enforced by EditorConfig itself, but by other tools (e.g., linters).
+# For more details, please refer to repository's style guide: STYLEGUIDE.md
+
 # Top-most EditorConfig file
 root = true
 
@@ -17,8 +21,12 @@ trim_trailing_whitespace = true
 [*.{editorconfig,gitignore,ini,prettierrc,toml}]
 trim_trailing_whitespace = false
 
+# HTML/CSS/SVG-specific settings
+[*.{css,html,svg}]
+max_line_length = 120
+
 # JSON-specific settings
-[*.json]
+[*.{json,jsonc}]
 max_line_length = off
 
 # Markdown-specific settings
@@ -34,9 +42,9 @@ indent_size = 4
 [*.svg]
 # No overrides, but this section helps indicate SVG files exist in the project.
 
-# YAML-specific settings (Present in the repository but follows global rules)
+# YAML-specific settings (Present in the repository but no special rules needed)
 [*.{yml,yaml}]
-# No overrides, but keeping this as a placeholder for potential future rules.
+# No overrides, but this section helps indicate SVG files exist in the project.
 
 # Text and log files
 [*.{txt,log}]
