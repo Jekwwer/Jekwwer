@@ -42,6 +42,4 @@ licensed under [CC BY 4.0][jekwwer-markdown-docs-kit-license]. All additional co
 [jekwwer-markdown-docs-kit-license]: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE
 [security-advisories]: https://github.com/Jekwwer/Jekwwer/security/advisories
 [evgenii.shiliaev@jekwwer.com]: mailto:evgenii.shiliaev@jekwwer.com
-[no_value]: https://github.com/Jekwwer/Jekwwer/tree/no_value
-[no_value]: https://github.com/Jekwwer/Jekwwer/tree/no_value
 [report@jekwwer.com]: mailto:report@jekwwer.com
