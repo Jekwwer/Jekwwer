@@ -362,7 +362,7 @@ See [Comments and Documentation][COMMENTS-AND-DOCUMENTATION].
   For example:
 
   ```markdown
-  See our [Code of Conduct][CODE_OF_CONDUCT].
+  See [Code of Conduct][CODE_OF_CONDUCT].
 
   [CODE_OF_CONDUCT]: CODE_OF_CONDUCT.md
   ```

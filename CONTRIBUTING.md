@@ -298,7 +298,7 @@ For tasks like code quality checks, formatting, security analysis, and type hint
    ```
 
 3. **Make and Test Changes**:
-   Keep changes consistent with our [`STYLEGUIDE.md`][STYLEGUIDE].
+   Keep changes consistent with [`STYLEGUIDE.md`][STYLEGUIDE].
 
 4. **Commit**:
 
