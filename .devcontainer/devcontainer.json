@@ -55,8 +55,7 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "files.autoSave": "onFocusChange",
         "files.autoSaveWhenNoErrors": true,
-        "prettier.configPath": "./.prettierrc",
-        "terminal.integrated.shell.linux": "/bin/bash"
+        "prettier.configPath": "./.prettierrc"
       }
     }
   }
