@@ -73,7 +73,6 @@ GitHub profile SVG.
 │   └── index.html                      │   └── # main index
 ├── .editorconfig                       ├── # editor configuration
 ├── .gitignore                          ├── # files to ignore in Git
-├── .markdownlintignore                 ├── # markdown lint ignore rules
 ├── .markdownlint.json                  ├── # markdown linting configuration
 ├── .pre-commit-config.yaml             ├── # pre-commit hook configuration
 ├── .prettierrc                         ├── # Prettier configuration
@@ -125,7 +124,7 @@ GitHub profile SVG.
 Key configuration files in the repository include:
 
 - `.gitignore`: Specifies files and directories to exclude from version control.
-- `.markdownlint.json` and `.markdownlintignore`: Configures Markdown linting rules and exclusions.
+- `.markdownlint.json`: Configures Markdown linting rules.
 - `.editorconfig`: Defines coding styles across editors.
 - `.pre-commit-config.yaml`: Specifies pre-commit hooks.
 - `.prettierrc`: Contains formatting rules.
