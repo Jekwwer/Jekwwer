@@ -4,7 +4,7 @@ version: 2
 updates:
   # GitHub Actions Dependencies
   - package-ecosystem: 'github-actions'
-    directory: '.github'
+    directory: '.github/workflows'
     schedule:
       interval: 'monthly'
     reviewers:
@@ -23,6 +23,11 @@ updates:
     groups:
       flake8-packages:
         patterns:
+          - 'flake8*'
+      pip-packages:
+        patterns:
+          - '*'
+        exclude-patterns:
           - 'flake8*'
     reviewers:
       - 'Jekwwer'
