@@ -7,6 +7,7 @@ Whether you're fixing a bug, proposing new features, or improving documentation,
 ## Getting Started
 
 1. **Fork the Repository**:
+
    Click the "Fork" button on the top-right corner of the repository page to create your copy.
 
 2. **Clone Your Fork**:
@@ -109,6 +110,7 @@ providing essential details about changes.
 
 - **Header Notation:**
   To denote a breaking change, append a `!` to the `<type>` in the commit header. For example, use `feat!:` or `fix!:`.
+
 - **Commit Body:**
   In the commit body (within the `<detailed description>`), include a separate line starting with:
 
@@ -224,66 +226,44 @@ to use the new OAuth2 endpoints as described in the migration guide.
 
 - **Python Dependencies:**
   Managed via `pyproject.toml`.
+
 - **Dependabot:**
   The `.github/dependabot.yml` file monitors and updates dependencies for npm packages and GitHub Actions.
 
 ### Environment Configuration
 
-- The environment is primarily configured using `.devcontainer/devcontainer.json` for container setup,
-  along with VSCode settings and customizations.
+- **Container Setup:**
+  Configured with `.devcontainer/devcontainer.json` (includes VSCode settings & customizations).
+
+- **Python Tools:**
+  Configured with `pyproject.toml`.
 
 ## Testing and Quality Assurance
 
-This repository does not include automated tests since its primary focus is on delivering dynamic visual assets.
-Quality is ensured through manual reviews.
+The project uses a mix of manual and automated approaches.
 
-For tasks like code quality checks, formatting, security analysis, and type hint validation,
-`tox` is used to automate these jobs in isolated environments. Below are the details on how `tox` is configured for the project:
+### Manual Testing
 
-- **Tox Configuration**: The `tox.ini` file defines environments for various tasks such as linting, formatting,
-  security checks, and type hint checking.
+Run the following scripts (see `tox.ini` for details) to verify code quality:
 
-- **Running Jobs with Tox**:
-  To execute all tasks configured in `tox`, simply run:
+- **`tox`**
+  Executes all configured environments.
+- **`tox -e lint`**
+  Runs linters (flake8, isort, autopep8) to enforce code quality standards.
+- **`tox -e format`**
+  Auto-formats the code using isort and autopep8.
+- **`tox -e bandit`**
+  Scans for security vulnerabilities with bandit.
+- **`tox -e mypy`**
+  Validates type hints using mypy.
 
-  ```bash
-  tox
-  ```
+### Automated Testing
 
-  This will automatically run the following environments:
+Automated checks run via pre-commit hooks in both CI and locally:
 
-  - **`py312`**: Runs the project in Python 3.12.
-  - **`lint`**: Executes linters (`flake8`, `isort`, `autopep8`) to check code quality.
-  - **`format`**: Formats the code using `isort` and `autopep8`.
-  - **`bandit`**: Checks for security vulnerabilities using the `bandit` tool.
-  - **`mypy`**: Validates type hints using `mypy`.
-
-- **Specific Environments**:
-  You can also run individual environments to focus on specific tasks:
-
-  - To run linters and check code quality:
-
-    ```bash
-    tox -e lint
-    ```
-
-  - To format the code:
-
-    ```bash
-    tox -e format
-    ```
-
-  - To run a security check with Bandit:
-
-    ```bash
-    tox -e bandit
-    ```
-
-  - To validate type hints with `mypy`:
-
-    ```bash
-    tox -e mypy
-    ```
+- They enforce linting and formatting standards before commits.
+- In-editor autoformatting is active through VSCode settings in `.devcontainer/devcontainer.json`
+  (`formatOnPaste` & `formatOnSave`).
 
 ## Proposing Changes
 
