@@ -6,7 +6,7 @@ ci:
   autofix_commit_msg: 'ci(pre-commit): auto fixes from pre-commit hooks'
   autofix_prs: true
   autoupdate_branch: 'main'
-  autoupdate_commit_msg: 'ci(deps): bump pre-commit hooks'
+  autoupdate_commit_msg: 'deps(pre-commit): bump pre-commit hooks to latest version'
   autoupdate_schedule: quarterly
   skip:
     - autoupdate # ci can't run local hooks
@@ -16,52 +16,62 @@ ci:
     - mypy # ci can't run local hooks
 
 repos:
-  # Pre-defined hooks from pre-commit-hooks repository
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-      # Verifies that the code can be parsed into an abstract syntax tree
-      - id: check-ast
-        name: 'check:abstract-syntax-tree'
-      # Ensures no debug statements (like print or pdb) are left in the code
-      - id: debug-statements
-        name: 'check:debug-statements'
-      # Ensures files end with a newline
-      - id: end-of-file-fixer
-        name: 'fix:end-of-file'
-      # Removes any trailing whitespace
-      - id: trailing-whitespace
-        name: 'fix:trailing-whitespace'
-      # Fixes mixed line endings (uses LF by default)
-      - id: mixed-line-ending
-        name: 'fix:mixed-line-endings'
-        args: [--fix=lf]
-      # Detects accidentally committed private keys
-      - id: detect-private-key
-        name: 'detect:private-keys'
-      # Checks that docstrings come first in modules and functions
-      - id: check-docstring-first
-        name: 'check:docstring-first'
-      # Validates the syntax of YAML files
-      - id: check-yaml
-        name: 'validate:yaml'
-      # Validates the syntax of JSON files
-      - id: check-json
-        name: 'validate:json'
-      # Ensures there are no unresolved merge conflicts in the code
+      # Ensure no unresolved merge conflicts remain.
       - id: check-merge-conflict
         name: 'check:merge-conflicts'
-      # Detects files that would conflict in case-insensitive filesystems
+
+      # Detect files that would conflict on case-insensitive filesystems.
       - id: check-case-conflict
         name: 'check:case-conflicts'
-      # Checks that files with a shebang (#!) are executable
-      - id: check-shebang-scripts-are-executable
-        name: 'check:shebang-scripts-executable'
 
-  # Lints Markdown files
+      # Verify file parsability by checking the abstract syntax tree.
+      - id: check-ast
+        name: 'check:ast'
+
+      # Ensure that files with shebangs have correct execution permissions.
+      - id: check-shebang-scripts-are-executable
+        name: 'check:shebang-permissions'
+
+      # Verify that executable files have an associated shebang.
+      - id: check-executables-have-shebangs
+        name: 'check:exec-shebang'
+
+      # Check for broken symlinks.
+      - id: check-symlinks
+        name: 'check:symlinks'
+
+      # Detect any accidentally committed private keys.
+      - id: detect-private-key
+        name: 'detect:private-keys'
+
+      # Validate JSON file syntax.
+      - id: check-json
+        name: 'validate:json'
+
+      # Validate YAML file syntax.
+      - id: check-yaml
+        name: 'validate:yaml'
+
+      # Ensure files end with a newline.
+      - id: end-of-file-fixer
+        name: 'fix:newline-eof'
+
+      # Fix mixed line endings (converting to LF by default).
+      - id: mixed-line-ending
+        name: 'fix:line-endings'
+        args: [--fix=lf]
+
+      # Remove any trailing whitespace.
+      - id: trailing-whitespace
+        name: 'fix:trailing-whitespace'
+
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.44.0
     hooks:
+      # Lint Markdown files.
       - id: markdownlint
         name: 'lint:markdown'
         args: ['--ignore-path', '.gitignore', '--ignore', 'README.md']
@@ -69,33 +79,35 @@ repos:
   - repo: https://github.com/tcort/markdown-link-check
     rev: v3.13.7
     hooks:
+      # Check for broken links in Markdown files.
       - id: markdown-link-check
-        name: 'check:markdown-links'
+        name: 'check:md-links'
 
-  # Lints YAML files
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.36.2
     hooks:
+      # Lint YAML files.
       - id: yamllint
         name: 'lint:yaml'
         args: ['--config-data', '{extends: default, rules: {line-length: {max: 88}}}']
 
-  # Formats code with Prettier
   - repo: https://github.com/rbubley/mirrors-prettier
     rev: v3.5.3
     hooks:
+      # Format code using Prettier.
       - id: prettier
         name: 'format:prettier'
         args: ['--write', '--config', '.prettierrc']
 
-  # Checks spelling in files
   - repo: https://github.com/streetsidesoftware/cspell-cli
     rev: v8.17.3
     hooks:
+      # Check spelling in files.
       - id: cspell
-        name: 'check:spelling-files'
+        name: 'check:spelling'
+      # Check spelling in commit messages.
       - id: cspell
-        name: 'check:commit-msg-spelling'
+        name: 'check:commit-spelling'
         args:
           - --no-must-find-files
           - --no-progress
@@ -105,7 +117,7 @@ repos:
         stages: [commit-msg]
         always_run: true
 
-  # Local custom hooks using tox environments
+  # Local custom hooks using tox environments for Python code
   - repo: local
     hooks:
       - id: lint
@@ -116,9 +128,8 @@ repos:
         files: \.py$ # Only trigger for Python files
         args: ['--', '{filenames}']
 
-        #TODO
       - id: format
-        name: 'fix:format-python'
+        name: 'format:python'
         entry: tox -e format
         language: system
         pass_filenames: true
@@ -126,7 +137,7 @@ repos:
         args: ['--', '{filenames}']
 
       - id: bandit
-        name: 'check:security-python'
+        name: 'check:python-security'
         language: system
         entry: tox -e bandit
         pass_filenames: true
@@ -134,16 +145,16 @@ repos:
         args: ['--', '{filenames}']
 
       - id: mypy
-        name: 'check:type-python'
+        name: 'check:python-types'
         language: system
         entry: tox -e mypy
         pass_filenames: true
         files: \.py$ # Only trigger for Python files
         args: ['--', '{filenames}']
 
-      # Updates pre-commit hooks versions
+      # Update pre-commit hooks automatically.
       - id: autoupdate
-        name: 'update:pre-commit-hooks'
+        name: 'update:precommit-hooks'
         entry: pre-commit autoupdate
         language: system
         pass_filenames: false
