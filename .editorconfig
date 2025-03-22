@@ -2,7 +2,7 @@
 
 # NOTE: 'max_line_length' is included as a style guideline reference.
 # It is not enforced by EditorConfig itself, but by other tools (e.g., linters).
-# For more details, please refer to repository's style guide: STYLEGUIDE.md
+# For more details, please refer to the repository's style guide: STYLEGUIDE.md
 
 # Top-most EditorConfig file
 root = true
