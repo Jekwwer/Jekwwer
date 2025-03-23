@@ -40,10 +40,7 @@ The primary objective of this project is to create a stunning, responsive, and d
 
 ### Technology Stack
 
-The project utilizes **Python** and **SVG** as its core technologies. Key dependencies include:
-
-- `types-requests`
-- `requests`
+The project utilizes **Python** and **SVG** as its core technologies.
 
 ### Target Audience
 
@@ -123,14 +120,16 @@ GitHub profile SVG.
 
 Key configuration files in the repository include:
 
-- `.gitignore`: Specifies files and directories to exclude from version control.
-- `.markdownlint.json`: Configures Markdown linting rules.
-- `.editorconfig`: Defines coding styles across editors.
-- `.pre-commit-config.yaml`: Specifies pre-commit hooks.
-- `.prettierrc`: Contains formatting rules.
-- `cspell.json`: Sets spelling rules for consistency.
-- `pyproject.toml`: Configures Python package settings.
-- `tox.ini`: Configures testing environments using tox.
+- `.devcontainer/devcontainer.json`: Development container setup, including VS Code settings,
+  environment variables, and extensions.
+- `.gitignore`: Files and directories excluded from version control.
+- `.editorconfig`: Coding style settings across different editors.
+- `.markdownlint.json`: Markdown linting rules and exclusions.
+- `.pre-commit-config.yaml`: Pre-commit hooks.
+- `.prettierrc`: Formatting rules.
+- `cspell.json`: Spelling rules for consistency.
+- `pyproject.toml`: Project metadata, tool configurations, and dependency declarations.
+- `tox.ini`: Testing environments and their configuration details.
 
 ### Assets and Resources
 
@@ -195,8 +194,8 @@ Naming should be clear, descriptive, and consistent across the project to ensure
 
 ## Code Formatting and Style
 
-This project adheres to the rules specified in the `.editorconfig`, `.prettierrc` and `.markdownlint.json`
-configuration files.
+This project adheres to the rules specified in the `.editorconfig`, `.prettierrc`, `.markdownlint.json`
+and `pyproject.toml` configuration files.
 
 ### Indentation and Spacing
 
@@ -258,7 +257,7 @@ configuration files.
   - **Indentation:** 2 spaces (4 spaces for Python)
   - **Line Endings:** Unix-style (`lf`)
   - **Charset:** UTF-8
-  - **Max Line Length:** 88 for code, 120 for Markdown/HTML/CSS/SVG
+  - **Max Line Length:** 88, 120 for Markdown/HTML/CSS/SVG
     _(Note: `.editorconfig` provides these values for reference; enforcement is handled by other tools mentioned above.)_
   - **Final Newline:** Enforced
   - **Trailing Whitespace:** Trimmed (with specified exceptions)
@@ -268,7 +267,7 @@ configuration files.
 ### Prettier
 
 - **Purpose:**
-  The `.prettierrc` file defines the project's code formatting rules,
+  The `.prettierrc` file defines the project's code formatting rules for Prettier-supported files,
   ensuring a consistent style across various file types by specifying:
   - **Semicolons:** Enabled
   - **Quote Style:** Single quotes preferred
@@ -279,52 +278,38 @@ configuration files.
     _(Note: Overrides are applied for CSS, HTML, and Markdown files with a print width of 120,
     while JSON files have no enforced limit)_
 - **Note:**
-  Prettier is integrated locally and runs as part of a pre-commit hook to automatically format code before commits.
+  Prettier is integrated locally (as an extension) and runs as part of a pre-commit hook to automatically format code
+  before commits.
 
-### Linting and Formatting Tools
+### Additional Linting and Formatting Tools
 
 - **jock.svg:**
   This extension is used exclusively for formatting SVG files, as Prettier does not support SVG formatting.
   Configuring VS Code to associate SVG files with HTML for Prettier is not allowed.
 
-- **Prettier:**
-  _(See the [Prettier][PRETTIER] section above for detailed configuration.)_
-  Prettier runs as a pre-commit hook and can also be executed via npm scripts.
-  For example, run `npm run format:code` to check and apply formatting.
-
-- **EditorConfig:**
-  _(See the [EditorConfig][EDITORCONFIG] section above for detailed configuration.)_
-
 Additional configurations for the python-related tools below are located in `pyproject.toml`.
 
 - **autopep8:**
-  Automatically formats Python code. It runs as a VS Code extension, locally via `tox -e format` and `tox -e lint`,
-  and as a pre-commit hook.
+  Automatically formats Python code.
 
 - **flake8:**
-  Lints Python code for style and syntax issues. It runs as a VS Code extension, locally via `tox -e lint`,
-  and as a pre-commit hook.
+  Lints Python code for style and syntax issues.
 
 - **isort:**
-  Organizes and sorts Python import statements. It runs as a VS Code extension,
-  locally via `tox -e format` and `tox -e lint`, and as a pre-commit hook.
+  Organizes and sorts Python import statements.
 
 - **mypy:**
-  Performs static type checking on Python code. It runs as a VS Code extension, locally via `tox -e mypy`,
-  and as a pre-commit hook.
+  Performs static type checking on Python code.
 
 - **Pre-commit Hooks:**
   The project leverages pre-commit hooks to enforce code quality through automated checks.
   Key tools integrated via pre-commit include:
-
   - **pre-commit-hooks:**
     Ensures proper AST parsing, fixes line endings and trailing whitespace, manages mixed line endings,
-    detects private keys, validates YAML and JSON syntax, checks for merge conflicts, detects case conflicts,
+    detects private keys, validates YAML and JSON syntax, checks for merge conflicts, detects case conflicts
     and verifies executable shebangs.
-
-  - **markdownlint-cli and markdown-link-check:**
-    Enforces the style guide rules for Markdown files and validates links.
-
+  - **markdownlint-cli & markdown-link-check:**
+    Enforce the style guide rules for Markdown files and validate links.
   - **yamllint:**
     Enforces style guide rules for YAML files.
 
@@ -343,6 +328,12 @@ See [Comments and Documentation][COMMENTS-AND-DOCUMENTATION].
 
 - **GitHub Pages:**
   The `docs` directory contains files for GitHub Pages.
+
+_Note: File and directory names referenced in Markdown should always be formatted using backticks, for example:_
+
+```markdown
+Other external documentation is maintained in the `docs` directory.
+```
 
 ### Markdown References
 
@@ -402,14 +393,15 @@ See [Comments and Documentation][COMMENTS-AND-DOCUMENTATION].
 
 #### Tools
 
-_(In addition to the tools described in [Linting and Formatting Tools][LINTING-AND-FORMATTING-TOOLS])_
-
 - **cspell:**
-  A spellchecker designed for code and Markdown files.
+  A spellchecker tailored for code and Markdown files.
+  It runs as a pre-commit hook and can also be executed via the npm script `npm run spell:check`.
 
-#### Versioning Documentation
+- **markdown-link-check:**
+  Validates hyperlinks within Markdown files and runs as a pre-commit hook.
 
-- Documentation versioning is not implemented yet but will be managed using MkDocs in alignment with project releases.
+- **markdownlint:**
+  Enforces consistent style and formatting in Markdown documents. It runs as a pre-commit hook.
 
 #### Consistency and Updates
 
@@ -466,11 +458,8 @@ licensed under [CC BY 4.0][jekwwer-markdown-docs-kit-license]. All additional co
 
 [COMMENTS-AND-DOCUMENTATION]: #comments-and-documentation
 [CONTRIBUTING]: CONTRIBUTING.md
-[EDITORCONFIG]: #editorconfig
 [FILE_NAMING_CONVENTIONS]: #file-naming-conventions
 [LICENSE]: LICENSE
-[LINTING-AND-FORMATTING-TOOLS]: #linting-and-formatting-tools
-[PRETTIER]: #prettier
 [SCOPE]: #scope
 [SECURITY]: SECURITY.md
 [discussions]: https://github.com/Jekwwer/Jekwwer/discussions
