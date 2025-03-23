@@ -44,7 +44,7 @@ indent_size = 4
 
 # YAML-specific settings (Present in the repository but no special rules needed)
 [*.{yml,yaml}]
-# No overrides, but this section helps indicate SVG files exist in the project.
+# No overrides, but this section helps indicate YAML files exist in the project.
 
 # Text and log files
 [*.{txt,log}]
