@@ -5,15 +5,16 @@ blank_issues_enabled: false
 contact_links:
   - name: Report Security Issues
     url: https://github.com/Jekwwer/Jekwwer/security/advisories
-    about: For security issues, please send an email to report@jekwwer.com
-      before opening a public issue.
-      Alternatively, you can open a private Security Advisory on GitHub.
+    about:
+      For security issues, please send an email to report@jekwwer.com before opening a
+      public issue. Alternatively, you can open a private Security Advisory on GitHub.
   - name: Contribution Guidelines
     url: https://github.com/Jekwwer/Jekwwer/blob/main/CONTRIBUTING.md
     about: Read the contribution guidelines before submitting an issue.
   - name: Questions or Community Discussions
     url: https://github.com/Jekwwer/Jekwwer/discussions
-    about: For quick questions or community discussions, please use the Discussions page
+    about:
+      For quick questions or community discussions, please use the Discussions page
       instead of opening an issue.
 # Template by Evgenii Shiliaev - Licensed under CC BY 4.0
 # https://github.com/Jekwwer/markdown-docs-kit

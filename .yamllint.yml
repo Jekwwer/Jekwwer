@@ -1,0 +1,8 @@
+# .yamllint: Configures YAML files linter for pre-commit.
+---
+extends: default
+rules:
+  line-length:
+    max: 88
+  braces:
+    max-spaces-inside: -1

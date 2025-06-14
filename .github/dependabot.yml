@@ -2,37 +2,53 @@
 ---
 version: 2
 updates:
-  # GitHub Actions Dependencies
+  # GitHub Actions dependencies
   - package-ecosystem: 'github-actions'
     directory: '.github/workflows'
     schedule:
       interval: 'monthly'
+    groups:
+      github-actions-deps:
+        patterns:
+          - '*'
     reviewers:
       - 'Jekwwer'
     assignees:
       - 'Jekwwer'
     commit-message:
-      prefix: 'deps'
+      prefix: 'deps(actions)'
     open-pull-requests-limit: 5
 
-  # Python Dependencies
+  # NPM dependencies
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    groups:
+      npm-deps:
+        patterns:
+          - '*'
+    reviewers:
+      - 'Jekwwer'
+    assignees:
+      - 'Jekwwer'
+    commit-message:
+      prefix: 'deps(npm)'
+    open-pull-requests-limit: 5
+
+  # Python dependencies
   - package-ecosystem: 'pip'
     directory: '/'
     schedule:
       interval: 'monthly'
     groups:
-      flake8-packages:
-        patterns:
-          - 'flake8*'
-      pip-packages:
+      poetry-deps:
         patterns:
           - '*'
-        exclude-patterns:
-          - 'flake8*'
     reviewers:
       - 'Jekwwer'
     assignees:
       - 'Jekwwer'
     commit-message:
-      prefix: 'deps'
+      prefix: 'deps(poetry)'
     open-pull-requests-limit: 5

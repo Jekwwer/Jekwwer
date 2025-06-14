@@ -1,67 +1,57 @@
-[project]
+[tool.poetry]
 name = "jekwwer-jekwwer"
-version = "1.0.0"
-requires-python = ">=3.12"
-dependencies = [
-    "types-requests==2.32.0.20250306",
-    "requests==2.32.3"]
+version = "0.0.0"
+description = "Dynamic GitHub profile page showing daily-updated contribution stats and heatmap."
+package-mode = false
+readme = ["README.md", "LICENSE"]
+license = "MIT"
+authors = [
+  "Evgenii Shiliaev <evgenii.shiliaev@jekwwer.com>"
+]
+keywords = [
+  "github",
+  "profile",
+  "contributions",
+  "stats",
+  "heatmap",
+  "actions",
+  "automation",
+  "pages",
+]
 
-[project.optional-dependencies]
-dev = [
-    "pre-commit==4.2.0",
-    "tox==4.24.2"]
-lint = [
-    "flake8==7.1.2",
-    "flake8-annotations==3.1.1",
-    "flake8-bugbear==24.12.12",
-    "flake8-comprehensions==3.16.0",
-    "flake8-docstrings==1.7.0",
-    "flake8-import-order==0.18.2",
-    "flake8-pyproject==1.2.3",
-    "pydocstyle==6.3.0"]
-format = [
-    "autopep8==2.3.2",
-    "isort==6.0.1"]
-mypy = [
-    "mypy==1.15.0"]
-bandit = [
-    "bandit==1.8.3"]
+[tool.poetry.urls]
+Homepage = "https://github.com/Jekwwer/Jekwwer"
+"Bug Reports" = "https://github.com/Jekwwer/Jekwwer/issues"
+Source = "https://github.com/Jekwwer/Jekwwer"
 
-[tool.autopep8]
-max_line_length = 88
-recursive = true
-aggressive = 3
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+requests = "^2.32.4"
 
-[tool.bandit]
-exclude_dirs = ["migrations", "env"]
-severity = ["HIGH", "MEDIUM", "LOW"]
-confidence = ["HIGH", "MEDIUM", "LOW"]
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.2.0"
 
-[tool.flake8]
-max_line_length = 88
-docstring_convention = "google"
-ignore = ["I201"]
-exclude = [
-    ".git",
-    "__pycache__",
-    "env",
-    "venv",
-    "migrations"]
+[tool.poetry.group.lint.dependencies]
+ruff = "^0.11.12"
 
-[tool.isort]
-profile = "black"
-known_third_party = ""
-known_first_party = "utils,tests"
-skip = "migrations,env,venv"
-sections = "FUTURE,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
-line_length = 88
+[tool.poetry.group.mypy.dependencies]
+mypy = "^1.16.0"
+types-requests = "^2.32.4.20250611"
 
 [tool.mypy]
-python_version = "3.12"
 platform = "linux"
+python_version = "3.12"
 strict = true
-warn_unused_ignores = true
 disallow_untyped_defs = true
+warn_unused_ignores = true
 
-[tool.setuptools.packages.find]
-exclude = ["node_modules", "assets"]
+[tool.ruff]
+line-length = 88
+extend-exclude = ["tests", "migrations", "__pycache__"]
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E","F","W","C","ANN","B","D","I","Q"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

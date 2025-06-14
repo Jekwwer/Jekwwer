@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: checkout-code
         uses: actions/checkout@v4.2.2
 
-      - name: Deploy to GitHub Pages
+      - name: deploy-to-gh-pages
         uses: peaceiris/actions-gh-pages@v4.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

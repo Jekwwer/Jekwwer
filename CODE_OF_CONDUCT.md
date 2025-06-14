@@ -4,11 +4,11 @@
 
 We pledge to make participation in this project a harassment-free experience for everyone, regardless of age, body size,
 visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience,
-education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity
-and orientation.
+education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and
+orientation.
 
-We are committed to acting and interacting in ways that contribute to an open, welcoming, diverse, inclusive, and healthy
-project environment.
+We are committed to acting and interacting in ways that contribute to an open, welcoming, diverse, inclusive, and
+healthy project environment.
 
 ## Our Standards
 
@@ -30,8 +30,8 @@ Examples of unacceptable behavior include:
 
 ## Enforcement Responsibilities
 
-As the sole maintainer, I am responsible for enforcing this Code of Conduct and will take appropriate action
-in response to any behavior deemed inappropriate, threatening, or harmful.
+As the sole maintainer, I am responsible for enforcing this Code of Conduct and will take appropriate action in response
+to any behavior deemed inappropriate, threatening, or harmful.
 
 I reserve the right to remove, edit, or reject comments, commits, code, issues, and other contributions that are not
 aligned with this Code of Conduct. Where appropriate, I will communicate the reasons for moderation decisions.
@@ -43,8 +43,9 @@ the project in public spaces.
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported at [report@jekwwer.com][report@jekwwer.com].
-All complaints will be reviewed and addressed promptly and fairly, respecting the privacy and security of the reporter.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported at
+[report@jekwwer.com][report@jekwwer.com]. All complaints will be reviewed and addressed promptly and fairly, respecting
+the privacy and security of the reporter.
 
 ## Enforcement Guidelines
 
@@ -55,8 +56,8 @@ Code of Conduct:
 
 **Impact**: Minor, unprofessional, or unwelcome behavior.
 
-**Consequence**: A private, written warning providing clarity around the nature of the violation
-and why it was inappropriate. A public apology may be requested.
+**Consequence**: A private, written warning providing clarity around the nature of the violation and why it was
+inappropriate. A public apology may be requested.
 
 ### 2. Warning
 
@@ -69,8 +70,8 @@ spaces for a specified period. Violations of these terms may lead to a temporary
 
 **Impact**: Serious or sustained inappropriate behavior.
 
-**Consequence**: A temporary ban from project spaces for a specified period, with no public or private interaction
-with the maintainer or project allowed during this time. Violations may lead to a permanent ban.
+**Consequence**: A temporary ban from project spaces for a specified period, with no public or private interaction with
+the maintainer or project allowed during this time. Violations may lead to a permanent ban.
 
 ### 4. Permanent Ban
 
@@ -80,17 +81,16 @@ with the maintainer or project allowed during this time. Violations may lead to 
 
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor Covenant][contributor-covenant-web],
-version 2.1, available [here][v2.1], with modifications by [Evgenii Shiliaev][evgenii-shiliaev-github],
-including rewording the entire document, as well as changing the reporting contact method
-to a script-friendly placeholder, available at [markdown-docs-kit][jekwwer-markdown-docs-kit]
-and licensed under [CC BY 4.0][jekwwer-markdown-docs-kit-license].
+This Code of Conduct is adapted from the [Contributor Covenant][contributor-covenant-web], version 2.1, available
+available as the [Contributor Covenant v2.1][v2.1], with modifications by [Evgenii Shiliaev][evgenii-shiliaev-github],
+including rewording the entire document, as well as changing the reporting contact method to a script-friendly
+placeholder, available at [markdown-docs-kit][jekwwer-markdown-docs-kit] and licensed under [CC BY
+4.0][jekwwer-markdown-docs-kit-license].
 
-Community Impact Guidelines were inspired by
-[Mozilla's code of conduct enforcement ladder][mozilla-code-of-conduct].
+Community Impact Guidelines were inspired by [Mozilla's code of conduct enforcement ladder][mozilla-code-of-conduct].
 
-For answers to common questions about this code of conduct, see the [FAQ][contributor-covenant-faq].
-Translations are available [here][contributor-covenant-translations].
+For answers to common questions about this code of conduct, see the [FAQ][contributor-covenant-faq]. Translations are
+available in the [official translations repository][contributor-covenant-translations].
 
 [contributor-covenant-faq]: https://www.contributor-covenant.org/faq
 [contributor-covenant-translations]: https://www.contributor-covenant.org/translations
@@ -99,5 +99,5 @@ Translations are available [here][contributor-covenant-translations].
 [jekwwer-markdown-docs-kit]: https://github.com/Jekwwer/markdown-docs-kit/blob/main/templates/CODE_OF_CONDUCT.md
 [jekwwer-markdown-docs-kit-license]: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE
 [mozilla-code-of-conduct]: https://github.com/mozilla/diversity
-[v2.1]: https://www.contributor-covenant.org/version/2/1/code_of_conduct.html
 [report@jekwwer.com]: mailto:report@jekwwer.com
+[v2.1]: https://www.contributor-covenant.org/version/2/1/code_of_conduct.html

@@ -12,7 +12,8 @@ assignees: ''
 
 ...
 
-_Note: For quick questions or community discussions, please use the [Discussions][discussions] page instead of opening an issue._
+_Note: For quick questions or community discussions, please use the [Discussions][discussions] page instead of opening
+an issue._
 
 ## What I've Tried
 

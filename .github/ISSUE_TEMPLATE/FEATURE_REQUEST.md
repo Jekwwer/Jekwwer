@@ -10,7 +10,8 @@ assignees: ''
 
 <!-- Is your feature request related to a problem? Please describe. -->
 
-_Note: For small adjustments or minor changes, please use the [Discussions][discussions] page instead of opening an issue._
+_Note: For small adjustments or minor changes, please use the [Discussions][discussions] page instead of opening an
+issue._
 
 ...
 

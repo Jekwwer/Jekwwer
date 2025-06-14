@@ -6,15 +6,11 @@
   "useTabs": false,
   "endOfLine": "lf",
   "printWidth": 88,
+  "proseWrap": "always",
+  "bracketSpacing": true,
   "overrides": [
     {
-      "files": "*.css",
-      "options": {
-        "printWidth": 120
-      }
-    },
-    {
-      "files": "*.html",
+      "files": "*.{css,html}",
       "options": {
         "printWidth": 120
       }
@@ -26,9 +22,15 @@
       }
     },
     {
-      "files": "*.json",
+      "files": "*.{json,jsonc}",
       "options": {
         "printWidth": 0
+      }
+    },
+    {
+      "files": "*.{yml,yaml}",
+      "options": {
+        "printWidth": 88
       }
     }
   ]

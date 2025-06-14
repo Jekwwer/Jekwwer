@@ -1,8 +1,8 @@
 # Contributing Guidelines
 
-Thank you for considering contributing to **Jekwwer/Jekwwer**!
-Contributions help me improve and maintain the quality of this project.
-Whether you're fixing a bug, proposing new features, or improving documentation, your efforts are greatly appreciated.
+Thank you for considering contributing to **Jekwwer/Jekwwer**! Contributions help me improve and maintain the quality of
+this project. Whether you're fixing a bug, proposing new features, or improving documentation, your efforts are greatly
+appreciated.
 
 ## Getting Started
 
@@ -17,45 +17,38 @@ Whether you're fixing a bug, proposing new features, or improving documentation,
    cd Jekwwer
    ```
 
-3. **Set Up Upstream Remote**:
-   To keep your fork up-to-date with the original repository:
+3. **Set Up Upstream Remote**: To keep your fork up-to-date with the original repository:
 
    ```bash
    git remote add upstream https://github.com/Jekwwer/Jekwwer.git
    ```
 
-4. **Install Dependencies** (if applicable):
-   Follow the setup instructions in the [`README.md`][README].
+4. **Install Dependencies** (if applicable): Follow the setup instructions in the [`README.md`][README].
 
 ## Branching and Versioning
 
 ### Branching Strategy
 
-Branch names should follow these conventions:
+Branch names should follow these conventions (examples only; adapt as needed):
 
-- **Feature branches:** Use `feature/<short-description>` (e.g., `feature/add-login`).
-- **Bugfix branches:** Use `bugfix/<short-description>` (e.g., `bugfix/fix-auth-error`).
-- **Main branch:** All stable releases are maintained on the `main` branch.
+- **Feature branches:** `feature/<short-description>` (e.g., `feature/add-login`)
+- **Bugfix branches:** `bugfix/<short-description>` (e.g., `bugfix/fix-auth-error`)
+- **Main branch:** `main`
 
 ### Versioning Strategy
 
-Jekwwer determines when to tag and release the repository, typically after significant changes.
-Releases use a date-based tag format (**YYYY-MM-DD**) to accurately reflect the repository's state.
+Jekwwer determines when to tag and release the repository, typically after significant changes. Releases use a
+date-based tag format (**YYYY-MM-DD**) to accurately reflect the repository's state.
 
 ### Merging Guidelines
 
-- **Rebase (Preferred):**
-  Use GitHub’s **Rebase and Merge** option to maintain a clean, linear commit history.
-- **Merge (Exceptions):**
-  Use the regular merge option for larger branches with multiple contributors
-  when preserving individual commits is necessary.
-- **Squash:**
-  Generally discouraged as it loses individual commit details. If used,
-  ensure the pull request title follows the Conventional Commits format.
+- **Squash (Preferred):** Use GitHub’s **Squash and Merge** to keep the commit history clean and focused. Ensure the
+  pull request title follows the Conventional Commits format.
 
-### Pull Request Guidelines
+- **Rebase (Optional):** Use **Rebase and Merge** if commit history is already clean and well-structured.
 
-For detailed pull request guidelines, see [Proposing Changes][PROPOSING_CHANGES].
+- **Merge (Exceptions):** Use the regular merge option for larger branches with multiple contributors when preserving
+  individual commits is necessary.
 
 ## Commit Message Conventions
 
@@ -108,11 +101,10 @@ providing essential details about changes.
 
 ### Handling Breaking Changes
 
-- **Header Notation:**
-  To denote a breaking change, append a `!` to the `<type>` in the commit header. For example, use `feat!:` or `fix!:`.
+- **Header Notation:** To denote a breaking change, append a `!` to the `<type>` in the commit header. For example, use
+  `feat!:` or `fix!:`.
 
-- **Commit Body:**
-  In the commit body (within the `<detailed description>`), include a separate line starting with:
+- **Commit Body:** In the commit body (within the `<detailed description>`), include a separate line starting with:
 
   ```plaintext
   BREAKING CHANGE: <description of breaking changes and necessary adaptations>
@@ -224,51 +216,41 @@ to use the new OAuth2 endpoints as described in the migration guide.
 
 ### Dependency Handling
 
-- **Python Dependencies:**
-  Managed via `pyproject.toml`.
+- **NPM Dependencies:** Managed via `package.json` and `package-lock.json`.
 
-- **Dependabot:**
-  The `.github/dependabot.yml` file monitors and updates dependencies for npm packages and GitHub Actions.
+- **Python Dependencies:** Managed via `pyproject.toml` and `poetry.lock`.
+
+- **Dependabot:** The `.github/dependabot.yml` file monitors and updates dependencies for NPM packages, Python packages
+  and GitHub Actions.
 
 ### Environment Configuration
 
-- **Container Setup:**
-  Configured with `.devcontainer/devcontainer.json` (includes VSCode settings & customizations).
-
-- **Python Tools:**
-  Configured with `pyproject.toml`.
+- **Container Setup:** Configured with `.devcontainer/devcontainer.json` (includes VSCode settings and customizations).
 
 ## Testing and Quality Assurance
 
-The project uses a mix of manual and automated approaches.
+The project uses a mix of manual and automated approaches: linting and formatting are automated at the editor and
+pre-commit levels.
 
 ### Manual Testing
 
-Run the following scripts (see `tox.ini` for details) to verify code quality:
+Run the following scripts to verify code quality manually:
 
-- **`tox`**
-  Executes all configured environments.
-- **`tox -e lint`**
-  Runs linters (flake8, isort, autopep8) to enforce code quality standards.
-- **`tox -e format`**
-  Auto-formats the code using isort and autopep8.
-- **`tox -e bandit`**
-  Scans for security vulnerabilities with bandit.
-- **`tox -e mypy`**
-  Validates type hints using mypy.
+- **make help:** Shows Make help message.
+- **make format:** Verifies code formatting using Ruff (for Python files) and Prettier (for non-Python files).
+- **make format-fix:** Auto-formats code using Ruff (for Python files) and Prettier (for non-Python files).
+- **make lint:** Checks Python files for lint issues using Ruff.
+- **make lint-fix:** Auto-fixes lint issues with Ruff.
+- **make type:** Performs static type checking with MyPy.
+- **make spell:** Checks files for typos using cspell.
 
 ### Automated Testing
 
-Automated checks run via pre-commit hooks in both CI and locally:
-
-- They enforce linting and formatting standards before commits.
-- In-editor autoformatting is active through VSCode settings in `.devcontainer/devcontainer.json`
-  (`formatOnPaste` & `formatOnSave`).
+Automated checks run in the editor and via pre-commit hooks mirroring the manual commands above.
 
 ## Proposing Changes
 
-1. **Check for Existing Issues**:
-   Before opening a new issue or pull request, see if it’s already discussed in
+1. **Check for Existing Issues**: Before opening a new issue or pull request, see if it’s already discussed in
    [Issues][issues] or [Discussions][discussions].
 
 2. **Create a Branch**:
@@ -277,8 +259,7 @@ Automated checks run via pre-commit hooks in both CI and locally:
    git checkout -b feature/your-feature-name
    ```
 
-3. **Make and Test Changes**:
-   Keep changes consistent with [`STYLEGUIDE.md`][STYLEGUIDE].
+3. **Make and Test Changes**: Keep changes consistent with our [`STYLEGUIDE.md`][STYLEGUIDE].
 
 4. **Commit**:
 
@@ -300,25 +281,23 @@ Automated checks run via pre-commit hooks in both CI and locally:
 
 ## Code of Conduct
 
-By contributing, you agree to adhere to the [Code of Conduct][CODE_OF_CONDUCT].
-Please read it to understand the expectations for behavior.
+By contributing, you agree to adhere to the [Code of Conduct][CODE_OF_CONDUCT]. Please read it to understand the
+expectations for behavior.
 
 ## Thank You
 
-Your contributions make **Jekwwer/Jekwwer** better.
-I value your time and effort—thank you for contributing!
+Your contributions make **Jekwwer/Jekwwer** better. I value your time and effort—thank you for contributing!
 
 ---
 
-This document is based on a template by [Evgenii Shiliaev][evgenii-shiliaev-github], licensed under [CC BY 4.0][jekwwer-markdown-docs-kit-license].
-All additional content is licensed under [LICENSE][LICENSE].
+This document is based on a template by [Evgenii Shiliaev][evgenii-shiliaev-github], licensed under [CC BY
+4.0][jekwwer-markdown-docs-kit-license]. All additional content is licensed under [LICENSE][LICENSE].
 
 [CODE_OF_CONDUCT]: CODE_OF_CONDUCT.md
 [LICENSE]: LICENSE
-[PROPOSING_CHANGES]: #proposing-changes
 [README]: README.md
 [STYLEGUIDE]: STYLEGUIDE.md
 [discussions]: https://github.com/Jekwwer/Jekwwer/discussions
 [evgenii-shiliaev-github]: https://github.com/Jekwwer
-[issues]: https://github.com/Jekwwer/Jekwwer
+[issues]: https://github.com/Jekwwer/Jekwwer/issues
 [jekwwer-markdown-docs-kit-license]: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE
