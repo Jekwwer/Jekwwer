@@ -189,7 +189,7 @@
   <desc id="desc">An SVG profile card showcasing links to a blog, LinkedIn, LeetCode, and GitHub stats.</desc>
 
   <!-- Background -->
-  <rect class="background" width="100%" height="100%" rx="15" stroke="#24273a" stroke-width="3" />
+  <rect class="background" width="100%" height="100%" rx="15" />
 
   <!-- Header Section -->
   <rect class="glass-box" x="30" y="30" width="834" height="200" rx="25" />
