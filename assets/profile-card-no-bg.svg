@@ -223,8 +223,8 @@
     <rect class="legend-cell" x="0" y="0" fill="url(#no_contribution)" stroke="url(#no_contribution_stroke)" rx="2" />
     <text class="legend-label" x="20" y="12">0: Burnout / Sleep / Love / Death / Vacay — Who knows! ( ͡° ͜ʖ ͡°)</text>
 
-    <rect class="legend-cell" x="321.3000000000001" y="0" fill="url(#contribution_1_10)" stroke="url(#contribution_1_10_stroke)"
-      rx="2" />
+    <rect class="legend-cell" x="321.3000000000001" y="0" fill="url(#contribution_1_10)"
+      stroke="url(#contribution_1_10_stroke)" rx="2" />
     <text class="legend-label" x="341.3000000000001" y="12">1-10</text>
 
     <rect class="legend-cell" x="382.50000000000017" y="0" fill="url(#contribution_11_20)"
