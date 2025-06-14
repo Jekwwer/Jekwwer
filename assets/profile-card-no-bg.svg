@@ -169,17 +169,17 @@
   </style>
 
   <title id="title">Jekwwer GitHub Profile Card</title>
-  <desc id="desc">An SVG profile card showcasing links to a blog, LinkedIn, YouTube, and GitHub stats.</desc>
+  <desc id="desc">An SVG profile card showcasing links to a blog, LinkedIn, LeetCode, and GitHub stats.</desc>
 
   <!-- Header Section -->
   <rect class="glass-box" x="30" y="30" width="834" height="200" rx="25" />
   <text class="header-title" x="50" y="80">Hi, I'm Evgenii! 👋</text>
-  <text class="header-subtitle" x="50" y="125">Automation Enthusiast | Python Developer | Content Creator</text>
+  <text class="header-subtitle" x="50" y="125">Python Enthusiast | Automation Explorer | Casual Coder</text>
   <text class="header-text" x="50" y="175">
-    Exploring automation, crafting solutions with Python, and sharing knowledge.
+    Experimenting with automation, playing around with Python, and sharing useful finds.
   </text>
   <text class="header-text" x="50" y="205">
-    Always learning, building, and simplifying workflows to work smarter, not harder.
+    Here to simplify tasks, learn casually, and see what's interesting—one script at a time.
   </text>
 
   <!-- Buttons -->
@@ -196,10 +196,10 @@
       <text class="button-text" x="50" y="350">💼 LinkedIn Profile</text>
     </a>
 
-    <!-- YouTube Button -->
-    <a href="https://www.youtube.com/c/Jekwwer" target="_blank">
+    <!-- LeetCode Button -->
+    <a href="https://leetcode.com/u/Jekwwer/" target="_blank">
       <rect class="button" x="30" y="380" width="300" height="45" rx="15" />
-      <text class="button-text" x="50" y="410">🎥 YouTube Channel</text>
+      <text class="button-text" x="50" y="410">🧩 LeetCode Profile</text>
     </a>
   </g>
 
