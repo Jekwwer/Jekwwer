@@ -1,0 +1,43 @@
+{
+  "name": "jekwwer-jekwwer",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Dynamic GitHub profile page showing daily-updated contribution stats and heatmap.",
+  "keywords": [
+    "github",
+    "profile",
+    "contributions",
+    "stats",
+    "heatmap",
+    "actions",
+    "automation",
+    "pages"
+  ],
+  "homepage": "https://github.com/Jekwwer/Jekwwer#readme",
+  "bugs": {
+    "url": "https://github.com/Jekwwer/Jekwwer/issues",
+    "email": "report@jekwwer.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jekwwer/Jekwwer.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Evgenii \"Jekwwer\" Shiliaev",
+    "email": "evgenii.shiliaev@jekwwer.com",
+    "url": "https://jekwwer.com"
+  },
+  "engines": {
+    "node": ">=20.18 <21"
+  },
+  "scripts": {
+    "spell": "cspell . --gitignore --cache",
+    "format": "prettier --check --config .prettierrc .",
+    "format-fix": "prettier --write --config .prettierrc ."
+  },
+  "devDependencies": {
+    "cspell": "^9.0.2",
+    "prettier": "^3.5.3"
+  }
+}
