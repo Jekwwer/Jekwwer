@@ -1,10 +1,16 @@
 {
   "name": "jekwwer/jekwwer",
   "image": "mcr.microsoft.com/devcontainers/python:3.12",
-  "postCreateCommand": "pip install '.[dev,lint,format,mypy,bandit]' && pre-commit install",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1.6.3": {
+      "version": "20"
+    }
+  },
+  "postCreateCommand": ".devcontainer/post-create.sh",
   "customizations": {
     "vscode": {
       "extensions": [
+        "astral-builders.ruff",
         "editorconfig.editorconfig",
         "esbenp.prettier-vscode",
         "github.copilot",
@@ -12,9 +18,7 @@
         "github.vscode-github-actions",
         "github.vscode-pull-request-github",
         "jock.svg",
-        "ms-python.autopep8",
         "ms-python.debugpy",
-        "ms-python.flake8",
         "ms-python.mypy",
         "ms-python.python",
         "ms-python.vscode-pylance",
@@ -32,30 +36,34 @@
             120
           ]
         },
+        "[json, jsonc]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
         "[markdown]": {
           "editor.rulers": [
             120
           ]
-        },
-        "[python]": {
-          "defaultInterpreterPath": "/usr/local/bin/python",
-          "editor.defaultFormatter": "ms-python.autopep8"
         },
         "[svg]": {
           "editor.rulers": [
             120
           ]
         },
-        "editor.fontSize": 14,
         "editor.formatOnPaste": true,
         "editor.formatOnSave": true,
         "editor.rulers": [
           88
         ],
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
         "files.autoSave": "onFocusChange",
         "files.autoSaveWhenNoErrors": true,
-        "prettier.configPath": "./.prettierrc"
+        "prettier.configPath": "./.prettierrc",
+        "prettier.prettierPath": "./node_modules/prettier",
+        "python.linting.ruffEnabled": true,
+        "python.linting.ruffPath": "ruff",
+        "python.linting.mypyEnabled": true,
+        "python.linting.mypyPath": "mypy",
+        "python.terminal.activateEnvironment": false,
+        "python.venvPath": "/home/vscode/.cache/pypoetry/virtualenvs"
       }
     }
   }
