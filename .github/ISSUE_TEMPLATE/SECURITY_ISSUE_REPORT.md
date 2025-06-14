@@ -12,7 +12,8 @@ assignees: ''
 
 ...
 
-_Note: For any security issues, please contact me privately at [report@jekwwer.com][report@jekwwer.com] before opening a public issue. Alternatively, you can open a private [Security Advisory][security-advisories] on GitHub._
+_Note: For any security issues, please contact me privately at [report@jekwwer.com][report@jekwwer.com] before opening a
+public issue. Alternatively, you can open a private [Security Advisory][security-advisories] on GitHub._
 
 ## Reproduction Steps
 
