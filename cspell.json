@@ -1,25 +1,30 @@
 {
   "ignorePaths": [
-    "*.ini",
     "*.json",
+    "*.lock",
     "*.svg",
     "*.toml",
     "*.yaml",
     "*.yml",
+    ".devcontainer/*",
     ".editorconfig",
-    ".gitignore"
+    ".gitignore",
+    ".prettierrc",
+    "Makefile"
   ],
   "language": "en",
   "useGitignore": true,
   "version": "0.2",
   "words": [
-    "autopep",
+    "docstrings",
     "Evgenii",
-    "isort",
     "Jekwwer",
     "levelname",
     "mypy",
+    "noqa",
+    "pygrep",
     "pyproject",
+    "pyupgrade",
     "Shiliaev",
     "styleguide"
   ]
