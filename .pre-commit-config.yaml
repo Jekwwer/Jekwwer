@@ -9,69 +9,68 @@ ci:
   autoupdate_commit_msg: 'deps(pre-commit): bump pre-commit hooks to latest version'
   autoupdate_schedule: quarterly
   skip:
+    - ruff-check # ci can't run local hooks
+    - ruff-format # ci can't run local hooks
     - autoupdate # ci can't run local hooks
-    - lint # ci can't run local hooks
-    - format # ci can't run local hooks
-    - bandit # ci can't run local hooks
-    - mypy # ci can't run local hooks
 
 repos:
+  # ── Housekeeping Hooks ─────────────────────────────────────────────────────
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-      # Ensure no unresolved merge conflicts remain.
       - id: check-merge-conflict
         name: 'check:merge-conflicts'
-
-      # Detect files that would conflict on case-insensitive filesystems.
       - id: check-case-conflict
         name: 'check:case-conflicts'
-
-      # Verify file parsability by checking the abstract syntax tree.
       - id: check-ast
         name: 'check:ast'
-
-      # Ensure that files with shebangs have correct execution permissions.
       - id: check-shebang-scripts-are-executable
         name: 'check:shebang-permissions'
-
-      # Verify that executable files have an associated shebang.
       - id: check-executables-have-shebangs
         name: 'check:exec-shebang'
-
-      # Check for broken symlinks.
       - id: check-symlinks
         name: 'check:symlinks'
-
-      # Detect any accidentally committed private keys.
       - id: detect-private-key
         name: 'detect:private-keys'
-
-      # Validate JSON file syntax.
       - id: check-json
         name: 'validate:json'
-
-      # Validate YAML file syntax.
+      - id: check-toml
+        name: 'validate:toml'
       - id: check-yaml
         name: 'validate:yaml'
-
-      # Ensure files end with a newline.
+      - id: check-vcs-permalinks
+        name: 'validate:vcs-permalinks'
+      - id: debug-statements
+        name: 'detect:debug-statements'
       - id: end-of-file-fixer
         name: 'fix:newline-eof'
-
-      # Fix mixed line endings (converting to LF by default).
       - id: mixed-line-ending
         name: 'fix:line-endings'
         args: [--fix=lf]
-
-      # Remove any trailing whitespace.
       - id: trailing-whitespace
         name: 'fix:trailing-whitespace'
 
-  - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.44.0
+  # ── Regex-based Hooks ───────────────────────────────────────────────────────
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
     hooks:
-      # Lint Markdown files.
+      - id: python-no-eval
+        name: 'detect:no-eval'
+      - id: python-no-log-warn
+        name: 'detect:no-log-warn'
+      - id: python-check-blanket-noqa
+        name: 'validate:noqa-specific'
+      - id: python-check-blanket-type-ignore
+        name: 'validate:type-ignore-specific'
+      - id: python-check-mock-methods
+        name: 'validate:mock-methods'
+      - id: text-unicode-replacement-char
+        name: 'detect:unicode-replacement-char'
+
+  # ── Markdown Hooks ─────────────────────────────────────────────────────────
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.45.0
+    hooks:
       - id: markdownlint
         name: 'lint:markdown'
         args: ['--ignore-path', '.gitignore', '--ignore', 'README.md']
@@ -79,33 +78,48 @@ repos:
   - repo: https://github.com/tcort/markdown-link-check
     rev: v3.13.7
     hooks:
-      # Check for broken links in Markdown files.
       - id: markdown-link-check
         name: 'check:md-links'
 
+  # ── YAML Hooks ─────────────────────────────────────────────────────────────
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.37.0
+    rev: v1.37.1
     hooks:
-      # Lint YAML files.
       - id: yamllint
         name: 'lint:yaml'
-        args: ['--config-data', '{extends: default, rules: {line-length: {max: 88}}}']
+        args:
+          - '--config-file'
+          - '.yamllint.yml'
+
+  # ── Lint & Format Hooks ────────────────────────────────────────────────────
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.20.0
+    hooks:
+      - id: pyupgrade
+        name: 'format:pyupgrade'
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.16.0
+    hooks:
+      - id: mypy
+        name: 'typecheck:mypy'
+        additional_dependencies:
+          - requests
+        args: ['--install-types', '--non-interactive']
 
   - repo: https://github.com/rbubley/mirrors-prettier
     rev: v3.5.3
     hooks:
-      # Format code using Prettier.
       - id: prettier
         name: 'format:prettier'
         args: ['--write', '--config', '.prettierrc']
 
+  # ── Spelling Hooks ─────────────────────────────────────────────────────────
   - repo: https://github.com/streetsidesoftware/cspell-cli
-    rev: v8.17.3
+    rev: v9.0.1
     hooks:
-      # Check spelling in files.
       - id: cspell
         name: 'check:spelling'
-      # Check spelling in commit messages.
       - id: cspell
         name: 'check:commit-spelling'
         args:
@@ -117,44 +131,28 @@ repos:
         stages: [commit-msg]
         always_run: true
 
-  # Local custom hooks using tox environments for Python code
+  # Lint & Format Hooks (local) ───────────────────────────────────────────────
   - repo: local
     hooks:
-      - id: lint
-        name: 'lint:python'
-        entry: tox -e lint
+      - id: ruff-check
+        name: 'lint:ruff'
+        entry: make lint-fix
         language: system
-        pass_filenames: true
-        files: \.py$ # Only trigger for Python files
-        args: ['--', '{filenames}']
+        files: '\.py$'
+        pass_filenames: false
 
-      - id: format
-        name: 'format:python'
-        entry: tox -e format
+      - id: ruff-format
+        name: 'format:ruff'
+        entry: make format-fix
         language: system
-        pass_filenames: true
-        files: \.py$ # Only trigger for Python files
-        args: ['--', '{filenames}']
+        files: '\.py$'
+        pass_filenames: false
 
-      - id: bandit
-        name: 'check:python-security'
-        language: system
-        entry: tox -e bandit
-        pass_filenames: true
-        files: \.py$ # Only trigger for Python files
-        args: ['--', '{filenames}']
-
-      - id: mypy
-        name: 'check:python-types'
-        language: system
-        entry: tox -e mypy
-        pass_filenames: true
-        files: \.py$ # Only trigger for Python files
-        args: ['--', '{filenames}']
-
-      # Update pre-commit hooks automatically.
+  # ── Autoupdate Hooks (local) ───────────────────────────────────────────────
+  - repo: local
+    hooks:
       - id: autoupdate
         name: 'update:precommit-hooks'
-        entry: pre-commit autoupdate
+        entry: poetry run pre-commit autoupdate
         language: system
         pass_filenames: false
