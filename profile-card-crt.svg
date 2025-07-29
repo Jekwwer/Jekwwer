@@ -1,0 +1,262 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="894" height="690" style="font-family: Arial, sans-serif;">
+
+  <defs>
+    <!-- [PLACEHOLDER] Add Win95/XP gradients, shadows, bitmaps here if needed -->
+
+    <linearGradient id="retroBgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="50%" stop-color="#C0C0C0" />
+      <stop offset="100%" stop-color="#A0A0A0" />
+    </linearGradient>
+
+    <pattern id="crtScanlines" patternUnits="userSpaceOnUse" width="1" height="4">
+      <!-- 2px of semi‑transparent black, then 2px transparent -->
+      <rect width="1" height="2" fill="rgba(0,0,0,0.05)" />
+      <rect y="2" width="1" height="2" fill="rgba(0,0,0,0)" />
+    </pattern>
+
+    <filter id="crtFilter">
+      <!-- tiny blur for phosphor glow -->
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0.3" result="blurred" />
+      <!-- boost contrast/color slightly -->
+      <feComponentTransfer in="blurred" result="contrast">
+        <feFuncR type="gamma" exponent="0.9" />
+        <feFuncG type="gamma" exponent="0.9" />
+        <feFuncB type="gamma" exponent="0.9" />
+      </feComponentTransfer>
+      <!-- merge back -->
+      <feMerge>
+        <feMergeNode in="contrast" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 1) Noise for micro‑texture/grain -->
+  <filter id="crtGlass" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox">
+    <!-- a) base turbulence for uneven refraction -->
+    <feTurbulence type="fractalNoise" baseFrequency="0.02 0.02" numOctaves="2" seed="5" result="noise" />
+    <!-- b) use that noise to slightly bend (barrel‑distort) the image -->
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G"
+      result="warped" />
+
+    <!-- c) specular highlight to simulate convex glass bulge -->
+    <feSpecularLighting in="warped" surfaceScale="4" specularConstant="0.75" specularExponent="20"
+      lighting-color="white" result="specLight">
+      <fePointLight x="0" y="0" z="100" />
+    </feSpecularLighting>
+    <feComposite in="specLight" in2="warped" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="lit" />
+
+    <!-- d) subtle vignette overlay -->
+    <feGaussianBlur in="lit" stdDeviation="0.5" result="soft" />
+    <feBlend in="lit" in2="soft" mode="multiply" result="blended" />
+
+    <!-- emit final -->
+    <feMerge>
+      <feMergeNode in="blended" />
+    </feMerge>
+  </filter>
+
+  <style>
+    /* Black‑on‑white “wireframe” */
+    .window-bg,
+    .header-panel,
+    .btn,
+    .stats-panel,
+    .calendar-panel,
+    .legend-cell {
+      fill: white;
+      stroke: black;
+      stroke-width: 1;
+    }
+
+    .window-bg {
+      fill: #C0C0C0;
+    }
+
+
+    /* Text */
+    .header-title,
+    .header-sub,
+    .header-text,
+    .btn-text,
+    .stats-title,
+    .stats-label,
+    .stats-value,
+    .calendar-title,
+    .legend-label {
+      fill: black;
+      font-family: 'MS Sans Serif', monospace;
+      /* Adjust sizes below if you want exact pixel‑perfect XP text */
+    }
+
+    .header-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .header-sub {
+      font-size: 14px;
+    }
+
+    .header-text {
+      font-size: 12px;
+    }
+
+    .btn-text {
+      font-size: 12px;
+    }
+
+    .stats-title {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .stats-label,
+    .stats-value {
+      font-size: 12px;
+    }
+
+    .stats-value {
+      text-anchor: end;
+    }
+
+    .calendar-title {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .legend-label {
+      font-size: 10px;
+    }
+  </style>
+
+  <g filter="url(#crtGlass)">
+    <!-- all of your existing <rect> / <text> / <g>... go here -->
+
+    <title id="title">Jekwwer GitHub Profile Card</title>
+    <desc id="desc">
+      An SVG profile card showcasing links to a blog, LinkedIn, LeetCode, and GitHub stats.
+    </desc>
+
+    <!-- Background -->
+    <rect class="window-bg" x="0" y="0" width="894" height="690" fill="url(#retroBgGrad)" />
+
+    <!-- 2px Win95 bevel on top/left -->
+    <line x1="0" y1="0" x2="894" y2="0" stroke="#FFFFFF" stroke-width="2" />
+    <line x1="0" y1="0" x2="0" y2="690" stroke="#FFFFFF" stroke-width="2" />
+
+    <!-- 2px Win95 bevel on bottom/right -->
+    <line x1="0" y1="690" x2="894" y2="690" stroke="#808080" stroke-width="2" />
+    <line x1="894" y1="0" x2="894" y2="690" stroke="#808080" stroke-width="2" />
+
+    <!-- just after your <style> and before <title> -->
+
+
+    <!-- Header Section -->
+    <g class="header-section">
+      <rect class="header-panel" x="30" y="30" width="834" height="200" rx="0" />
+      <text class="header-title" x="50" y="80">
+        Hi, I'm Evgenii! 👋
+      </text>
+      <text class="header-sub" x="50" y="125">
+        Python Enthusiast | Automation Explorer | Casual Coder
+      </text>
+      <text class="header-text" x="50" y="175">
+        Experimenting with automation, playing around with Python, and sharing useful finds.
+      </text>
+      <text class="header-text" x="50" y="205">
+        Here to simplify tasks, learn casually, and see what's interesting—one script at a time.
+      </text>
+    </g>
+
+    <!-- Buttons -->
+    <g class="buttons" style="cursor: pointer;">
+      <a href="https://jekwwer.com" target="_blank">
+        <rect class="btn" x="30" y="260" width="300" height="45" rx="0" />
+        <text class="btn-text" x="50" y="290">
+          📝 My Blog
+        </text>
+      </a>
+      <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="_blank">
+        <rect class="btn" x="30" y="320" width="300" height="45" rx="0" />
+        <text class="btn-text" x="50" y="350">
+          💼 LinkedIn Profile
+        </text>
+      </a>
+      <a href="https://leetcode.com/u/Jekwwer/" target="_blank">
+        <rect class="btn" x="30" y="380" width="300" height="45" rx="0" />
+        <text class="btn-text" x="50" y="410">
+          🧩 LeetCode Profile
+        </text>
+      </a>
+    </g>
+
+    <!-- GitHub Stats -->
+    <g class="stats-section">
+      <rect class="stats-panel" x="360" y="260" width="504" height="165" rx="0" />
+      <text class="stats-title" x="380" y="300">
+        📊 GitHub Stats
+      </text>
+      <text class="stats-label" x="380" y="340">
+        Total Contributions:
+      </text>
+      <text class="stats-value" x="840" y="340">
+        total-contributions-ph
+      </text>
+      <text class="stats-label" x="380" y="370">
+        Current Streak:
+      </text>
+      <text class="stats-value" x="840" y="370">
+        current-streak-ph
+      </text>
+      <text class="stats-label" x="380" y="400">
+        Longest Streak:
+      </text>
+      <text class="stats-value" x="840" y="400">
+        longest-streak-ph
+      </text>
+    </g>
+
+    <!-- Contribution Calendar -->
+    <g class="calendar-section">
+      <rect class="calendar-panel" x="30" y="455" width="834" height="205" rx="0" />
+      <text class="calendar-title" x="50" y="495">
+        📆 Contributions in the Last 52 Weeks
+      </text>
+
+      <!-- Legend -->
+      <g class="legend" transform="translate(50,636)">
+        <rect class="legend-cell" x="0" y="0" width="14" height="14" rx="2" />
+        <text class="legend-label" x="20" y="12">
+          0: Burnout / Sleep / Love / Death / Vacay — Who knows! ( ͡° ͜ʖ ͡°)
+        </text>
+
+        <rect class="legend-cell" x="321.3" y="0" width="14" height="14" rx="2" />
+        <text class="legend-label" x="341.3" y="12">1-10</text>
+
+        <rect class="legend-cell" x="382.5" y="0" width="14" height="14" rx="2" />
+        <text class="legend-label" x="402.5" y="12">11-20</text>
+
+        <rect class="legend-cell" x="443.7" y="0" width="14" height="14" rx="2" />
+        <text class="legend-label" x="463.7" y="12">21-30</text>
+
+        <rect class="legend-cell" x="504.9" y="0" width="14" height="14" rx="2" />
+        <text class="legend-label" x="524.9" y="12">30-49</text>
+
+        <rect class="legend-cell" x="566.1" y="0" width="14" height="14" rx="2" />
+        <text class="legend-label" x="586.1" y="12">50+</text>
+      </g>
+
+      <!-- [PLACEHOLDER] Actual contribution grid goes here -->
+      <g class="contribution-grid">
+        <!-- e.g. <rect class="grid-cell lvl-0" x="..." y="..." width="..." height="..."/> -->
+      </g>
+    </g>
+
+
+  </g>
+
+  <!-- overlay scanlines on top -->
+  <rect x="0" y="0" width="894" height="690" fill="url(#crtScanlines)" pointer-events="none" />
+
+</svg>
