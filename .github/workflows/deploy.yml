@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: checkout-code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v5.0.0
 
       - name: deploy-to-gh-pages
         uses: peaceiris/actions-gh-pages@v4.0.0
