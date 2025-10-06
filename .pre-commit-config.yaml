@@ -16,7 +16,7 @@ ci:
 repos:
   # ── Housekeeping Hooks ─────────────────────────────────────────────────────
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-merge-conflict
         name: 'check:merge-conflicts'
@@ -99,7 +99,7 @@ repos:
         name: 'format:pyupgrade'
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.16.0
+    rev: v1.18.2
     hooks:
       - id: mypy
         name: 'typecheck:mypy'
@@ -108,7 +108,7 @@ repos:
         args: ['--install-types', '--non-interactive']
 
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: v3.5.3
+    rev: v3.6.2
     hooks:
       - id: prettier
         name: 'format:prettier'
@@ -116,7 +116,7 @@ repos:
 
   # ── Spelling Hooks ─────────────────────────────────────────────────────────
   - repo: https://github.com/streetsidesoftware/cspell-cli
-    rev: v9.0.1
+    rev: v9.2.0
     hooks:
       - id: cspell
         name: 'check:spelling'
