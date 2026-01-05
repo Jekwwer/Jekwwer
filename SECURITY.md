@@ -13,7 +13,6 @@ If you discover a security vulnerability in this repository:
 
 1. **Private Disclosure via Email** Please send an email to [report@jekwwer.com][report@jekwwer.com] with the following
    details:
-
    - A detailed description of the vulnerability.
    - Steps to reproduce the issue.
    - Affected versions (if applicable).
