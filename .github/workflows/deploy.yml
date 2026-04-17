@@ -22,16 +22,16 @@ jobs:
 
     steps:
       - name: checkout-code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v6.0.2
 
       - name: setup-pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: upload-pages-artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: docs
 
       - name: deploy-to-github-pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
