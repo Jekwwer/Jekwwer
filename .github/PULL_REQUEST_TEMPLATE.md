@@ -37,9 +37,8 @@
 ## Checklist
 
 - [ ] I have performed a self-review of my code.
-- [ ] I have added tests that prove my changes are effective.
+- [ ] I have verified changes via `make lint type` (no test suite).
 - [ ] I have added necessary documentation (if applicable).
-- [ ] My changes do not introduce any breaking changes.
 
 <!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
 <!-- https://github.com/Jekwwer/markdown-docs-kit -->

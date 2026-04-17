@@ -1,90 +1,54 @@
 ---
 name: Bug Report
-about: Report a bug to help improve the project
+about: Report a bug
 title: 'Bug: [Short Description]'
 labels: bug
 assignees: ''
 ---
 
-## Description
+## What happened
 
-<!-- A clear and concise description of what the bug is. -->
-
-...
-
-## Version
-
-<!-- The version of the software in which the bug was found -->
+<!-- What went wrong? -->
 
 ...
 
-## Steps to Reproduce
-
-<!-- Steps to reproduce the behavior: -->
+## Steps to reproduce
 
 1.
 2.
 3.
-4.
 
-## Expected Behavior
-
-<!-- A clear and concise description of what you expected to happen. -->
+## Expected behavior
 
 ...
 
-## Actual Behavior
-
-<!-- What actually happened instead of the expected behavior -->
+## Actual behavior
 
 ...
 
-## Logs or Debugging Output
+## Logs
 
-<!-- Paste relevant logs or error messages here. -->
-
-...
-
-## Screenshots
-
-<!-- If applicable, add screenshots to help explain your problem. -->
+<!-- Paste relevant logs or errors. -->
 
 ...
 
 ## Environment
 
-- OS: [e.g., Windows/Linux/iOS]
-- Compiler/IDE:
-- Version:
+- OS: [e.g., Ubuntu 22.04 / macOS 14]
+- Python version: [e.g., 3.12.2]
+- GitHub Actions runner: [e.g., ubuntu-latest] (if applicable)
+- Commit SHA:
 
-## Severity
+## Additional context
 
-<!-- How severe is the bug? Can you continue working, or is work blocked? -->
-
-...
-
-## Reproducibility
-
-<!-- Is the bug reproducible always, sometimes, or not at all? -->
-
-...
-
-## Known Workarounds
-
-<!-- Any known workarounds to mitigate the issue? -->
-
-...
-
-## Additional Context
-
-<!-- Add any other context about the problem here. -->
+<!-- Screenshots, workarounds, severity, anything else. -->
 
 ...
 
 ## Checklist
 
-- [ ] I have checked that this issue has not already been reported.
-- [ ] I have provided all necessary information.
+- [ ] Not already reported.
+- [ ] All necessary info provided.
 
 <!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
 <!-- https://github.com/Jekwwer/markdown-docs-kit -->
