@@ -1,4 +1,3 @@
-# .github/dependabot.yml: Automates dependency updates.
 ---
 version: 2
 updates:
@@ -11,13 +10,16 @@ updates:
       github-actions-deps:
         patterns:
           - '*'
+    labels:
+      - 'dependencies'
+      - 'github-actions'
     reviewers:
       - 'Jekwwer'
     assignees:
       - 'Jekwwer'
     commit-message:
       prefix: 'deps(actions)'
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 2
 
   # NPM dependencies
   - package-ecosystem: 'npm'
@@ -28,27 +30,34 @@ updates:
       npm-deps:
         patterns:
           - '*'
+    labels:
+      - 'dependencies'
+      - 'npm'
     reviewers:
       - 'Jekwwer'
     assignees:
       - 'Jekwwer'
     commit-message:
       prefix: 'deps(npm)'
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 2
 
   # Python dependencies
   - package-ecosystem: 'pip'
     directory: '/'
     schedule:
       interval: 'monthly'
+    versioning-strategy: increase
     groups:
       poetry-deps:
         patterns:
           - '*'
+    labels:
+      - 'dependencies'
+      - 'python'
     reviewers:
       - 'Jekwwer'
     assignees:
       - 'Jekwwer'
     commit-message:
       prefix: 'deps(poetry)'
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 2
