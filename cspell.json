@@ -16,8 +16,12 @@
   "useGitignore": true,
   "version": "0.2",
   "words": [
+    "adrienverge",
+    "asottile",
+    "cli",
     "docstrings",
     "Evgenii",
+    "igorshubovych",
     "Jekwwer",
     "leetcode",
     "levelname",
@@ -26,7 +30,10 @@
     "pygrep",
     "pyproject",
     "pyupgrade",
+    "rbubley",
     "Shiliaev",
-    "styleguide"
+    "streetsidesoftware",
+    "styleguide",
+    "tcort"
   ]
 }
