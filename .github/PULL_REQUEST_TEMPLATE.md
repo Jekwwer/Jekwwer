@@ -39,7 +39,3 @@
 - [ ] I have performed a self-review of my code.
 - [ ] I have verified changes via `make lint type` (no test suite).
 - [ ] I have added necessary documentation (if applicable).
-
-<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
-<!-- https://github.com/Jekwwer/markdown-docs-kit -->
-<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

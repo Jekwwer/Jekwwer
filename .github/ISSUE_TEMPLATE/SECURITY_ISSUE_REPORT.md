@@ -34,7 +34,3 @@ assignees: ''
 
 [security-advisories]: https://github.com/Jekwwer/Jekwwer/security/advisories
 [report@jekwwer.com]: mailto:report@jekwwer.com
-
-<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
-<!-- https://github.com/Jekwwer/markdown-docs-kit -->
-<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

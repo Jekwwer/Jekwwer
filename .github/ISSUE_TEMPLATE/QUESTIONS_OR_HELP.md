@@ -21,7 +21,3 @@ _For quick questions, use [Discussions][discussions] instead._
 - [ ] Checked Discussions first.
 
 [discussions]: https://github.com/Jekwwer/Jekwwer/discussions
-
-<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
-<!-- https://github.com/Jekwwer/markdown-docs-kit -->
-<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

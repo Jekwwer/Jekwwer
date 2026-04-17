@@ -37,7 +37,3 @@ _For minor tweaks, use [Discussions][discussions] instead._
 - [ ] Not already requested.
 
 [discussions]: https://github.com/Jekwwer/Jekwwer/discussions
-
-<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
-<!-- https://github.com/Jekwwer/markdown-docs-kit -->
-<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->

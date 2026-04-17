@@ -13,7 +13,6 @@ If you discover a security vulnerability in this repository:
 
 1. **Private Disclosure via Email** Please send an email to [report@jekwwer.com][report@jekwwer.com] with the following
    details:
-
    - A detailed description of the vulnerability.
    - Steps to reproduce the issue.
    - Affected versions (if applicable).
@@ -30,14 +29,6 @@ I aim to respond to vulnerability reports within **72** hours and provide a reso
 For any additional questions or concerns about this security policy, please feel free to contact me at
 [evgenii.shiliaev@jekwwer.com][evgenii.shiliaev@jekwwer.com].
 
----
-
-This document is based on a template by [Evgenii Shiliaev][evgenii-shiliaev-github], licensed under [CC BY
-4.0][jekwwer-markdown-docs-kit-license]. All additional content is licensed under [LICENSE][LICENSE].
-
-[LICENSE]: LICENSE
-[evgenii-shiliaev-github]: https://github.com/Jekwwer
-[jekwwer-markdown-docs-kit-license]: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE
 [security-advisories]: https://github.com/Jekwwer/Jekwwer/security/advisories
 [evgenii.shiliaev@jekwwer.com]: mailto:evgenii.shiliaev@jekwwer.com
 [report@jekwwer.com]: mailto:report@jekwwer.com

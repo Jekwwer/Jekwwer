@@ -410,20 +410,12 @@ out to the maintainers or submit an [issue][issues]. For contributing guidelines
 project's [discussion board][discussions] or contact the project owner at
 [evgenii.shiliaev@jekwwer.com][evgenii.shiliaev@jekwwer.com].
 
----
-
-This document is based on a template by [Evgenii Shiliaev][evgenii-shiliaev-github], licensed under [CC BY
-4.0][jekwwer-markdown-docs-kit-license]. All additional content is licensed under [LICENSE][LICENSE].
-
 [COMMENTS-AND-DOCUMENTATION]: #comments-and-documentation
 [CONTRIBUTING]: CONTRIBUTING.md
 [FILE_NAMING_CONVENTIONS]: #file-naming-conventions
-[LICENSE]: LICENSE
 [SCOPE]: #scope
 [SECURITY]: SECURITY.md
 [discussions]: https://github.com/Jekwwer/Jekwwer/discussions
-[evgenii-shiliaev-github]: https://github.com/Jekwwer
 [evgenii.shiliaev@jekwwer.com]: mailto:evgenii.shiliaev@jekwwer.com
 [issues]: https://github.com/Jekwwer/Jekwwer
-[jekwwer-markdown-docs-kit-license]: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE
 [jock.svg]: https://marketplace.visualstudio.com/items?itemName=jock.svg

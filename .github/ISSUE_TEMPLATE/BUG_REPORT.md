@@ -49,7 +49,3 @@ assignees: ''
 
 - [ ] Not already reported.
 - [ ] All necessary info provided.
-
-<!-- Template by Evgenii Shiliaev - Licensed under CC BY 4.0 -->
-<!-- https://github.com/Jekwwer/markdown-docs-kit -->
-<!-- Licensed under: https://github.com/Jekwwer/markdown-docs-kit/blob/main/LICENSE -->
