@@ -1,4 +1,3 @@
-# .github/workflows/update.yml: Updates the SVG file daily.
 ---
 name: daily-svg-update
 
@@ -7,9 +6,17 @@ on:
     - cron: '0 22 * * *' # Runs daily at 10:00 PM UTC
   workflow_dispatch:
 
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-svg-update
+  cancel-in-progress: true
+
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: checkout-code
@@ -34,7 +41,7 @@ jobs:
         run: pip install poetry
 
       - name: install-dependencies
-        run: poetry install --no-interaction --no-ansi
+        run: poetry install --only main --no-interaction --no-ansi
 
       - name: generate-updated-svg
         env:
