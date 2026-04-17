@@ -1,4 +1,3 @@
-# .gitignore: Specifies files and directories that should not be tracked by Git.
 # Based on: https://github.com/github/gitignore/blob/main/Node.gitignore
 #           https://github.com/github/gitignore/blob/main/Python.gitignore
 #           https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
