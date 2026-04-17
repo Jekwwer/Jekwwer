@@ -3,26 +3,21 @@
   "image": "mcr.microsoft.com/devcontainers/python:3.12",
   "features": {
     "ghcr.io/devcontainers/features/node:1.6.3": {
-      "version": "20"
+      "version": "22"
     }
   },
-  "postCreateCommand": ".devcontainer/post-create.sh",
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
   "customizations": {
     "vscode": {
       "extensions": [
-        "astral-builders.ruff",
+        "charliermarsh.ruff",
         "editorconfig.editorconfig",
         "esbenp.prettier-vscode",
-        "github.copilot",
-        "github.copilot-chat",
-        "github.vscode-github-actions",
-        "github.vscode-pull-request-github",
         "jock.svg",
         "ms-python.debugpy",
         "ms-python.mypy",
         "ms-python.python",
         "ms-python.vscode-pylance",
-        "ms-vscode-remote.remote-containers",
         "streetsidesoftware.code-spell-checker"
       ],
       "settings": {
@@ -36,7 +31,7 @@
             120
           ]
         },
-        "[json, jsonc]": {
+        "[json][jsonc]": {
           "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[markdown]": {
@@ -44,10 +39,16 @@
             120
           ]
         },
+        "[python]": {
+          "editor.defaultFormatter": "charliermarsh.ruff"
+        },
         "[svg]": {
           "editor.rulers": [
             120
           ]
+        },
+        "[yaml]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "editor.formatOnPaste": true,
         "editor.formatOnSave": true,
@@ -58,10 +59,6 @@
         "files.autoSaveWhenNoErrors": true,
         "prettier.configPath": "./.prettierrc",
         "prettier.prettierPath": "./node_modules/prettier",
-        "python.linting.ruffEnabled": true,
-        "python.linting.ruffPath": "ruff",
-        "python.linting.mypyEnabled": true,
-        "python.linting.mypyPath": "mypy",
         "python.terminal.activateEnvironment": false,
         "python.venvPath": "/home/vscode/.cache/pypoetry/virtualenvs"
       }
