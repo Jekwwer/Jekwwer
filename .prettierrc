@@ -10,13 +10,7 @@
   "bracketSpacing": true,
   "overrides": [
     {
-      "files": "*.{css,html}",
-      "options": {
-        "printWidth": 120
-      }
-    },
-    {
-      "files": "*.md",
+      "files": "*.{css,html,md}",
       "options": {
         "printWidth": 120
       }
@@ -24,13 +18,7 @@
     {
       "files": "*.{json,jsonc}",
       "options": {
-        "printWidth": 0
-      }
-    },
-    {
-      "files": "*.{yml,yaml}",
-      "options": {
-        "printWidth": 88
+        "printWidth": 10000
       }
     }
   ]
