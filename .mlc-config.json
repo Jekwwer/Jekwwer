@@ -1,0 +1,21 @@
+{
+  "timeout": "20s",
+  "retryOn429": true,
+  "retryCount": 3,
+  "fallbackRetryDelay": "30s",
+  "aliveStatusCodes": [
+    200,
+    206
+  ],
+  "httpHeaders": [
+    {
+      "urls": [
+        "https://raw.githubusercontent.com",
+        "https://jekwwer.github.io"
+      ],
+      "headers": {
+        "User-Agent": "Mozilla/5.0"
+      }
+    }
+  ]
+}
