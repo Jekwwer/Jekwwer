@@ -1,6 +1,4 @@
-# .pre-commit-config.yaml: Sets up pre-commit hooks to automate code quality checks.
 ---
-# Sets up CI to automatically update pre-commit hooks
 ci:
   run_on_all_branches: true
   autofix_commit_msg: 'ci(pre-commit): auto fixes from pre-commit hooks'
@@ -11,7 +9,6 @@ ci:
   skip:
     - ruff-check # ci can't run local hooks
     - ruff-format # ci can't run local hooks
-    - autoupdate # ci can't run local hooks
 
 repos:
   # ── Housekeeping Hooks ─────────────────────────────────────────────────────
@@ -49,6 +46,8 @@ repos:
         args: [--fix=lf]
       - id: trailing-whitespace
         name: 'fix:trailing-whitespace'
+      - id: check-added-large-files
+        name: 'check:large-files'
 
   # ── Regex-based Hooks ───────────────────────────────────────────────────────
   - repo: https://github.com/pre-commit/pygrep-hooks
@@ -80,6 +79,7 @@ repos:
     hooks:
       - id: markdown-link-check
         name: 'check:md-links'
+        args: ['--config', '.mlc-config.json']
 
   # ── YAML Hooks ─────────────────────────────────────────────────────────────
   - repo: https://github.com/adrienverge/yamllint
@@ -97,6 +97,7 @@ repos:
     hooks:
       - id: pyupgrade
         name: 'format:pyupgrade'
+        args: ['--py312-plus']
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.20.1
@@ -132,7 +133,7 @@ repos:
         stages: [commit-msg]
         always_run: true
 
-  # Lint & Format Hooks (local) ───────────────────────────────────────────────
+  # ── Lint & Format Hooks (local) ──────────────────────────────────────────────
   - repo: local
     hooks:
       - id: ruff-check
@@ -144,16 +145,7 @@ repos:
 
       - id: ruff-format
         name: 'format:ruff'
-        entry: make format-fix
+        entry: poetry run ruff format .
         language: system
         files: '\.py$'
-        pass_filenames: false
-
-  # ── Autoupdate Hooks (local) ───────────────────────────────────────────────
-  - repo: local
-    hooks:
-      - id: autoupdate
-        name: 'update:precommit-hooks'
-        entry: poetry run pre-commit autoupdate
-        language: system
         pass_filenames: false
