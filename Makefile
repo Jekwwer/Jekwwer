@@ -1,27 +1,35 @@
-# Makefile: Simplifies common development tasks.
-
-.PHONY: help format format-fix lint lint-fix type spell
+.PHONY: help install format format-fix lint lint-fix type spell check clean pre-commit
 
 help:
 	@echo "Usage: make [target]"
 	@echo ""
 	@echo "Targets:"
-	@echo "  help             Show this help message."
+	@echo "  help         Show this help message."
 	@echo ""
-	@echo "  format           Verify formatting in Python files (Ruff) and Prettier-supported files."
-	@echo "  format-fix       Auto-format Python files (Ruff) and Prettier-supported files."
-	@echo "  lint             Run Ruff to lint Python files."
-	@echo "  lint-fix         Run Ruff to auto-fix Python lint issues."
-	@echo "  type             Run Mypy for static type checking."
-	@echo "  spell            Run cspell to spell-check all files."
+	@echo "  install      Install Python and Node dependencies."
+	@echo "  clean        Remove tool caches."
+	@echo ""
+	@echo "  format       Verify formatting (Ruff + Prettier)."
+	@echo "  format-fix   Auto-fix formatting (Ruff + Prettier)."
+	@echo "  lint         Lint Python files (Ruff)."
+	@echo "  lint-fix     Auto-fix Python lint issues (Ruff)."
+	@echo "  type         Static type check Python files (Mypy)."
+	@echo "  spell        Spell-check all files (cspell)."
+	@echo "  check        Run all checks (format, lint, type, spell)."
+	@echo ""
+	@echo "  pre-commit   Run all pre-commit hooks against all files."
+
+install:
+	poetry install
+	npm install
 
 format:
 	poetry run ruff format . --check
-	npm run format
+	npx prettier --check --config .prettierrc .
 
 format-fix:
 	poetry run ruff format .
-	npm run format-fix
+	npx prettier --write --config .prettierrc .
 
 lint:
 	poetry run ruff check .
@@ -33,4 +41,12 @@ type:
 	poetry run mypy --install-types --non-interactive .
 
 spell:
-	npm run spell
+	npx cspell . --cache
+
+check: format lint type spell
+
+clean:
+	rm -rf .ruff_cache .mypy_cache .cspellcache
+
+pre-commit:
+	poetry run pre-commit run --all-files
