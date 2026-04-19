@@ -1,11 +1,27 @@
-"""A script to fetch GitHub data, calculate streaks, and generate a heatmap grid."""
+"""GitHub contribution heatmap generator.
+
+Fetches contribution data from the GitHub GraphQL API, calculates streaks,
+and writes updated SVG profile cards to the assets/ directory.
+
+Pipeline:
+    1. _fetch_all_contributions      — paginate GitHub GraphQL year by year.
+    2. calculate_streaks             — compute current/longest streak with dates.
+    3. map_contributions_to_levels   — map raw counts to 6 heatmap intensity levels.
+    4. create_svg_grid_with_heatmap  — render a 52×7 SVG <rect> grid.
+    5. replace_placeholders_in_svg   — inject stats into SVG text-node placeholders.
+    6. main                          — orchestrate and write output files.
+
+Required environment variables:
+    USERNAME     — GitHub username.
+    GITHUB_TOKEN — Personal access token with read:user scope.
+"""
 
 import logging
 import os
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import TypedDict
+from typing import Any, TypedDict
 
 import requests
 
@@ -14,17 +30,72 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# ── Constants ──────────────────────────────────────────────────────────────────
+
+GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
+
+# Earliest date from which contributions are fetched.
+CONTRIBUTIONS_START_DATE = datetime(2018, 7, 25, tzinfo=timezone.utc)
+
+# GitHub GraphQL API limits a single contributionsCollection query to one year.
+FETCH_CHUNK_SIZE = timedelta(days=365)
+
+HEATMAP_WEEKS = 52
+HEATMAP_DAYS_PER_WEEK = 7
+HEATMAP_CELLS = HEATMAP_WEEKS * HEATMAP_DAYS_PER_WEEK  # 364
+
+REQUEST_TIMEOUT_SECONDS = 10
+
+# Fraction of total grid width reserved for gaps between columns.
+GRID_SPACING_RATIO = 0.1
+
+ASSETS_DIR = Path("assets")
+SVG_FILE_PAIRS: list[tuple[str, str]] = [
+    ("profile-card.svg", "profile-card-latest.svg"),
+    ("profile-card-no-bg.svg", "profile-card-no-bg-latest.svg"),
+]
+
+# GraphQL query fetches contribution counts per day for a given date range.
+_GRAPHQL_QUERY = """
+query($username: String!, $from: DateTime!, $to: DateTime!) {
+  user(login: $username) {
+    contributionsCollection(from: $from, to: $to) {
+      contributionCalendar {
+        weeks {
+          contributionDays {
+            date
+            contributionCount
+          }
+        }
+      }
+    }
+  }
+}
+"""
+
+# CSS class names referenced by the SVG templates, keyed by intensity level (0–5).
+CONTRIBUTION_COLORS = {
+    0: "no_contribution",
+    1: "contribution_1_10",
+    2: "contribution_11_20",
+    3: "contribution_21_30",
+    4: "contribution_31_49",
+    5: "contribution_50",
+}
+
+# ── Types ──────────────────────────────────────────────────────────────────────
+
 
 class ContributionData(TypedDict):
-    """Type definition for contribution data.
+    """Contribution stats returned by fetch_contributions_from_github.
 
     Attributes:
-        contributions (dict[str, int]): Contribution counts by date.
-        total_contributions (int): Total contributions.
-        current_streak (int): Current streak.
-        longest_streak (int): Longest streak.
-        longest_streak_start (str | None): Start date of the longest streak.
-        longest_streak_end (str | None): End date of the longest streak.
+        contributions (dict[str, int]): Daily counts for the last 52 weeks.
+        total_contributions (int): All-time total contribution count.
+        current_streak (int): Current consecutive-day streak length.
+        longest_streak (int): Longest consecutive-day streak ever.
+        longest_streak_start (str | None): ISO date the longest streak began.
+        longest_streak_end (str | None): ISO date the longest streak ended.
     """
 
     contributions: dict[str, int]
@@ -36,13 +107,13 @@ class ContributionData(TypedDict):
 
 
 class StreakData(TypedDict):
-    """Type definition for streak calculation results.
+    """Streak stats returned by calculate_streaks.
 
     Attributes:
-        current_streak (int): Current streak length in days.
-        longest_streak (int): Longest streak length in days.
-        longest_streak_start (str | None): ISO date of longest streak start.
-        longest_streak_end (str | None): ISO date of longest streak end.
+        current_streak (int): Current consecutive-day streak length.
+        longest_streak (int): Longest consecutive-day streak ever.
+        longest_streak_start (str | None): ISO date the longest streak began.
+        longest_streak_end (str | None): ISO date the longest streak ended.
     """
 
     current_streak: int
@@ -51,124 +122,123 @@ class StreakData(TypedDict):
     longest_streak_end: str | None
 
 
-CONTRIBUTION_COLORS = {
-    0: "no_contribution",
-    1: "contribution_1_10",
-    2: "contribution_11_20",
-    3: "contribution_21_30",
-    4: "contribution_31_49",
-    5: "contribution_50",
-}
+# ── Helpers ────────────────────────────────────────────────────────────────────
 
 
 def format_date(date_value: str | None) -> str:
-    """Convert YYYY-MM-DD to YYYY/MM/DD, or return 'N/A' if None."""
+    """Convert an ISO date string to YYYY/MM/DD, or return 'N/A' if None."""
     if isinstance(date_value, str):
         return date_value.replace("-", "/")
     return "N/A"
 
 
-def fetch_contributions_from_github(username: str, token: str) -> ContributionData:
-    """Fetch contribution data for a GitHub user using the GitHub GraphQL API.
+def _parse_contribution_days(weeks: list[Any]) -> dict[str, int]:
+    """Extract a date → count mapping from a GraphQL weeks payload."""
+    contributions: dict[str, int] = {}
+    for week in weeks:
+        for day in week.get("contributionDays", []):
+            date_str = day.get("date")
+            count = day.get("contributionCount", 0)
+            if date_str and isinstance(count, int):
+                contributions[date_str] = count
+    return contributions
+
+
+def _fetch_all_contributions(username: str, token: str) -> dict[str, int]:
+    """Fetch all contributions since CONTRIBUTIONS_START_DATE, one year at a time.
+
+    GitHub's GraphQL API limits contributionsCollection queries to a one-year
+    window, so this function paginates in FETCH_CHUNK_SIZE steps.
 
     Args:
-        username (str): GitHub username.
-        token (str): GitHub personal access token.
+        username: GitHub username.
+        token: GitHub personal access token.
 
     Returns:
-        ContributionData: A dictionary with contribution stats.
+        Dict mapping ISO date strings to daily contribution counts.
     """
     all_contributions: dict[str, int] = {}
-    url = "https://api.github.com/graphql"
     headers = {"Authorization": f"Bearer {token}"}
-    query = """
-    query($username: String!, $from: DateTime!, $to: DateTime!) {
-      user(login: $username) {
-        contributionsCollection(from: $from, to: $to) {
-          contributionCalendar {
-            weeks {
-              contributionDays {
-                date
-                contributionCount
-              }
-            }
-          }
-        }
-      }
-    }
-    """
 
-    # Start date for contributions (adjust to your earliest contribution date)
-    start_date = datetime(2018, 7, 25, tzinfo=timezone.utc)
-    end_date = datetime.now(timezone.utc)
-    one_year = timedelta(days=365)
+    start = CONTRIBUTIONS_START_DATE
+    end = datetime.now(timezone.utc)
 
-    logger.info("Fetching contributions for user '%s'", username)
+    logger.info("Fetching contributions for '%s' since %s", username, start.date())
 
-    while start_date < end_date:
-        chunk_end_date = min(start_date + one_year, end_date)
+    while start < end:
+        chunk_end = min(start + FETCH_CHUNK_SIZE, end)
         variables = {
             "username": username,
-            "from": start_date.isoformat(),
-            "to": chunk_end_date.isoformat(),
+            "from": start.isoformat(),
+            "to": chunk_end.isoformat(),
         }
-
-        logger.debug(
-            "Fetching contributions from %s to %s",
-            start_date.isoformat(),
-            chunk_end_date.isoformat(),
-        )
+        logger.debug("Chunk: %s → %s", start.date(), chunk_end.date())
 
         try:
             response = requests.post(
-                url,
-                json={"query": query, "variables": variables},
+                GITHUB_GRAPHQL_URL,
+                json={"query": _GRAPHQL_QUERY, "variables": variables},
                 headers=headers,
-                timeout=10,
+                timeout=REQUEST_TIMEOUT_SECONDS,
             )
             response.raise_for_status()
+            payload = response.json()
 
-            data = response.json()
-            if "data" in data and data["data"].get("user"):
-                calendar = data["data"]["user"]["contributionsCollection"][
+            if "data" in payload and payload["data"].get("user"):
+                weeks = payload["data"]["user"]["contributionsCollection"][
                     "contributionCalendar"
-                ]
-                weeks = calendar.get("weeks", [])
-
-                for week in weeks:
-                    for day in week.get("contributionDays", []):
-                        date_str = day.get("date")
-                        contribution_count = day.get("contributionCount", 0)
-                        if date_str and isinstance(contribution_count, int):
-                            all_contributions[date_str] = contribution_count
+                ]["weeks"]
+                all_contributions.update(_parse_contribution_days(weeks))
             else:
-                logger.error("Error in API response: %s", data)
+                logger.error("Unexpected API response: %s", payload)
         except requests.exceptions.RequestException as e:
-            logger.error("Failed to fetch data: %s", e)
+            logger.error(
+                "Request failed (%s → %s): %s", start.date(), chunk_end.date(), e
+            )
 
-        start_date = chunk_end_date
+        start = chunk_end
 
-    last_52_weeks_start = (
-        datetime.now(timezone.utc).date() - timedelta(weeks=52)
+    return all_contributions
+
+
+# ── Core Functions ─────────────────────────────────────────────────────────────
+
+
+def fetch_contributions_from_github(username: str, token: str) -> ContributionData:
+    """Fetch contribution data and calculate streaks for a GitHub user.
+
+    Retrieves all-time contributions via _fetch_all_contributions, then filters
+    to the last HEATMAP_WEEKS weeks for the heatmap display.
+
+    Args:
+        username: GitHub username.
+        token: GitHub personal access token with read:user scope.
+
+    Returns:
+        ContributionData with heatmap contributions and all-time streak stats.
+    """
+    all_contributions = _fetch_all_contributions(username, token)
+
+    cutoff = (
+        datetime.now(timezone.utc).date() - timedelta(weeks=HEATMAP_WEEKS)
     ).isoformat()
-    contributions_last_year = {
-        date: count
-        for date, count in all_contributions.items()
-        if date >= last_52_weeks_start
+    recent_contributions = {
+        date: count for date, count in all_contributions.items() if date >= cutoff
     }
 
     streaks = calculate_streaks(all_contributions)
+    total = sum(all_contributions.values())
 
-    logger.info("Fetched total contributions: %d", sum(all_contributions.values()))
     logger.info(
-        "Current streak: %d, Longest streak: %d",
+        "Total: %d | Current streak: %d | Longest streak: %d",
+        total,
         streaks["current_streak"],
         streaks["longest_streak"],
     )
 
     return {
-        "contributions": contributions_last_year,
-        "total_contributions": sum(all_contributions.values()),
+        "contributions": recent_contributions,
+        "total_contributions": total,
         "current_streak": streaks["current_streak"],
         "longest_streak": streaks["longest_streak"],
         "longest_streak_start": streaks["longest_streak_start"],
@@ -177,16 +247,19 @@ def fetch_contributions_from_github(username: str, token: str) -> ContributionDa
 
 
 def calculate_streaks(contributions: dict[str, int]) -> StreakData:
-    """Calculate the current and longest streaks with dates, from contribution data.
+    """Calculate the current and longest contribution streaks.
+
+    A streak is a consecutive sequence of days with at least one contribution.
+    Dates are processed in chronological order.
 
     Args:
-        contributions (dict[str, int]): Contribution counts by date.
+        contributions: Dict mapping ISO date strings to daily contribution counts.
 
     Returns:
-        StreakData: Current streak, longest streak, and their respective dates.
+        StreakData with current/longest streak lengths and the longest streak's dates.
     """
-    logger.info("Calculating streaks...")
-    sorted_dates = sorted(contributions.keys(), key=lambda x: datetime.fromisoformat(x))
+    sorted_dates = sorted(contributions.keys(), key=lambda d: datetime.fromisoformat(d))
+
     current_streak = 0
     longest_streak = 0
     longest_streak_start = None
@@ -195,32 +268,23 @@ def calculate_streaks(contributions: dict[str, int]) -> StreakData:
 
     for date_str in sorted_dates:
         date = datetime.fromisoformat(date_str).date()
+
         if contributions[date_str] > 0:
             if current_streak == 0:
                 streak_start = date
-                logger.debug("New streak started on %s", streak_start)
 
             current_streak += 1
-            logger.debug("Current streak incremented to %d on %s", current_streak, date)
 
             if current_streak > longest_streak:
                 longest_streak = current_streak
                 longest_streak_start = streak_start
                 longest_streak_end = date
-                logger.info(
-                    "Longest streak updated: %d days from %s to %s",
-                    longest_streak,
-                    longest_streak_start,
-                    longest_streak_end,
-                )
         else:
-            if current_streak > 0:
-                logger.debug("Streak ended on %s", date)
             current_streak = 0
             streak_start = None
 
     logger.info(
-        "Current streak: %d days, Longest streak: %d days (from %s to %s)",
+        "Streaks — current: %d days | longest: %d days (%s → %s)",
         current_streak,
         longest_streak,
         longest_streak_start.isoformat() if longest_streak_start else "N/A",
@@ -230,207 +294,180 @@ def calculate_streaks(contributions: dict[str, int]) -> StreakData:
     return {
         "current_streak": current_streak,
         "longest_streak": longest_streak,
-        "longest_streak_start": longest_streak_start.isoformat()
-        if longest_streak_start
-        else None,
-        "longest_streak_end": longest_streak_end.isoformat()
-        if longest_streak_end
-        else None,
+        "longest_streak_start": (
+            longest_streak_start.isoformat() if longest_streak_start else None
+        ),
+        "longest_streak_end": (
+            longest_streak_end.isoformat() if longest_streak_end else None
+        ),
     }
 
 
 def map_contributions_to_levels(contributions: dict[str, int]) -> dict[str, int]:
-    """Map raw contribution counts to predefined levels.
+    """Map raw contribution counts to heatmap intensity levels (0–5).
+
+    Level thresholds:
+        0  — no contributions
+        1  — 1–10
+        2  — 11–20
+        3  — 21–30
+        4  — 31–49
+        5  — 50+
 
     Args:
-        contributions (dict[str, int]): Raw contribution counts by date.
+        contributions: Dict mapping ISO date strings to daily contribution counts.
 
     Returns:
-        dict[str, int]: Mapped contribution levels by date.
+        Dict mapping the same dates to intensity levels.
     """
-    logger.info("Mapping contribution counts to levels...")
-    mapped = {}
-    for date, count in contributions.items():
-        if count == 0:
-            level = 0
-        elif count <= 10:
-            level = 1
-        elif count <= 20:
-            level = 2
-        elif count <= 30:
-            level = 3
-        elif count <= 49:
-            level = 4
-        else:
-            level = 5
-        mapped[date] = level
-        logger.debug("Date: %s, Count: %d, Level: %d", date, count, level)
 
-    logger.info(
-        "Completed mapping contributions to levels. Total dates mapped: %d", len(mapped)
-    )
-    return mapped
+    def _count_to_level(count: int) -> int:
+        if count == 0:
+            return 0
+        if count <= 10:
+            return 1
+        if count <= 20:
+            return 2
+        if count <= 30:
+            return 3
+        if count <= 49:
+            return 4
+        return 5
+
+    return {date: _count_to_level(count) for date, count in contributions.items()}
 
 
 def calculate_cell_dimensions(
-    grid_width: int, weeks: int = 52, days: int = 7
+    grid_width: int, weeks: int = HEATMAP_WEEKS
 ) -> tuple[float, float]:
-    """Calculate dimensions for heatmap cells.
+    """Calculate the cell size and inter-cell spacing for the heatmap grid.
+
+    GRID_SPACING_RATIO of the total grid width is reserved for column gaps;
+    the remainder is divided equally across all week columns.
 
     Args:
-        grid_width (int): Width of the grid in pixels.
-        weeks (int): Number of weeks (columns).
-        days (int): Number of days (rows).
+        grid_width: Total grid width in pixels.
+        weeks: Number of week columns.
 
     Returns:
-        tuple[float, float]: Cell size and spacing.
+        Tuple of (cell_size, cell_spacing), both rounded to 2 decimal places.
     """
-    logger.info("Calculating cell dimensions for the heatmap grid...")
-    total_spacing = grid_width * 0.1
-    effective_width = grid_width - total_spacing
-    cell_size = effective_width / weeks
-    cell_spacing = grid_width * 0.1 / (weeks - 1)
-
-    logger.debug(
-        "Grid width: %d, Total spacing: %f, Effective width: %f",
-        grid_width,
-        total_spacing,
-        effective_width,
-    )
-    logger.debug("Calculated cell size: %f, Cell spacing: %f", cell_size, cell_spacing)
-
+    gap_total = grid_width * GRID_SPACING_RATIO
+    cell_size = (grid_width - gap_total) / weeks
+    cell_spacing = gap_total / (weeks - 1)
     return round(cell_size, 2), round(cell_spacing, 2)
 
 
 def create_svg_grid_with_heatmap(
     contributions: dict[str, int], grid_width: int = 794
 ) -> str:
-    """Generate SVG heatmap grid from contribution levels.
+    """Render the contribution heatmap as an SVG <g> element.
+
+    Produces HEATMAP_CELLS <rect> elements arranged in a 52-column × 7-row grid,
+    with CSS class and fill references matching the SVG template's style definitions.
 
     Args:
-        contributions (dict[str, int]): Contribution levels by date.
-        grid_width (int): Width of the grid in pixels.
+        contributions: Dict mapping ISO date strings to intensity levels (0–5).
+        grid_width: Total grid width in pixels.
 
     Returns:
-        str: SVG markup for the heatmap grid.
+        SVG markup string, including the opening <!-- Contribution Grid --> marker.
     """
-    logger.info("Generating SVG heatmap grid...")
-    svg_parts = []
-    svg_parts.append("<!-- Contribution Grid -->")
-    svg_parts.append('<g transform="translate(50, 520)">')
-
-    # 52 columns × 7 rows = 364 cells; take the most recent 364 entries
-    trimmed_contributions = list(contributions.items())[-364:]
-    logger.debug(
-        "Trimmed contributions to %d entries for the grid.", len(trimmed_contributions)
-    )
-
     cell_size, cell_spacing = calculate_cell_dimensions(grid_width)
-    logger.debug("Calculated cell size: %f, cell spacing: %f", cell_size, cell_spacing)
+
+    # Take the most recent HEATMAP_CELLS entries so the grid is always full.
+    entries = list(contributions.items())[-HEATMAP_CELLS:]
+
+    svg_parts = [
+        "<!-- Contribution Grid -->",
+        '<g transform="translate(50, 520)">',
+    ]
 
     x, y = 0.0, 0.0
-
-    for index, (date, level) in enumerate(trimmed_contributions):
+    for index, (date, level) in enumerate(entries):
         color = CONTRIBUTION_COLORS.get(level, "#363a4f")
         svg_parts.append(
-            f'<rect class="grid-cell" x="{x}" y="{y}" width="{cell_size}" '
-            f'height="{cell_size}" fill="url(#{color})" stroke="url(#{color}_stroke)" '
+            f'<rect class="grid-cell" x="{x}" y="{y}" '
+            f'width="{cell_size}" height="{cell_size}" '
+            f'fill="url(#{color})" stroke="url(#{color}_stroke)" '
             f'rx="2" title="{date}: {level} contributions"/>'
         )
-        logger.debug("Added grid cell: Date=%s, Level=%d, Color=%s", date, level, color)
-
         y += cell_size + cell_spacing
-
-        if (index + 1) % 7 == 0:
-            y = 0
+        if (index + 1) % HEATMAP_DAYS_PER_WEEK == 0:
+            y = 0.0
             x += cell_size + cell_spacing
 
     svg_parts.append("</g>")
-    logger.info(
-        "SVG grid generation complete with %d cells.", len(trimmed_contributions)
-    )
+    logger.info("SVG grid generated: %d cells", len(entries))
     return "\n".join(svg_parts)
 
 
 def replace_placeholders_in_svg(svg_content: str, stats: ContributionData) -> str:
-    """Replace placeholders in the SVG file with the fetched statistics.
+    """Replace stat placeholders in an SVG template with real values.
+
+    Placeholder tokens in the SVG are substituted in a single pass:
+        total-contributions-ph  → formatted total with thousands separator
+        current-streak-ph       → current streak in days
+        longest-streak-ph       → date range and length of longest streak
 
     Args:
-        svg_content (str): SVG content with placeholders.
-        stats (ContributionData): Fetched statistics.
+        svg_content: Raw SVG string containing placeholder tokens.
+        stats: Contribution stats to inject.
 
     Returns:
-        str: SVG content with placeholders replaced by statistics.
+        SVG string with all placeholders replaced.
     """
-    logger.info("Replacing placeholders in SVG content...")
+    longest_start = format_date(stats["longest_streak_start"])
+    longest_end = format_date(stats["longest_streak_end"])
 
-    longest_streak_start = format_date(stats["longest_streak_start"])
-    longest_streak_end = format_date(stats["longest_streak_end"])
+    replacements = {
+        "total-contributions-ph": f"{stats['total_contributions']:,}🌟",
+        "current-streak-ph": f"{stats['current_streak']}🔥",
+        "longest-streak-ph": (
+            f"{longest_start} ➝ {longest_end} : {stats['longest_streak']}🏆"
+        ),
+    }
 
-    longest_streak_text = (
-        f"{longest_streak_start} ➝ {longest_streak_end} : {stats['longest_streak']}🏆"
-    )
-    total_contributions = f"{stats['total_contributions']:,}🌟"
-    current_streak = f"{stats['current_streak']}🔥"
+    result = svg_content
+    for placeholder, value in replacements.items():
+        result = result.replace(placeholder, value)
+    return result
 
-    updated_svg = svg_content.replace("total-contributions-ph", total_contributions)
-    updated_svg = updated_svg.replace("current-streak-ph", current_streak)
-    updated_svg = updated_svg.replace("longest-streak-ph", longest_streak_text)
 
-    logger.info("SVG placeholders replaced successfully.")
-    return updated_svg
+# ── Entry Point ────────────────────────────────────────────────────────────────
 
 
 def main() -> None:
-    """Main function to fetch contributions and update SVG files."""
-    logger.info("Starting the main process...")
-
+    """Orchestrate the contribution card update pipeline."""
     username = os.getenv("USERNAME")
     token = os.getenv("GITHUB_TOKEN")
 
     if not username:
         logger.error("USERNAME environment variable is required but not set.")
         raise ValueError("Missing USERNAME environment variable.")
-
     if not token:
         logger.error("GITHUB_TOKEN environment variable is required but not set.")
         raise ValueError("Missing GITHUB_TOKEN environment variable.")
 
-    logger.debug("Environment variables - USERNAME: %s, GITHUB_TOKEN: ******", username)
-
     data = fetch_contributions_from_github(username, token)
-    logger.info("Fetched contribution stats: %s", data)
-
     contributions = map_contributions_to_levels(data["contributions"])
-    contribution_grid = create_svg_grid_with_heatmap(contributions)
+    grid = create_svg_grid_with_heatmap(contributions)
 
-    assets_dir = Path("assets")
-    file_pairs = [
-        ("profile-card.svg", "profile-card-latest.svg"),
-        ("profile-card-no-bg.svg", "profile-card-no-bg-latest.svg"),
-    ]
-    for file_name, updated_file_name in file_pairs:
-        logger.info("Processing file: %s", file_name)
+    for template_file, output_file in SVG_FILE_PAIRS:
         try:
-            original_svg = (assets_dir / file_name).read_text(encoding="utf-8")
-            updated_svg = original_svg.replace(
-                "<!-- Contribution Grid -->", contribution_grid
-            )
-            updated_svg = replace_placeholders_in_svg(updated_svg, data)
-            (assets_dir / updated_file_name).write_text(updated_svg, encoding="utf-8")
-            logger.info("Updated file saved: assets/%s", updated_file_name)
+            svg = (ASSETS_DIR / template_file).read_text(encoding="utf-8")
+            svg = svg.replace("<!-- Contribution Grid -->", grid)
+            svg = replace_placeholders_in_svg(svg, data)
+            (ASSETS_DIR / output_file).write_text(svg, encoding="utf-8")
+            logger.info("Written: %s", ASSETS_DIR / output_file)
         except Exception as e:
-            logger.error("Error processing file %s: %s", file_name, e)
+            logger.error("Failed to process %s: %s", template_file, e)
             raise
-
-    logger.info("Main process completed successfully.")
 
 
 if __name__ == "__main__":
-    logger.info("Script execution started.")
     try:
         main()
     except Exception as e:
-        logger.error("An unexpected error occurred: %s", e)
+        logger.error("Fatal error: %s", e)
         sys.exit(1)
-    logger.info("Script execution finished.")
