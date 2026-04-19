@@ -12,7 +12,7 @@ Pipeline:
     6. main                          — orchestrate and write output files.
 
 Required environment variables:
-    USERNAME     — GitHub username.
+    GH_USERNAME  — GitHub username.
     GITHUB_TOKEN — Personal access token with read:user scope.
 """
 
@@ -439,12 +439,12 @@ def replace_placeholders_in_svg(svg_content: str, stats: ContributionData) -> st
 
 def main() -> None:
     """Orchestrate the contribution card update pipeline."""
-    username = os.getenv("USERNAME")
+    username = os.getenv("GH_USERNAME")
     token = os.getenv("GITHUB_TOKEN")
 
     if not username:
-        logger.error("USERNAME environment variable is required but not set.")
-        raise ValueError("Missing USERNAME environment variable.")
+        logger.error("GH_USERNAME environment variable is required but not set.")
+        raise ValueError("Missing GH_USERNAME environment variable.")
     if not token:
         logger.error("GITHUB_TOKEN environment variable is required but not set.")
         raise ValueError("Missing GITHUB_TOKEN environment variable.")

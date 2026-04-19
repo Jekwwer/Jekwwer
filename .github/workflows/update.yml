@@ -45,7 +45,7 @@ jobs:
 
       - name: generate-updated-svg
         env:
-          USERNAME: ${{ secrets.USERNAME }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           poetry run python3 update_contributions.py
