@@ -32,12 +32,12 @@
     "node": ">=20.18 <21"
   },
   "scripts": {
-    "spell": "cspell . --gitignore --cache",
+    "spell": "cspell . --cache",
     "format": "prettier --check --config .prettierrc .",
     "format-fix": "prettier --write --config .prettierrc ."
   },
   "devDependencies": {
-    "cspell": "^9.0.2",
+    "cspell": "^10.0.0",
     "prettier": "^3.5.3"
   }
 }

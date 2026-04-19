@@ -1,41 +1,6 @@
 {
-  "ignorePaths": [
-    "*.json",
-    "*.lock",
-    "*.svg",
-    "*.toml",
-    "*.yaml",
-    "*.yml",
-    ".devcontainer/*",
-    ".editorconfig",
-    ".gitignore",
-    ".prettierrc",
-    "Makefile"
-  ],
-  "language": "en",
+  "ignorePaths": ["*.json", "*.lock", "*.svg", "*.toml", "*.yaml", "*.yml", ".devcontainer/*", ".editorconfig", ".gitignore", ".prettierrc", "Makefile"],
   "useGitignore": true,
   "version": "0.2",
-  "words": [
-    "adrienverge",
-    "asottile",
-    "charliermarsh",
-    "cli",
-    "docstrings",
-    "esbenp",
-    "Evgenii",
-    "igorshubovych",
-    "Jekwwer",
-    "leetcode",
-    "levelname",
-    "mypy",
-    "noqa",
-    "pygrep",
-    "pyproject",
-    "pyupgrade",
-    "rbubley",
-    "Shiliaev",
-    "streetsidesoftware",
-    "styleguide",
-    "tcort"
-  ]
+  "words": ["cli", "docstrings", "Evgenii", "Jekwwer", "leetcode", "levelname", "mypy", "noqa", "pygrep", "pyproject", "pyupgrade", "Shiliaev", "styleguide"]
 }
