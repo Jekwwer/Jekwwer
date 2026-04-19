@@ -3,55 +3,32 @@ name = "jekwwer-jekwwer"
 version = "0.0.0"
 description = "Dynamic GitHub profile page showing daily-updated contribution stats and heatmap."
 package-mode = false
-readme = ["README.md", "LICENSE"]
-license = "MIT"
-authors = [
-  "Evgenii Shiliaev <evgenii.shiliaev@jekwwer.com>"
-]
-keywords = [
-  "github",
-  "profile",
-  "contributions",
-  "stats",
-  "heatmap",
-  "actions",
-  "automation",
-  "pages",
-]
-
-[tool.poetry.urls]
-Homepage = "https://github.com/Jekwwer/Jekwwer"
-"Bug Reports" = "https://github.com/Jekwwer/Jekwwer/issues"
-Source = "https://github.com/Jekwwer/Jekwwer"
 
 [tool.poetry.dependencies]
-python = ">=3.12,<3.13"
-requests = "^2.32.4"
+python = ">=3.12"
+requests = "^2.33.0"
 
 [tool.poetry.group.dev.dependencies]
-pre-commit = "^4.2.0"
+pre-commit = "^4.5.0"
 
 [tool.poetry.group.lint.dependencies]
-ruff = "^0.11.12"
+ruff = "^0.15.0"
 
 [tool.poetry.group.mypy.dependencies]
-mypy = "^1.16.0"
-types-requests = "^2.32.4.20250611"
+mypy = "^1.20.0"
+types-requests = "^2.33.0.20260408"
 
 [tool.mypy]
 platform = "linux"
 python_version = "3.12"
 strict = true
-disallow_untyped_defs = true
-warn_unused_ignores = true
 
 [tool.ruff]
 line-length = 88
-extend-exclude = ["tests", "migrations", "__pycache__"]
-src = ["src"]
+src = ["."]
 
 [tool.ruff.lint]
-select = ["E","F","W","C","ANN","B","D","I","Q"]
+select = ["E", "F", "W", "C", "ANN", "B", "D", "I"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
