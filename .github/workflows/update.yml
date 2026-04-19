@@ -48,12 +48,12 @@ jobs:
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          poetry run python3 update_contributions.py
+          poetry run python3 generate_profile_card.py
 
       - name: commit-updated-svg
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add assets/profile-card-latest.svg assets/profile-card-no-bg-latest.svg
+          git add assets/profile-card.svg assets/profile-card-no-bg.svg
           git commit -m "chore: update contributions stats $(date +'%Y-%m-%d %H:%M:%S')"
           git push

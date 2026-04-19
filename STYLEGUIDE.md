@@ -86,7 +86,7 @@ GitHub profile SVG.
 ├── README.md                           ├── # project README
 ├── SECURITY.md                         ├── # security information
 ├── STYLEGUIDE.md                       ├── # style guide (this document)
-└── update_contributions.py             └── # svg update script
+└── generate_profile_card.py            └── # profile card generator script
 ```
 
 ### File Naming Conventions
@@ -142,10 +142,10 @@ Key configuration files in the repository:
 SVG images are located in the `assets` directory:
 
 - `bg.svg`: Background image for the GitHub Pages version.
-- `profile-card-latest.svg`: README version with background.
-- `profile-card-no-bg-latest.svg`: GitHub Pages version without background.
-- `profile-card-no-bg.svg`: Template without background.
-- `profile-card.svg`: Template with background.
+- `profile-card.svg`: Generated output with background (embedded in README).
+- `profile-card-no-bg.svg`: Generated output without background (GitHub Pages).
+- `profile-card.template.svg`: Template with background.
+- `profile-card-no-bg.template.svg`: Template without background.
 
 ## Naming Conventions
 
