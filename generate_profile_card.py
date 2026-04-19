@@ -51,8 +51,8 @@ GRID_SPACING_RATIO = 0.1
 
 ASSETS_DIR = Path("assets")
 SVG_FILE_PAIRS: list[tuple[str, str]] = [
-    ("profile-card.svg", "profile-card-latest.svg"),
-    ("profile-card-no-bg.svg", "profile-card-no-bg-latest.svg"),
+    ("profile-card.template.svg", "profile-card.svg"),
+    ("profile-card-no-bg.template.svg", "profile-card-no-bg.svg"),
 ]
 
 # GraphQL query fetches contribution counts per day for a given date range.
