@@ -1,34 +1,29 @@
 # Security Policy
 
-This document outlines the security policy for the **Jekwwer/Jekwwer** repository and provides instructions for
-reporting vulnerabilities.
+Security policy for **Jekwwer/Jekwwer** repository.
 
-## Supported Versions
+## Scope
 
-As this repository does not host a software application, version-specific support is not applicable.
+In-scope vulnerabilities for this project:
+
+- Leaked or exposed `GITHUB_TOKEN` / `GH_USERNAME` in code or logs
+- SVG injection in generated or template SVG files
+- Compromised CI/CD pipeline (`.github/workflows/`)
+- Dependency supply chain issues
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in this repository:
+Two options for private disclosure:
 
-1. **Private Disclosure via Email** Please send an email to [report@jekwwer.com][report@jekwwer.com] with the following
-   details:
-   - A detailed description of the vulnerability.
-   - Steps to reproduce the issue.
-   - Affected versions (if applicable).
-   - Any suggested fixes or workarounds.
+1. **Email** — Send to [report@jekwwer.com][report@jekwwer.com] with:
+   - Description of the vulnerability
+   - Steps to reproduce
+   - Suggested fixes or workarounds
 
-2. **Private Security Advisory on GitHub** Alternatively, you can submit a report via GitHub Security Advisories:
-   - Navigate to the repository's [Security Advisories][security-advisories].
-   - Click **Create security advisory** and follow the instructions.
+2. **GitHub Security Advisory** — Click **Report a vulnerability** on the [Security tab][security-advisories] and follow
+   the instructions.
 
-I aim to respond to vulnerability reports within **72** hours and provide a resolution or update within **14** days.
-
-## For Further Inquiries
-
-For any additional questions or concerns about this security policy, please feel free to contact me at
-[evgenii.shiliaev@jekwwer.com][evgenii.shiliaev@jekwwer.com].
+Response within **72 hours**. Resolution or update within **14 days**.
 
 [security-advisories]: https://github.com/Jekwwer/Jekwwer/security/advisories
-[evgenii.shiliaev@jekwwer.com]: mailto:evgenii.shiliaev@jekwwer.com
 [report@jekwwer.com]: mailto:report@jekwwer.com
