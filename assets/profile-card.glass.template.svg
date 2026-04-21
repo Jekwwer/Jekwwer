@@ -190,8 +190,12 @@
   <rect class="stats-box" x="30" y="455" width="834" height="205" rx="25" />
   <text class="stats-title" x="50" y="495"> 📆 Contributions in the Last 52 Weeks</text>
 
-  <!-- Contribution Grid Legend -->
+  <g transform="translate(50, 636)">
+    <!-- Contribution Grid Legend -->
+  </g>
 
-  <!-- Contribution Grid -->
+  <g transform="translate(50, 520)">
+    <!-- Contribution Grid -->
+  </g>
 
 </svg>

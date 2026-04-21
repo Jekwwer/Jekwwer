@@ -453,10 +453,7 @@ def create_svg_grid_with_heatmap(
     # Take the most recent HEATMAP_CELLS entries so the grid is always full.
     entries = list(levels.items())[-HEATMAP_CELLS:]
 
-    svg_parts = [
-        "<!-- Contribution Grid -->",
-        '<g transform="translate(50, 520)">',
-    ]
+    svg_parts = ["<!-- Contribution Grid -->"]
 
     x, y = 0.0, 0.0
     for index, (date, level) in enumerate(entries):
@@ -473,7 +470,6 @@ def create_svg_grid_with_heatmap(
             y = 0.0
             x += cell_size + cell_spacing
 
-    svg_parts.append("</g>")
     logger.info("SVG grid generated: %d cells", len(entries))
     return "\n".join(svg_parts)
 
@@ -496,10 +492,7 @@ def create_svg_legend(grid_width: int = 794) -> str:
     """
     cell_size, _ = calculate_cell_dimensions(grid_width)
 
-    parts = [
-        "<!-- Contribution Grid Legend -->",
-        '<g transform="translate(50, 636)">',
-    ]
+    parts = ["<!-- Contribution Grid Legend -->"]
     for level, label in LEGEND_LABELS.items():
         x = (
             0.0
@@ -517,7 +510,6 @@ def create_svg_legend(grid_width: int = 794) -> str:
             f'<text class="legend-label" x="{round(x + LEGEND_TEXT_OFFSET_X, 1)}" '
             f'y="{LEGEND_TEXT_OFFSET_Y}">{label}</text>'
         )
-    parts.append("</g>")
     logger.info("SVG legend generated")
     return "\n".join(parts)
 
