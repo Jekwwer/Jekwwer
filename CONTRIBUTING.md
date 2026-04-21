@@ -50,8 +50,8 @@ export GITHUB_TOKEN=<personal-access-token-with-read:user-scope>
 python generate_profile_card.py --style all
 ```
 
-Output writes to `docs/profile-card.glass.svg` and `docs/profile-card.glass-no-background.svg` (or whichever style(s)
-are requested via `--style`).
+Output writes to `docs/glass/profile-card.glass.svg` and `docs/glass/profile-card.glass-no-background.svg`
+(or the equivalent paths under each style's subdirectory when using `--style all`).
 
 ## Branching and Versioning
 

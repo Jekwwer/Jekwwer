@@ -36,10 +36,12 @@ Standardizes coding and documentation practices for consistency, readability, an
 ├── assets                                      ├── # SVG source templates (one per style)
 │   └── profile-card.glass.template.svg         │   └── # glass style card template
 ├── docs                                        ├── # GitHub Pages files
-│   ├── background.glass.svg                    │   ├── # animated background (glass style)
-│   ├── index.html                              │   ├── # main index
-│   ├── profile-card.glass.svg                  │   ├── # glass style output with background
-│   └── profile-card.glass-no-background.svg    │   └── # glass style output without background
+│   ├── glass                                   │   ├── # glass style assets
+│   │   ├── background.glass.svg                │   │   ├── # animated background
+│   │   ├── index.html                          │   │   ├── # glass style page
+│   │   ├── profile-card.glass.svg              │   │   ├── # output with background
+│   │   └── profile-card.glass-no-background.svg│   │   └── # output without background
+│   └── index.html                              │   └── # redirect to active style
 ├── .editorconfig                               ├── # editor configuration
 ├── .gitignore                                  ├── # files to ignore in Git
 ├── .markdownlint.json                          ├── # markdown linting configuration
@@ -107,14 +109,16 @@ Standardizes coding and documentation practices for consistency, readability, an
 SVG source templates in `assets` (one per style):
 
 - `profile-card.glass.template.svg`: Glass style card template; background injected at runtime from
-  `docs/background.glass.svg`.
+  `docs/glass/background.glass.svg`.
 
-Generated SVGs and static assets in `docs`:
+Each style gets its own subdirectory under `docs/`:
 
-- `background.glass.svg`: Animated gradient background for the glass style GitHub Pages version.
-- `profile-card.glass.svg`: Glass style output with background (embedded in README).
-- `profile-card.glass-no-background.svg`: Glass style output without background (GitHub Pages overlay on
-  `background.glass.svg`).
+- `docs/index.html`: Redirects to the currently active style page.
+- `docs/glass/index.html`: Glass style GitHub Pages page.
+- `docs/glass/background.glass.svg`: Animated gradient background for the glass style.
+- `docs/glass/profile-card.glass.svg`: Glass style output with background (embedded in README).
+- `docs/glass/profile-card.glass-no-background.svg`: Glass style output without background (overlaid on
+  `background.glass.svg` by the glass style page).
 
 ## Naming Conventions
 

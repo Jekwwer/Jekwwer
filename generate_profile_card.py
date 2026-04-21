@@ -62,13 +62,15 @@ class CardStyle:
 
     Attributes:
         template: SVG template filename relative to ASSETS_DIR.
-        outputs: (output_filename, inject_background) pairs written to DOCS_DIR.
-        background: Background SVG filename in DOCS_DIR; empty string if unused.
+        outputs: (output_filename, inject_background) pairs written to the style subdir.
+        background: Background SVG filename in the style subdir; empty string if unused.
+        subdir: Subdirectory under DOCS_DIR for all outputs and background.
     """
 
     template: str
     outputs: list[tuple[str, bool]]
     background: str = ""
+    subdir: str = ""
 
 
 # Registry of supported card styles.
@@ -82,6 +84,7 @@ CARD_STYLES: dict[str, CardStyle] = {
             ("profile-card.glass-no-background.svg", False),
         ],
         background="background.glass.svg",
+        subdir="glass",
     ),
 }
 
@@ -180,13 +183,13 @@ def format_date(date_value: str | None) -> str:
     return "N/A"
 
 
-def _read_background_fragment(bg_file: str) -> str:
+def _read_background_fragment(style_dir: Path, bg_file: str) -> str:
     """Return a background SVG's inner content with the outer <svg> wrapper stripped.
 
     Stripping the wrapper makes the fragment embeddable inside the card SVG.
     Secondary <defs> and <style> blocks are valid SVG and render correctly.
     """
-    raw = (DOCS_DIR / bg_file).read_text(encoding="utf-8")
+    raw = (style_dir / bg_file).read_text(encoding="utf-8")
     # Drop the opening <svg ...> tag and the closing </svg>.
     start = raw.index(">") + 1
     end = raw.rindex("<")
@@ -585,8 +588,12 @@ def main() -> None:
     legend = create_svg_legend()
 
     for style_name, style in styles.items():
+        style_dir = DOCS_DIR / style.subdir if style.subdir else DOCS_DIR
+        style_dir.mkdir(parents=True, exist_ok=True)
         bg_fragment = (
-            _read_background_fragment(style.background) if style.background else ""
+            _read_background_fragment(style_dir, style.background)
+            if style.background
+            else ""
         )
         for output_file, inject_bg in style.outputs:
             try:
@@ -596,8 +603,9 @@ def main() -> None:
                 svg = svg.replace("<!-- Contribution Grid Legend -->", legend)
                 svg = svg.replace("<!-- Contribution Grid -->", grid)
                 svg = replace_placeholders_in_svg(svg, data)
-                (DOCS_DIR / output_file).write_text(svg, encoding="utf-8")
-                logger.info("Written: %s", DOCS_DIR / output_file)
+                out_path = style_dir / output_file
+                out_path.write_text(svg, encoding="utf-8")
+                logger.info("Written: %s", out_path)
             except Exception as e:
                 logger.error(
                     "Failed to process %s → %s: %s", style_name, output_file, e
