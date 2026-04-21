@@ -9,52 +9,32 @@
   "postCreateCommand": "bash .devcontainer/post-create.sh",
   "customizations": {
     "vscode": {
-      "extensions": [
-        "charliermarsh.ruff",
-        "editorconfig.editorconfig",
-        "esbenp.prettier-vscode",
-        "jock.svg",
-        "ms-python.debugpy",
-        "ms-python.mypy",
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "streetsidesoftware.code-spell-checker"
-      ],
+      "extensions": ["charliermarsh.ruff", "editorconfig.editorconfig", "esbenp.prettier-vscode", "jock.svg", "ms-python.debugpy", "ms-python.mypy", "ms-python.python", "ms-python.vscode-pylance", "streetsidesoftware.code-spell-checker"],
       "settings": {
         "[css]": {
-          "editor.rulers": [
-            120
-          ]
+          "editor.rulers": [120]
         },
         "[html]": {
-          "editor.rulers": [
-            120
-          ]
+          "editor.rulers": [120]
         },
         "[json][jsonc]": {
           "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[markdown]": {
-          "editor.rulers": [
-            120
-          ]
+          "editor.rulers": [120]
         },
         "[python]": {
           "editor.defaultFormatter": "charliermarsh.ruff"
         },
         "[svg]": {
-          "editor.rulers": [
-            120
-          ]
+          "editor.rulers": [120]
         },
         "[yaml]": {
           "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "editor.formatOnPaste": true,
         "editor.formatOnSave": true,
-        "editor.rulers": [
-          88
-        ],
+        "editor.rulers": [88],
         "files.autoSave": "onFocusChange",
         "files.autoSaveWhenNoErrors": true,
         "prettier.configPath": "./.prettierrc",
