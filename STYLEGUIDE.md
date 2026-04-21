@@ -33,13 +33,13 @@ Standardizes coding and documentation practices for consistency, readability, an
 │   ├── dependabot.yml                          │   ├── # Dependabot configuration
 │   ├── FUNDING.yml                             │   ├── # funding configuration
 │   └── PULL_REQUEST_TEMPLATE.md                │   └── # default pull request template
-├── assets                                      ├── # generated and template SVG files
-│   ├── background.svg                          │   ├── # animated background (GitHub Pages)
-│   ├── profile-card.svg                        │   ├── # generated output with background
-│   ├── profile-card-no-background.svg                  │   ├── # generated output without background
+├── assets                                      ├── # SVG source templates
 │   └── profile-card.template.svg               │   └── # shared card template
 ├── docs                                        ├── # GitHub Pages files
-│   └── index.html                              │   └── # main index
+│   ├── background.svg                          │   ├── # animated background
+│   ├── index.html                              │   ├── # main index
+│   ├── profile-card.svg                        │   ├── # generated output with background
+│   └── profile-card-no-background.svg          │   └── # generated output without background
 ├── .editorconfig                               ├── # editor configuration
 ├── .gitignore                                  ├── # files to ignore in Git
 ├── .markdownlint.json                          ├── # markdown linting configuration
@@ -104,12 +104,15 @@ Standardizes coding and documentation practices for consistency, readability, an
 
 ### Assets and Resources
 
-SVG images in `assets`:
+SVG source template in `assets`:
+
+- `profile-card.template.svg`: Shared card template; background injected at runtime from `docs/background.svg`.
+
+Generated SVGs and static assets in `docs`:
 
 - `background.svg`: Animated gradient background for the GitHub Pages version.
 - `profile-card.svg`: Generated output with background (embedded in README).
 - `profile-card-no-background.svg`: Generated output without background (GitHub Pages overlay on `background.svg`).
-- `profile-card.template.svg`: Shared card template; background injected at runtime from `background.svg`.
 
 ## Naming Conventions
 

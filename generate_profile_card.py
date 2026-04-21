@@ -50,13 +50,15 @@ REQUEST_TIMEOUT_SECONDS = 10
 # Fraction of total grid width reserved for gaps between columns.
 GRID_SPACING_RATIO = 0.1
 
-ASSETS_DIR = Path("assets")
+ASSETS_DIR = Path("assets")  # source files: template SVG
+DOCS_DIR = Path("docs")  # deployment output: generated SVGs + background
+
 BG_SVG_FILE = "background.svg"
 
 # Each tuple: (template, output, inject_background).
-# Both outputs share a single template; background.svg inner content is injected at
-# <!-- Background --> for the background variant
-# and omitted for the no-background variant.
+# Template is read from ASSETS_DIR; outputs are written to DOCS_DIR.
+# background.svg inner content is injected at <!-- Background --> for the
+# background variant and omitted for the no-background variant.
 SVG_FILE_PAIRS: list[tuple[str, str, bool]] = [
     ("profile-card.template.svg", "profile-card.svg", True),
     ("profile-card.template.svg", "profile-card-no-background.svg", False),
@@ -164,7 +166,7 @@ def _read_background_fragment() -> str:
     Stripping the wrapper makes the fragment embeddable inside the card SVG.
     Secondary <defs> and <style> blocks are valid SVG and render correctly.
     """
-    raw = (ASSETS_DIR / BG_SVG_FILE).read_text(encoding="utf-8")
+    raw = (DOCS_DIR / BG_SVG_FILE).read_text(encoding="utf-8")
     # Drop the opening <svg ...> tag and the closing </svg>.
     start = raw.index(">") + 1
     end = raw.rindex("<")
@@ -560,8 +562,8 @@ def main() -> None:
             svg = svg.replace("<!-- Contribution Grid Legend -->", legend)
             svg = svg.replace("<!-- Contribution Grid -->", grid)
             svg = replace_placeholders_in_svg(svg, data)
-            (ASSETS_DIR / output_file).write_text(svg, encoding="utf-8")
-            logger.info("Written: %s", ASSETS_DIR / output_file)
+            (DOCS_DIR / output_file).write_text(svg, encoding="utf-8")
+            logger.info("Written: %s", DOCS_DIR / output_file)
         except Exception as e:
             logger.error("Failed to process %s: %s", template_file, e)
             raise
