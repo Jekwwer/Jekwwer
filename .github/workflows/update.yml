@@ -5,6 +5,11 @@ on:
   schedule:
     - cron: '0 22 * * *' # Runs daily at 10:00 PM UTC
   workflow_dispatch:
+    inputs:
+      style:
+        description: 'Card style to generate (all | glass)'
+        required: false
+        default: 'all'
 
 permissions:
   contents: write
@@ -48,12 +53,13 @@ jobs:
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          poetry run python3 generate_profile_card.py
+          style="${{ inputs.style || 'all' }}"
+          poetry run python3 generate_profile_card.py --style "$style"
 
       - name: commit-updated-svg
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/profile-card.svg docs/profile-card-no-background.svg
+          git add docs/profile-card.*.svg
           git commit -m "chore: update contributions stats $(date +'%Y-%m-%d %H:%M:%S')"
           git push

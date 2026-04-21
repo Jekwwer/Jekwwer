@@ -17,9 +17,11 @@ Required environment variables:
     GITHUB_TOKEN — Personal access token with read:user scope.
 """
 
+import argparse
 import logging
 import os
 import sys
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, TypedDict
@@ -50,19 +52,38 @@ REQUEST_TIMEOUT_SECONDS = 10
 # Fraction of total grid width reserved for gaps between columns.
 GRID_SPACING_RATIO = 0.1
 
-ASSETS_DIR = Path("assets")  # source files: template SVG
-DOCS_DIR = Path("docs")  # deployment output: generated SVGs + background
+ASSETS_DIR = Path("assets")  # source files: template SVGs
+DOCS_DIR = Path("docs")  # deployment output: generated SVGs + backgrounds
 
-BG_SVG_FILE = "background.svg"
 
-# Each tuple: (template, output, inject_background).
-# Template is read from ASSETS_DIR; outputs are written to DOCS_DIR.
-# background.svg inner content is injected at <!-- Background --> for the
-# background variant and omitted for the no-background variant.
-SVG_FILE_PAIRS: list[tuple[str, str, bool]] = [
-    ("profile-card.template.svg", "profile-card.svg", True),
-    ("profile-card.template.svg", "profile-card-no-background.svg", False),
-]
+@dataclass
+class CardStyle:
+    """Configuration for a single profile card style.
+
+    Attributes:
+        template: SVG template filename relative to ASSETS_DIR.
+        outputs: (output_filename, inject_background) pairs written to DOCS_DIR.
+        background: Background SVG filename in DOCS_DIR; empty string if unused.
+    """
+
+    template: str
+    outputs: list[tuple[str, bool]]
+    background: str = ""
+
+
+# Registry of supported card styles.
+# Add a new CardStyle entry here to support an additional style — no other
+# code changes required.
+CARD_STYLES: dict[str, CardStyle] = {
+    "glass": CardStyle(
+        template="profile-card.glass.template.svg",
+        outputs=[
+            ("profile-card.glass.svg", True),
+            ("profile-card.glass-no-background.svg", False),
+        ],
+        background="background.glass.svg",
+    ),
+}
 
 # GraphQL query fetches contribution counts per day for a given date range.
 _GRAPHQL_QUERY = """
@@ -159,14 +180,13 @@ def format_date(date_value: str | None) -> str:
     return "N/A"
 
 
-def _read_background_fragment() -> str:
-    """Return background.svg inner content with the outer <svg> wrapper stripped.
+def _read_background_fragment(bg_file: str) -> str:
+    """Return a background SVG's inner content with the outer <svg> wrapper stripped.
 
-    background.svg is the single source of truth for the animated background gradient.
     Stripping the wrapper makes the fragment embeddable inside the card SVG.
     Secondary <defs> and <style> blocks are valid SVG and render correctly.
     """
-    raw = (DOCS_DIR / BG_SVG_FILE).read_text(encoding="utf-8")
+    raw = (DOCS_DIR / bg_file).read_text(encoding="utf-8")
     # Drop the opening <svg ...> tag and the closing </svg>.
     start = raw.index(">") + 1
     end = raw.rindex("<")
@@ -536,6 +556,18 @@ def replace_placeholders_in_svg(svg_content: str, stats: ContributionData) -> st
 
 def main() -> None:
     """Orchestrate the contribution card update pipeline."""
+    parser = argparse.ArgumentParser(description="Generate GitHub profile card SVGs.")
+    parser.add_argument(
+        "--style",
+        default="all",
+        choices=[*CARD_STYLES, "all"],
+        help="Card style to generate (default: all).",
+    )
+    args = parser.parse_args()
+    styles = (
+        CARD_STYLES if args.style == "all" else {args.style: CARD_STYLES[args.style]}
+    )
+
     username = os.getenv("GH_USERNAME")
     token = os.getenv("GITHUB_TOKEN")
 
@@ -552,21 +584,25 @@ def main() -> None:
     grid = create_svg_grid_with_heatmap(levels, raw)
     legend = create_svg_legend()
 
-    background = _read_background_fragment()
-
-    for template_file, output_file, with_background in SVG_FILE_PAIRS:
-        try:
-            svg = (ASSETS_DIR / template_file).read_text(encoding="utf-8")
-            bg = background if with_background else ""
-            svg = svg.replace("<!-- Background -->", bg)
-            svg = svg.replace("<!-- Contribution Grid Legend -->", legend)
-            svg = svg.replace("<!-- Contribution Grid -->", grid)
-            svg = replace_placeholders_in_svg(svg, data)
-            (DOCS_DIR / output_file).write_text(svg, encoding="utf-8")
-            logger.info("Written: %s", DOCS_DIR / output_file)
-        except Exception as e:
-            logger.error("Failed to process %s: %s", template_file, e)
-            raise
+    for style_name, style in styles.items():
+        bg_fragment = (
+            _read_background_fragment(style.background) if style.background else ""
+        )
+        for output_file, inject_bg in style.outputs:
+            try:
+                svg = (ASSETS_DIR / style.template).read_text(encoding="utf-8")
+                bg = bg_fragment if inject_bg else ""
+                svg = svg.replace("<!-- Background -->", bg)
+                svg = svg.replace("<!-- Contribution Grid Legend -->", legend)
+                svg = svg.replace("<!-- Contribution Grid -->", grid)
+                svg = replace_placeholders_in_svg(svg, data)
+                (DOCS_DIR / output_file).write_text(svg, encoding="utf-8")
+                logger.info("Written: %s", DOCS_DIR / output_file)
+            except Exception as e:
+                logger.error(
+                    "Failed to process %s → %s: %s", style_name, output_file, e
+                )
+                raise
 
 
 if __name__ == "__main__":

@@ -47,10 +47,11 @@ Set the required environment variables and run the script from the repo root:
 ```bash
 export GH_USERNAME=<your-github-username>
 export GITHUB_TOKEN=<personal-access-token-with-read:user-scope>
-python generate_profile_card.py
+python generate_profile_card.py --style all
 ```
 
-Output writes to `docs/profile-card.svg` and `docs/profile-card-no-background.svg`.
+Output writes to `docs/profile-card.glass.svg` and `docs/profile-card.glass-no-background.svg` (or whichever style(s)
+are requested via `--style`).
 
 ## Branching and Versioning
 

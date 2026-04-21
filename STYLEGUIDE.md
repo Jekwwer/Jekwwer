@@ -33,13 +33,13 @@ Standardizes coding and documentation practices for consistency, readability, an
 │   ├── dependabot.yml                          │   ├── # Dependabot configuration
 │   ├── FUNDING.yml                             │   ├── # funding configuration
 │   └── PULL_REQUEST_TEMPLATE.md                │   └── # default pull request template
-├── assets                                      ├── # SVG source templates
-│   └── profile-card.template.svg               │   └── # shared card template
+├── assets                                      ├── # SVG source templates (one per style)
+│   └── profile-card.glass.template.svg         │   └── # glass style card template
 ├── docs                                        ├── # GitHub Pages files
-│   ├── background.svg                          │   ├── # animated background
+│   ├── background.glass.svg                    │   ├── # animated background (glass style)
 │   ├── index.html                              │   ├── # main index
-│   ├── profile-card.svg                        │   ├── # generated output with background
-│   └── profile-card-no-background.svg          │   └── # generated output without background
+│   ├── profile-card.glass.svg                  │   ├── # glass style output with background
+│   └── profile-card.glass-no-background.svg    │   └── # glass style output without background
 ├── .editorconfig                               ├── # editor configuration
 ├── .gitignore                                  ├── # files to ignore in Git
 ├── .markdownlint.json                          ├── # markdown linting configuration
@@ -104,15 +104,17 @@ Standardizes coding and documentation practices for consistency, readability, an
 
 ### Assets and Resources
 
-SVG source template in `assets`:
+SVG source templates in `assets` (one per style):
 
-- `profile-card.template.svg`: Shared card template; background injected at runtime from `docs/background.svg`.
+- `profile-card.glass.template.svg`: Glass style card template; background injected at runtime from
+  `docs/background.glass.svg`.
 
 Generated SVGs and static assets in `docs`:
 
-- `background.svg`: Animated gradient background for the GitHub Pages version.
-- `profile-card.svg`: Generated output with background (embedded in README).
-- `profile-card-no-background.svg`: Generated output without background (GitHub Pages overlay on `background.svg`).
+- `background.glass.svg`: Animated gradient background for the glass style GitHub Pages version.
+- `profile-card.glass.svg`: Glass style output with background (embedded in README).
+- `profile-card.glass-no-background.svg`: Glass style output without background (GitHub Pages overlay on
+  `background.glass.svg`).
 
 ## Naming Conventions
 
