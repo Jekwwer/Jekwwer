@@ -8,8 +8,9 @@ Pipeline:
     2. calculate_streaks             — compute current/longest streak with dates.
     3. map_contributions_to_levels   — map raw counts to 6 heatmap intensity levels.
     4. create_svg_grid_with_heatmap  — render a 52×7 SVG <rect> grid.
-    5. replace_placeholders_in_svg   — inject stats into SVG text-node placeholders.
-    6. main                          — orchestrate and write output files.
+    5. create_svg_legend             — render the colour-scale legend.
+    6. replace_placeholders_in_svg   — inject stats into SVG text-node placeholders.
+    7. main                          — orchestrate and write output files.
 
 Required environment variables:
     GH_USERNAME  — GitHub username.
@@ -50,9 +51,14 @@ REQUEST_TIMEOUT_SECONDS = 10
 GRID_SPACING_RATIO = 0.1
 
 ASSETS_DIR = Path("assets")
-SVG_FILE_PAIRS: list[tuple[str, str]] = [
-    ("profile-card.template.svg", "profile-card.svg"),
-    ("profile-card-no-bg.template.svg", "profile-card-no-bg.svg"),
+BG_SVG_FILE = "bg.svg"
+
+# Each tuple: (template, output, inject_background).
+# Both outputs share a single template; bg.svg inner content is injected at
+# <!-- Background --> for the bg variant and omitted for the no-bg variant.
+SVG_FILE_PAIRS: list[tuple[str, str, bool]] = [
+    ("profile-card.template.svg", "profile-card.svg", True),
+    ("profile-card.template.svg", "profile-card-no-bg.svg", False),
 ]
 
 # GraphQL query fetches contribution counts per day for a given date range.
@@ -73,15 +79,33 @@ query($username: String!, $from: DateTime!, $to: DateTime!) {
 }
 """
 
-# CSS class names referenced by the SVG templates, keyed by intensity level (0–5).
+# Gradient IDs referenced by SVG templates, keyed by intensity level (0–5).
+# Stroke IDs always follow the pattern f"{color_id}-stroke".
 CONTRIBUTION_COLORS = {
-    0: "no_contribution",
-    1: "contribution_1_10",
-    2: "contribution_11_20",
-    3: "contribution_21_30",
-    4: "contribution_31_49",
-    5: "contribution_50",
+    0: "heat-lvl-0",
+    1: "heat-lvl-1",
+    2: "heat-lvl-2",
+    3: "heat-lvl-3",
+    4: "heat-lvl-4",
+    5: "heat-lvl-5",
 }
+
+# Legend labels per intensity level.
+LEGEND_LABELS: dict[int, str] = {
+    0: "0: Burnout / Sleep / Love / Death / Vacay — Who knows! ( ͡° ͜ʖ ͡°)",
+    1: "1–10",
+    2: "11–20",
+    3: "21–30",
+    4: "31–49",
+    5: "50+",
+}
+
+# Legend layout constants (px). Derived from calculate_cell_dimensions(794) output
+# and empirically measured label widths at 10 px font-size.
+LEGEND_TEXT_OFFSET_X = 20  # cell left edge → label x
+LEGEND_TEXT_OFFSET_Y = 12  # cell top → text baseline
+LEGEND_LONG_ITEM_WIDTH = 321.3  # width of level-0 item (cell + long label + gap)
+LEGEND_SHORT_ITEM_WIDTH = 61.2  # width of each subsequent item (cell + short label)
 
 # ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -130,6 +154,20 @@ def format_date(date_value: str | None) -> str:
     if isinstance(date_value, str):
         return date_value.replace("-", "/")
     return "N/A"
+
+
+def _read_background_fragment() -> str:
+    """Return bg.svg inner content with the outer <svg> wrapper stripped.
+
+    bg.svg is the single source of truth for the animated background gradient.
+    Stripping the wrapper makes the fragment embeddable inside the card SVG.
+    Secondary <defs> and <style> blocks are valid SVG and render correctly.
+    """
+    raw = (ASSETS_DIR / BG_SVG_FILE).read_text(encoding="utf-8")
+    # Drop the opening <svg ...> tag and the closing </svg>.
+    start = raw.index(">") + 1
+    end = raw.rindex("<")
+    return raw[start:end].strip()
 
 
 def _parse_contribution_days(weeks: list[Any]) -> dict[str, int]:
@@ -258,7 +296,14 @@ def calculate_streaks(contributions: dict[str, int]) -> StreakData:
     Returns:
         StreakData with current/longest streak lengths and the longest streak's dates.
     """
-    sorted_dates = sorted(contributions.keys(), key=lambda d: datetime.fromisoformat(d))
+    today = datetime.now(timezone.utc).date()
+    # Exclude today when it has no contributions — the day may not be complete yet.
+    active = {
+        d: c
+        for d, c in contributions.items()
+        if not (datetime.fromisoformat(d).date() == today and c == 0)
+    }
+    sorted_dates = sorted(active.keys(), key=lambda d: datetime.fromisoformat(d))
 
     current_streak = 0
     longest_streak = 0
@@ -269,7 +314,7 @@ def calculate_streaks(contributions: dict[str, int]) -> StreakData:
     for date_str in sorted_dates:
         date = datetime.fromisoformat(date_str).date()
 
-        if contributions[date_str] > 0:
+        if active[date_str] > 0:
             if current_streak == 0:
                 streak_start = date
 
@@ -359,7 +404,9 @@ def calculate_cell_dimensions(
 
 
 def create_svg_grid_with_heatmap(
-    contributions: dict[str, int], grid_width: int = 794
+    levels: dict[str, int],
+    raw_counts: dict[str, int],
+    grid_width: int = 794,
 ) -> str:
     """Render the contribution heatmap as an SVG <g> element.
 
@@ -367,7 +414,9 @@ def create_svg_grid_with_heatmap(
     with CSS class and fill references matching the SVG template's style definitions.
 
     Args:
-        contributions: Dict mapping ISO date strings to intensity levels (0–5).
+        levels: Dict mapping ISO date strings to intensity levels (0–5).
+        raw_counts: Dict mapping ISO date strings to raw contribution counts,
+            used to populate cell tooltip titles.
         grid_width: Total grid width in pixels.
 
     Returns:
@@ -376,7 +425,7 @@ def create_svg_grid_with_heatmap(
     cell_size, cell_spacing = calculate_cell_dimensions(grid_width)
 
     # Take the most recent HEATMAP_CELLS entries so the grid is always full.
-    entries = list(contributions.items())[-HEATMAP_CELLS:]
+    entries = list(levels.items())[-HEATMAP_CELLS:]
 
     svg_parts = [
         "<!-- Contribution Grid -->",
@@ -385,12 +434,13 @@ def create_svg_grid_with_heatmap(
 
     x, y = 0.0, 0.0
     for index, (date, level) in enumerate(entries):
-        color = CONTRIBUTION_COLORS.get(level, "#363a4f")
+        color = CONTRIBUTION_COLORS[level]
+        count = raw_counts.get(date, 0)
         svg_parts.append(
             f'<rect class="grid-cell" x="{x}" y="{y}" '
             f'width="{cell_size}" height="{cell_size}" '
-            f'fill="url(#{color})" stroke="url(#{color}_stroke)" '
-            f'rx="2" title="{date}: {level} contributions"/>'
+            f'fill="url(#{color})" stroke="url(#{color}-stroke)" '
+            f'rx="2" title="{date}: {count}"/>'
         )
         y += cell_size + cell_spacing
         if (index + 1) % HEATMAP_DAYS_PER_WEEK == 0:
@@ -400,6 +450,50 @@ def create_svg_grid_with_heatmap(
     svg_parts.append("</g>")
     logger.info("SVG grid generated: %d cells", len(entries))
     return "\n".join(svg_parts)
+
+
+def create_svg_legend(grid_width: int = 794) -> str:
+    """Render the heatmap colour-scale legend as an SVG <g> element.
+
+    Generates one labelled cell per intensity level. Level-0 uses a long
+    descriptive label; levels 1–5 use compact range labels. Positions are
+    computed from LEGEND_LONG_ITEM_WIDTH / LEGEND_SHORT_ITEM_WIDTH constants
+    so gaps remain consistent with the grid's cell size.
+
+    Args:
+        grid_width: Total grid width in pixels (must match
+            create_svg_grid_with_heatmap).
+
+    Returns:
+        SVG markup string, including the opening
+        <!-- Contribution Grid Legend --> marker.
+    """
+    cell_size, _ = calculate_cell_dimensions(grid_width)
+
+    parts = [
+        "<!-- Contribution Grid Legend -->",
+        '<g transform="translate(50, 636)">',
+    ]
+    for level, label in LEGEND_LABELS.items():
+        x = (
+            0.0
+            if level == 0
+            else round(
+                LEGEND_LONG_ITEM_WIDTH + (level - 1) * LEGEND_SHORT_ITEM_WIDTH, 1
+            )
+        )
+        color_id = CONTRIBUTION_COLORS[level]
+        parts.append(
+            f'<rect x="{x}" y="0" width="{cell_size}" height="{cell_size}" '
+            f'fill="url(#{color_id})" stroke="url(#{color_id}-stroke)" rx="2" />'
+        )
+        parts.append(
+            f'<text class="legend-label" x="{round(x + LEGEND_TEXT_OFFSET_X, 1)}" '
+            f'y="{LEGEND_TEXT_OFFSET_Y}">{label}</text>'
+        )
+    parts.append("</g>")
+    logger.info("SVG legend generated")
+    return "\n".join(parts)
 
 
 def replace_placeholders_in_svg(svg_content: str, stats: ContributionData) -> str:
@@ -450,12 +544,19 @@ def main() -> None:
         raise ValueError("Missing GITHUB_TOKEN environment variable.")
 
     data = fetch_contributions_from_github(username, token)
-    contributions = map_contributions_to_levels(data["contributions"])
-    grid = create_svg_grid_with_heatmap(contributions)
+    raw = data["contributions"]
+    levels = map_contributions_to_levels(raw)
+    grid = create_svg_grid_with_heatmap(levels, raw)
+    legend = create_svg_legend()
 
-    for template_file, output_file in SVG_FILE_PAIRS:
+    background = _read_background_fragment()
+
+    for template_file, output_file, with_background in SVG_FILE_PAIRS:
         try:
             svg = (ASSETS_DIR / template_file).read_text(encoding="utf-8")
+            bg = background if with_background else ""
+            svg = svg.replace("<!-- Background -->", bg)
+            svg = svg.replace("<!-- Contribution Grid Legend -->", legend)
             svg = svg.replace("<!-- Contribution Grid -->", grid)
             svg = replace_placeholders_in_svg(svg, data)
             (ASSETS_DIR / output_file).write_text(svg, encoding="utf-8")
