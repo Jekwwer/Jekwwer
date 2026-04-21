@@ -2,5 +2,5 @@
   "ignorePaths": ["*.json", "*.lock", "*.svg", "*.toml", "*.yaml", "*.yml", ".devcontainer/*", ".editorconfig", ".gitignore", ".prettierrc", "Makefile"],
   "useGitignore": true,
   "version": "0.2",
-  "words": ["cli", "docstrings", "Evgenii", "Jekwwer", "leetcode", "levelname", "mypy", "noqa", "pygrep", "pyproject", "pyupgrade", "Shiliaev", "styleguide"]
+  "words": ["cli", "docstrings", "Evgenii", "gitmessage", "Jekwwer", "leetcode", "levelname", "mypy", "noqa", "pipx", "pygrep", "pyproject", "pyupgrade", "Shiliaev", "styleguide"]
 }
