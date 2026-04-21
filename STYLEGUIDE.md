@@ -34,11 +34,10 @@ Standardizes coding and documentation practices for consistency, readability, an
 │   ├── FUNDING.yml                             │   ├── # funding configuration
 │   └── PULL_REQUEST_TEMPLATE.md                │   └── # default pull request template
 ├── assets                                      ├── # generated and template SVG files
-│   ├── bg.svg                                  │   ├── # background image (GitHub Pages)
+│   ├── background.svg                          │   ├── # animated background (GitHub Pages)
 │   ├── profile-card.svg                        │   ├── # generated output with background
-│   ├── profile-card-no-bg.svg                  │   ├── # generated output without background
-│   ├── profile-card.template.svg               │   ├── # template with background
-│   └── profile-card-no-bg.template.svg         │   └── # template without background
+│   ├── profile-card-no-background.svg                  │   ├── # generated output without background
+│   └── profile-card.template.svg               │   └── # shared card template
 ├── docs                                        ├── # GitHub Pages files
 │   └── index.html                              │   └── # main index
 ├── .editorconfig                               ├── # editor configuration
@@ -107,11 +106,10 @@ Standardizes coding and documentation practices for consistency, readability, an
 
 SVG images in `assets`:
 
-- `bg.svg`: Background image for the GitHub Pages version.
+- `background.svg`: Animated gradient background for the GitHub Pages version.
 - `profile-card.svg`: Generated output with background (embedded in README).
-- `profile-card-no-bg.svg`: Generated output without background (GitHub Pages).
-- `profile-card.template.svg`: Template with background.
-- `profile-card-no-bg.template.svg`: Template without background.
+- `profile-card-no-background.svg`: Generated output without background (GitHub Pages overlay on `background.svg`).
+- `profile-card.template.svg`: Shared card template; background injected at runtime from `background.svg`.
 
 ## Naming Conventions
 

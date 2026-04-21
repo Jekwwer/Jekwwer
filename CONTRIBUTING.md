@@ -50,7 +50,7 @@ export GITHUB_TOKEN=<personal-access-token-with-read:user-scope>
 python generate_profile_card.py
 ```
 
-Output writes to `assets/profile-card.svg` and `assets/profile-card-no-bg.svg`.
+Output writes to `assets/profile-card.svg` and `assets/profile-card-no-background.svg`.
 
 ## Branching and Versioning
 

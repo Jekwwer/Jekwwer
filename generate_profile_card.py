@@ -51,14 +51,15 @@ REQUEST_TIMEOUT_SECONDS = 10
 GRID_SPACING_RATIO = 0.1
 
 ASSETS_DIR = Path("assets")
-BG_SVG_FILE = "bg.svg"
+BG_SVG_FILE = "background.svg"
 
 # Each tuple: (template, output, inject_background).
-# Both outputs share a single template; bg.svg inner content is injected at
-# <!-- Background --> for the bg variant and omitted for the no-bg variant.
+# Both outputs share a single template; background.svg inner content is injected at
+# <!-- Background --> for the background variant
+# and omitted for the no-background variant.
 SVG_FILE_PAIRS: list[tuple[str, str, bool]] = [
     ("profile-card.template.svg", "profile-card.svg", True),
-    ("profile-card.template.svg", "profile-card-no-bg.svg", False),
+    ("profile-card.template.svg", "profile-card-no-background.svg", False),
 ]
 
 # GraphQL query fetches contribution counts per day for a given date range.
@@ -157,9 +158,9 @@ def format_date(date_value: str | None) -> str:
 
 
 def _read_background_fragment() -> str:
-    """Return bg.svg inner content with the outer <svg> wrapper stripped.
+    """Return background.svg inner content with the outer <svg> wrapper stripped.
 
-    bg.svg is the single source of truth for the animated background gradient.
+    background.svg is the single source of truth for the animated background gradient.
     Stripping the wrapper makes the fragment embeddable inside the card SVG.
     Secondary <defs> and <style> blocks are valid SVG and render correctly.
     """
