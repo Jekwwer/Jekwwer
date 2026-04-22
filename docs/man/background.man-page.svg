@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="894" height="690">
+  <defs>
+    <style>
+      .bg-man {
+        fill: #eff1f5;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .bg-man {
+          fill: #1e1e2e;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .scan-beam {
+          display: none;
+        }
+      }
+    </style>
+
+    <!-- Static scanline texture -->
+    <pattern id="scanlines" x="0" y="0" width="894" height="4" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="894" height="1" fill="rgba(128,128,128,0.08)" />
+    </pattern>
+
+    <!-- Feathered beam gradient -->
+    <linearGradient id="beamGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="white" stop-opacity="0" />
+      <stop offset="30%" stop-color="white" stop-opacity="0.07" />
+      <stop offset="50%" stop-color="white" stop-opacity="0.12" />
+      <stop offset="70%" stop-color="white" stop-opacity="0.07" />
+      <stop offset="100%" stop-color="white" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <rect class="bg-man" width="894" height="690" />
+  <!-- Scanline texture -->
+  <rect width="894" height="690" fill="url(#scanlines)" />
+  <!-- Sweeping scan beam -->
+  <rect class="scan-beam" x="0" y="-80" width="894" height="80" fill="url(#beamGrad)">
+    <animate attributeName="y" from="-80" to="690" dur="5s" repeatCount="indefinite" calcMode="linear" />
+  </rect>
+</svg>

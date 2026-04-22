@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       style:
-        description: 'Card style to generate (all | glass)'
+        description: 'Card style to generate (all | glass | man)'
         required: false
         default: 'all'
 
@@ -52,6 +52,8 @@ jobs:
         env:
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+          STEAM_ID: ${{ secrets.STEAM_ID }}
         run: |
           style="${{ inputs.style || 'all' }}"
           poetry run python3 generate_profile_card.py --style "$style"

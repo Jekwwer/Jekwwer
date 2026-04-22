@@ -4,17 +4,22 @@ Fetches contribution data from the GitHub GraphQL API, calculates streaks,
 and writes updated SVG profile cards to the assets/ directory.
 
 Pipeline:
-    1. _fetch_all_contributions      — paginate GitHub GraphQL year by year.
-    2. calculate_streaks             — compute current/longest streak with dates.
-    3. map_contributions_to_levels   — map raw counts to 6 heatmap intensity levels.
-    4. create_svg_grid_with_heatmap  — render a 52×7 SVG <rect> grid.
-    5. create_svg_legend             — render the colour-scale legend.
-    6. replace_placeholders_in_svg   — inject stats into SVG text-node placeholders.
-    7. main                          — orchestrate and write output files.
+    1. _fetch_all_contributions          — paginate GitHub GraphQL year by year.
+    2. calculate_streaks                 — compute current/longest streak with dates.
+    3. map_contributions_to_levels       — map raw counts to 6 heatmap intensity levels.
+    4. create_svg_grid_with_heatmap      — render a 52×7 SVG <rect> grid.
+    5. create_svg_legend                 — render the colour-scale legend.
+    6. fetch_currently_playing_from_steam — fetch most-played game in last 2 weeks.
+    7. replace_placeholders_in_svg       — inject stats into SVG text-node placeholders.
+    8. main                              — orchestrate and write output files.
 
 Required environment variables:
     GH_USERNAME  — GitHub username.
     GITHUB_TOKEN — Personal access token with read:user scope.
+
+Optional environment variables:
+    STEAM_API_KEY — Steam Web API key (enables currently-playing-ph placeholder).
+    STEAM_ID      — 64-bit Steam user ID.
 """
 
 import argparse
@@ -36,6 +41,9 @@ logger = logging.getLogger(__name__)
 # ── Constants ──────────────────────────────────────────────────────────────────
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
+STEAM_RECENT_GAMES_URL = (
+    "https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/"
+)
 
 # Earliest date from which contributions are fetched.
 CONTRIBUTIONS_START_DATE = datetime(2018, 7, 25, tzinfo=timezone.utc)
@@ -86,12 +94,25 @@ CARD_STYLES: dict[str, CardStyle] = {
         background="background.glass.svg",
         subdir="glass",
     ),
+    "man": CardStyle(
+        template="profile-card.man-page.template.svg",
+        outputs=[
+            ("profile-card.man-page.svg", True),
+            ("profile-card.man-page-no-background.svg", False),
+        ],
+        background="background.man-page.svg",
+        subdir="man",
+    ),
 }
 
 # GraphQL query fetches contribution counts per day for a given date range.
+# repositories.totalCount is fetched on every call but only used from the first.
 _GRAPHQL_QUERY = """
 query($username: String!, $from: DateTime!, $to: DateTime!) {
   user(login: $username) {
+    repositories(ownerAffiliations: OWNER, privacy: PUBLIC) {
+      totalCount
+    }
     contributionsCollection(from: $from, to: $to) {
       contributionCalendar {
         weeks {
@@ -116,6 +137,24 @@ CONTRIBUTION_COLORS = {
     4: "heat-lvl-4",
     5: "heat-lvl-5",
 }
+
+MONTH_ABBR: list[str] = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+]
+
+# Day-of-week indices (Monday=0) to render as row labels in the heatmap.
+HEATMAP_ROW_LABELS: list[tuple[int, str]] = [(0, "Mon"), (2, "Wed"), (4, "Fri")]
 
 # Legend labels per intensity level.
 LEGEND_LABELS: dict[int, str] = {
@@ -147,6 +186,8 @@ class ContributionData(TypedDict):
         longest_streak (int): Longest consecutive-day streak ever.
         longest_streak_start (str | None): ISO date the longest streak began.
         longest_streak_end (str | None): ISO date the longest streak ended.
+        first_commit (str | None): ISO date of the earliest contribution day.
+        public_repos (int): Number of public repositories owned by the user.
     """
 
     contributions: dict[str, int]
@@ -155,6 +196,8 @@ class ContributionData(TypedDict):
     longest_streak: int
     longest_streak_start: str | None
     longest_streak_end: str | None
+    first_commit: str | None
+    public_repos: int
 
 
 class StreakData(TypedDict):
@@ -208,7 +251,7 @@ def _parse_contribution_days(weeks: list[Any]) -> dict[str, int]:
     return contributions
 
 
-def _fetch_all_contributions(username: str, token: str) -> dict[str, int]:
+def _fetch_all_contributions(username: str, token: str) -> tuple[dict[str, int], int]:
     """Fetch all contributions since CONTRIBUTIONS_START_DATE, one year at a time.
 
     GitHub's GraphQL API limits contributionsCollection queries to a one-year
@@ -219,9 +262,10 @@ def _fetch_all_contributions(username: str, token: str) -> dict[str, int]:
         token: GitHub personal access token.
 
     Returns:
-        Dict mapping ISO date strings to daily contribution counts.
+        Tuple of (date → count mapping, public repository count).
     """
     all_contributions: dict[str, int] = {}
+    public_repos = 0
     headers = {"Authorization": f"Bearer {token}"}
 
     start = CONTRIBUTIONS_START_DATE
@@ -249,9 +293,10 @@ def _fetch_all_contributions(username: str, token: str) -> dict[str, int]:
             payload = response.json()
 
             if "data" in payload and payload["data"].get("user"):
-                weeks = payload["data"]["user"]["contributionsCollection"][
-                    "contributionCalendar"
-                ]["weeks"]
+                user = payload["data"]["user"]
+                if public_repos == 0:
+                    public_repos = user["repositories"]["totalCount"]
+                weeks = user["contributionsCollection"]["contributionCalendar"]["weeks"]
                 all_contributions.update(_parse_contribution_days(weeks))
             else:
                 logger.error("Unexpected API response: %s", payload)
@@ -262,7 +307,39 @@ def _fetch_all_contributions(username: str, token: str) -> dict[str, int]:
 
         start = chunk_end
 
-    return all_contributions
+    return all_contributions, public_repos
+
+
+def fetch_currently_playing_from_steam(api_key: str, steam_id: str) -> str | None:
+    """Fetch the most-played game in the last two weeks from Steam.
+
+    Requires the Steam profile's game details to be set to Public.
+
+    Args:
+        api_key: Steam Web API key.
+        steam_id: 64-bit Steam user ID.
+
+    Returns:
+        Name of the most-played recent game, or None if unavailable.
+    """
+    try:
+        response = requests.get(
+            STEAM_RECENT_GAMES_URL,
+            params={
+                "key": api_key,
+                "steamid": steam_id,
+                "count": "5",
+                "format": "json",
+            },
+            timeout=REQUEST_TIMEOUT_SECONDS,
+        )
+        response.raise_for_status()
+        games = response.json().get("response", {}).get("games", [])
+        if games:
+            return str(games[0]["name"])
+    except requests.exceptions.RequestException as e:
+        logger.warning("Steam API request failed: %s", e)
+    return None
 
 
 # ── Core Functions ─────────────────────────────────────────────────────────────
@@ -281,7 +358,7 @@ def fetch_contributions_from_github(username: str, token: str) -> ContributionDa
     Returns:
         ContributionData with heatmap contributions and all-time streak stats.
     """
-    all_contributions = _fetch_all_contributions(username, token)
+    all_contributions, public_repos = _fetch_all_contributions(username, token)
 
     cutoff = (
         datetime.now(timezone.utc).date() - timedelta(weeks=HEATMAP_WEEKS)
@@ -292,6 +369,7 @@ def fetch_contributions_from_github(username: str, token: str) -> ContributionDa
 
     streaks = calculate_streaks(all_contributions)
     total = sum(all_contributions.values())
+    first_commit = min((d for d, c in all_contributions.items() if c > 0), default=None)
 
     logger.info(
         "Total: %d | Current streak: %d | Longest streak: %d",
@@ -307,6 +385,8 @@ def fetch_contributions_from_github(username: str, token: str) -> ContributionDa
         "longest_streak": streaks["longest_streak"],
         "longest_streak_start": streaks["longest_streak_start"],
         "longest_streak_end": streaks["longest_streak_end"],
+        "first_commit": first_commit,
+        "public_repos": public_repos,
     }
 
 
@@ -514,17 +594,83 @@ def create_svg_legend(grid_width: int = 794) -> str:
     return "\n".join(parts)
 
 
-def replace_placeholders_in_svg(svg_content: str, stats: ContributionData) -> str:
+def create_svg_grid_labels(
+    levels: dict[str, int],
+    grid_width: int = 794,
+) -> str:
+    """Render day-of-week and month labels for the heatmap grid.
+
+    Day labels (Mon / Wed / Fri) are positioned by computing which row each
+    falls on given the weekday of the first visible date.  Month labels are
+    placed at the x-coordinate of the first column belonging to each new month.
+
+    Args:
+        levels: Dict mapping ISO date strings to intensity levels (0–5).
+        grid_width: Total grid width in pixels (must match
+            create_svg_grid_with_heatmap).
+
+    Returns:
+        SVG markup string, including the opening
+        <!-- Contribution Grid Labels --> marker.
+    """
+    cell_size, cell_spacing = calculate_cell_dimensions(grid_width)
+    step = cell_size + cell_spacing
+
+    entries = list(levels.items())[-HEATMAP_CELLS:]
+    if not entries:
+        return "<!-- Contribution Grid Labels -->"
+
+    parts = ["<!-- Contribution Grid Labels -->"]
+
+    first_weekday = datetime.fromisoformat(entries[0][0]).weekday()  # Mon=0
+    for target_weekday, label in HEATMAP_ROW_LABELS:
+        row = (target_weekday - first_weekday) % 7
+        y = round(row * step + cell_size * 0.5 + 3.5, 1)
+        parts.append(
+            f'<text class="mono-sm" x="-10" y="{y}" text-anchor="end">{label}</text>'
+        )
+
+    month_positions: dict[str, float] = {}
+    prev_month: int | None = None
+    for col in range(HEATMAP_WEEKS):
+        entry_idx = col * HEATMAP_DAYS_PER_WEEK
+        if entry_idx >= len(entries):
+            break
+        month = int(entries[entry_idx][0][5:7])
+        if month != prev_month:
+            month_positions[MONTH_ABBR[month - 1]] = round(col * step, 1)
+            prev_month = month
+    for abbr, x in month_positions.items():
+        parts.append(f'<text class="mono-sm" x="{x}" y="-4">{abbr}</text>')
+
+    logger.info("SVG grid labels generated")
+    return "\n".join(parts)
+
+
+def replace_placeholders_in_svg(
+    svg_content: str,
+    stats: ContributionData,
+    currently_playing: str = "nothing",
+    steam_id: str = "",
+) -> str:
     """Replace stat placeholders in an SVG template with real values.
 
     Placeholder tokens in the SVG are substituted in a single pass:
-        total-contributions-ph  → formatted total with thousands separator
-        current-streak-ph       → current streak in days
-        longest-streak-ph       → date range and length of longest streak
+        total-contributions-ph       → formatted total with thousands separator
+        current-streak-ph            → current streak in days
+        longest-streak-ph            → date range and length of longest streak
+        longest-streak-count-ph      → count + date range of longest streak
+        first-commit-ph              → ISO date of the earliest contribution
+        years-active-ph              → years/months active since first commit
+        repos-ph                     → public repository count
+        currently-playing-ph         → most-played Steam game in last 2 weeks
+        steam-id-ph                  → Steam user ID (used in profile URL)
 
     Args:
         svg_content: Raw SVG string containing placeholder tokens.
         stats: Contribution stats to inject.
+        currently_playing: Steam game name; defaults to "nothing".
+        steam_id: Steam 64-bit user ID; defaults to empty string.
 
     Returns:
         SVG string with all placeholders replaced.
@@ -532,12 +678,34 @@ def replace_placeholders_in_svg(svg_content: str, stats: ContributionData) -> st
     longest_start = format_date(stats["longest_streak_start"])
     longest_end = format_date(stats["longest_streak_end"])
 
+    first = stats["first_commit"]
+    if first:
+        delta = datetime.now(timezone.utc).date() - datetime.fromisoformat(first).date()
+        yrs, rem = divmod(delta.days, 365)
+        mos = rem // 30
+        if yrs and mos:
+            years_active = f"{yrs} yr{'s' if yrs != 1 else ''} {mos} mo"
+        elif yrs:
+            years_active = f"{yrs} yr{'s' if yrs != 1 else ''}"
+        else:
+            years_active = f"{mos} mo"
+    else:
+        years_active = "unknown"
+
     replacements = {
         "total-contributions-ph": f"{stats['total_contributions']:,}🌟",
         "current-streak-ph": f"{stats['current_streak']}🔥",
         "longest-streak-ph": (
-            f"{longest_start} ➝ {longest_end} : {stats['longest_streak']}🏆"
+            f"{longest_start} .. {longest_end} : {stats['longest_streak']}🏆"
         ),
+        "longest-streak-count-ph": (
+            f"{stats['longest_streak']}🏆 {longest_start} .. {longest_end}"
+        ),
+        "first-commit-ph": first or "unknown",
+        "years-active-ph": years_active,
+        "repos-ph": str(stats["public_repos"]),
+        "currently-playing-ph": currently_playing,
+        "steam-id-ph": steam_id,
     }
 
     result = svg_content
@@ -573,11 +741,20 @@ def main() -> None:
         logger.error("GITHUB_TOKEN environment variable is required but not set.")
         raise ValueError("Missing GITHUB_TOKEN environment variable.")
 
+    steam_key = os.getenv("STEAM_API_KEY")
+    steam_id = os.getenv("STEAM_ID")
+    currently_playing = "nothing"
+    if steam_key and steam_id:
+        game = fetch_currently_playing_from_steam(steam_key, steam_id)
+        if game:
+            currently_playing = game
+
     data = fetch_contributions_from_github(username, token)
     raw = data["contributions"]
     levels = map_contributions_to_levels(raw)
     grid = create_svg_grid_with_heatmap(levels, raw)
     legend = create_svg_legend()
+    labels = create_svg_grid_labels(levels)
 
     for style_name, style in styles.items():
         style_dir = DOCS_DIR / style.subdir if style.subdir else DOCS_DIR
@@ -593,8 +770,11 @@ def main() -> None:
                 bg = bg_fragment if inject_bg else ""
                 svg = svg.replace("<!-- Background -->", bg)
                 svg = svg.replace("<!-- Contribution Grid Legend -->", legend)
+                svg = svg.replace("<!-- Contribution Grid Labels -->", labels)
                 svg = svg.replace("<!-- Contribution Grid -->", grid)
-                svg = replace_placeholders_in_svg(svg, data)
+                svg = replace_placeholders_in_svg(
+                    svg, data, currently_playing, steam_id or ""
+                )
                 out_path = style_dir / output_file
                 out_path.write_text(svg, encoding="utf-8")
                 logger.info("Written: %s", out_path)

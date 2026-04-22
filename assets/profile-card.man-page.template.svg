@@ -1,0 +1,404 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 894 690" role="img" aria-labelledby="title desc"
+  preserveAspectRatio="xMidYMid meet">
+  <title id="title">jekwwer(1) — man page</title>
+  <desc id="desc">An auto-updating man-page style profile card.</desc>
+
+  <defs>
+    <style>
+      /* ── Catppuccin Latte (light, default) ──────────────────────── */
+      :root {
+        --bg: #eff1f5;
+        --surface: #ccd0da;
+        --rule: #acb0be;
+        --fg: #4c4f69;
+        --dim: #6c6f85;
+        --faint: #9ca0b0;
+        --flag: #1e66f5;
+        --val: #40a02b;
+        --accent: #df8e1d;
+        --cursor: #4c4f69;
+        --h0: #e6e9ef;
+        --h1: #b5e8b5;
+        --h2: #79c87a;
+        --h3: #40a02b;
+        --h4: #266715;
+        --h5: #df8e1d;
+      }
+
+      /* ── Catppuccin Mocha (dark) ─────────────────────────────────── */
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #1e1e2e;
+          --surface: #313244;
+          --rule: #45475a;
+          --fg: #cdd6f4;
+          --dim: #bac2de;
+          --faint: #7f849c;
+          --flag: #89b4fa;
+          --val: #a6e3a1;
+          --accent: #f9e2af;
+          --cursor: #cdd6f4;
+          --h0: #313244;
+          --h1: #5aad52;
+          --h2: #3d8b35;
+          --h3: #286821;
+          --h4: #164810;
+          --h5: #f9e2af;
+        }
+      }
+
+      /* ── Structure ───────────────────────────────────────────────── */
+      .bg {
+        fill: var(--bg);
+      }
+
+      .surface {
+        fill: var(--surface);
+      }
+
+      .rule {
+        stroke: var(--rule);
+        fill: none;
+      }
+
+      /* ── Typography ──────────────────────────────────────────────── */
+      text,
+      tspan {
+        font-family: 'JetBrains Mono', 'Cascadia Code', 'SF Mono',
+          ui-monospace, 'Courier New', monospace;
+      }
+
+      .mono {
+        font-size: 13px;
+        fill: var(--fg);
+      }
+
+      .mono-sm {
+        font-size: 10px;
+        fill: var(--dim);
+      }
+
+      .bold {
+        font-weight: 700;
+      }
+
+      .hdr {
+        font-weight: 700;
+        fill: var(--fg);
+      }
+
+      .dim {
+        fill: var(--dim);
+      }
+
+      .flag {
+        fill: var(--flag);
+      }
+
+      .val {
+        fill: var(--val);
+      }
+
+      .accent {
+        fill: var(--accent);
+      }
+
+      .faint {
+        fill: var(--faint);
+      }
+
+      /* ── Cursor ──────────────────────────────────────────────────── */
+      .cursor {
+        fill: var(--cursor);
+        opacity: 0;
+        animation: blink 1s step-end 3.6s infinite;
+      }
+
+      @keyframes blink {
+
+        0%,
+        100% {
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* ── Heatmap cells ───────────────────────────────────────────── */
+      .cell,
+      .grid-cell {
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: cellPop 0.18s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        animation-delay: 2.85s;
+      }
+
+      @keyframes cellPop {
+        from {
+          opacity: 0;
+          transform: scale(0.5);
+        }
+
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      /* ── Header type-in clip ─────────────────────────────────────── */
+      .reveal {
+        animation: typeIn 0.9s steps(40, end) 0.1s forwards;
+      }
+
+      @keyframes typeIn {
+        from {
+          width: 0;
+        }
+
+        to {
+          width: 870px;
+        }
+      }
+
+      /* ── Section fade-ins ────────────────────────────────────────── */
+      .section {
+        opacity: 0;
+        animation: fadeUp 0.3s ease forwards;
+      }
+
+      .s1 {
+        animation-delay: 1.10s;
+      }
+
+      .s2 {
+        animation-delay: 1.35s;
+      }
+
+      .s3 {
+        animation-delay: 1.60s;
+      }
+
+      .s4 {
+        animation-delay: 1.85s;
+      }
+
+      .s5 {
+        animation-delay: 2.10s;
+      }
+
+      .s6 {
+        animation-delay: 2.35s;
+      }
+
+      .s7 {
+        animation-delay: 2.60s;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+        }
+
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* ── Reduced motion ──────────────────────────────────────────── */
+      @media (prefers-reduced-motion: reduce) {
+        .reveal {
+          animation: none;
+          width: 870px;
+        }
+
+        .section {
+          animation: none;
+          opacity: 1;
+        }
+
+        .cell,
+        .grid-cell {
+          animation: none;
+          opacity: 1;
+        }
+
+        .cursor {
+          animation: none;
+          opacity: 1;
+        }
+      }
+    </style>
+
+    <!-- Contribution Level Gradients (heat-lvl-0 … heat-lvl-5) -->
+    <!-- stop-color uses CSS vars so gradients honour prefers-color-scheme -->
+    <linearGradient id="heat-lvl-0" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="var(--h0)" />
+      <stop offset="100%" stop-color="var(--h0)" />
+    </linearGradient>
+    <linearGradient id="heat-lvl-0-stroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="var(--rule)" />
+      <stop offset="100%" stop-color="var(--rule)" />
+    </linearGradient>
+
+    <linearGradient id="heat-lvl-1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="var(--h1)" />
+      <stop offset="100%" stop-color="var(--h1)" />
+    </linearGradient>
+    <linearGradient id="heat-lvl-1-stroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="var(--rule)" />
+      <stop offset="100%" stop-color="var(--rule)" />
+    </linearGradient>
+
+    <linearGradient id="heat-lvl-2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="var(--h2)" />
+      <stop offset="100%" stop-color="var(--h2)" />
+    </linearGradient>
+    <linearGradient id="heat-lvl-2-stroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="var(--rule)" />
+      <stop offset="100%" stop-color="var(--rule)" />
+    </linearGradient>
+
+    <linearGradient id="heat-lvl-3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="var(--h3)" />
+      <stop offset="100%" stop-color="var(--h3)" />
+    </linearGradient>
+    <linearGradient id="heat-lvl-3-stroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="var(--rule)" />
+      <stop offset="100%" stop-color="var(--rule)" />
+    </linearGradient>
+
+    <linearGradient id="heat-lvl-4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="var(--h4)" />
+      <stop offset="100%" stop-color="var(--h4)" />
+    </linearGradient>
+    <linearGradient id="heat-lvl-4-stroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="var(--rule)" />
+      <stop offset="100%" stop-color="var(--rule)" />
+    </linearGradient>
+
+    <linearGradient id="heat-lvl-5" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="var(--h5)" />
+      <stop offset="100%" stop-color="var(--h5)" />
+    </linearGradient>
+    <linearGradient id="heat-lvl-5-stroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="var(--rule)" />
+      <stop offset="100%" stop-color="var(--rule)" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+
+  <g class="type-clip">
+    <clipPath id="typeClip">
+      <rect class="reveal" x="0" y="0" width="0" height="48"></rect>
+    </clipPath>
+    <g clip-path="url(#typeClip)">
+      <text class="mono bold" x="24" y="30">JEKWWER(1)</text>
+      <text class="mono bold" x="447" y="30" text-anchor="middle">User Commands</text>
+      <text class="mono bold" x="872" y="30" text-anchor="end">JEKWWER(1)</text>
+    </g>
+    <line class="rule" x1="24" y1="42" x2="872" y2="42" stroke-width="1"></line>
+  </g>
+
+  <g class="section s1">
+    <text class="mono hdr" x="24" y="72">NAME</text>
+    <text class="mono" x="80" y="92">
+      jekwwer — <tspan class="dim">automation-first software engineer; side effects include over-engineered dotfiles
+      </tspan>
+    </text>
+  </g>
+
+  <g class="section s2">
+    <text class="mono hdr" x="24" y="124">SYNOPSIS</text>
+    <text class="mono" x="80" y="144">
+      <tspan class="bold">jekwwer</tspan>
+      <tspan> [</tspan>
+      <tspan class="flag">--hire</tspan>
+      <tspan>] [</tspan>
+      <tspan class="flag">--read-blog</tspan>
+      <tspan>] [</tspan>
+      <tspan class="flag">--judge-code</tspan>
+      <tspan>] [</tspan>
+      <tspan class="flag">--buy-coffee</tspan>
+      <tspan>] [</tspan>
+      <tspan class="flag">--send-meme</tspan>
+      <tspan>]</tspan>
+    </text>
+  </g>
+
+  <g class="section s3">
+    <text class="mono hdr" x="24" y="180">DESCRIPTION</text>
+    <text class="mono" x="80" y="200">Automates the boring parts. Occasionally automates the non-boring parts too.</text>
+    <text class="mono dim" x="80" y="218">This card auto-regenerates daily. Because of course it does.</text>
+  </g>
+
+  <g class="section s4">
+    <text class="mono hdr" x="24" y="252">OPTIONS</text>
+    <g class="mono">
+      <a href="https://linkedin.com/in/evgenii-shiliaev" target="_blank">
+        <text x="80" y="272"><tspan class="flag">--hire</tspan></text>
+        <text x="210" y="272" class="val">linkedin.com/in/evgenii-shiliaev</text>
+      </a>
+      <a href="https://jekwwer.com" target="_blank">
+        <text x="80" y="290"><tspan class="flag">--read-blog</tspan></text>
+        <text x="210" y="290" class="val">jekwwer.com</text>
+      </a>
+      <a href="https://github.com/Jekwwer" target="_blank">
+        <text x="80" y="308"><tspan class="flag">--judge-code</tspan></text>
+        <text x="210" y="308" class="val">github.com/Jekwwer</text>
+      </a>
+      <a href="https://buymeacoffee.com/jekwwer" target="_blank">
+        <text x="80" y="326"><tspan class="flag">--buy-coffee</tspan></text>
+        <text x="210" y="326" class="val">buymeacoffee.com/jekwwer</text>
+      </a>
+      <a href="https://t.me/jekwwer" target="_blank">
+        <text x="80" y="344"><tspan class="flag">--send-meme</tspan></text>
+        <text x="210" y="344" class="val">t.me/jekwwer</text>
+      </a>
+    </g>
+  </g>
+
+  <g class="section s5">
+    <text class="mono hdr" x="24" y="380">STATS</text>
+    <g class="mono" transform="translate(80, 400)">
+      <text x="0" y="0" class="dim">total</text>
+      <text x="65" y="0" class="val bold">total-contributions-ph</text>
+      <text x="175" y="0" class="dim">streak</text>
+      <text x="255" y="0" class="val bold">current-streak-ph</text>
+      <text x="335" y="0" class="dim">longest</text>
+      <text x="425" y="0" class="val bold">longest-streak-count-ph</text>
+    </g>
+  </g>
+
+  <g class="section s6">
+    <text class="mono hdr" x="24" y="428">HISTORY</text>
+    <text class="mono dim" x="80" y="448">
+      First commit <tspan class="val">first-commit-ph</tspan> · <tspan class="val">years-active-ph</tspan> active ·
+      <tspan class="val">repos-ph</tspan> repos · currently playing <a href="https://steamcommunity.com/profiles/steam-id-ph" target="_blank"><tspan class="accent">currently-playing-ph</tspan></a>
+    </text>
+  </g>
+
+  <g class="section s7">
+    <text class="mono hdr" x="24" y="480">HEATMAP</text>
+    <g transform="translate(80, 500)">
+      <!-- Contribution Grid Labels -->
+      <!-- Contribution Grid -->
+    </g>
+  </g>
+
+  <rect class="surface" x="0" y="640" width="894" height="20"></rect>
+  <g class="mono-sm">
+    <text x="12" y="655" class="hdr bold">jekwwer(1)</text>
+    <text x="130" y="655" class="dim">lines 1-44/44 · END</text>
+    <text x="872" y="655" text-anchor="end" class="dim">100%</text>
+  </g>
+
+  <g>
+    <text class="mono" x="12" y="680">:</text>
+    <rect class="cursor" x="22" y="668" width="8" height="14"></rect>
+  </g>
+
+</svg>
