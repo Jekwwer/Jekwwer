@@ -28,7 +28,6 @@ Standardizes coding and documentation practices for consistency, readability, an
 │   ├── PULL_REQUEST_TEMPLATE                   │   ├── # pull request templates
 │   │   └── *                                   │   │   └── # all files in the folder
 │   ├── workflows                               │   ├── # GitHub workflows
-│   │   ├── deploy.yml                          │   │   ├── # deployment workflow
 │   │   └── update.yml                          │   │   └── # daily update workflow
 │   ├── dependabot.yml                          │   ├── # Dependabot configuration
 │   ├── FUNDING.yml                             │   ├── # funding configuration
