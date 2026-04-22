@@ -30,6 +30,8 @@ from pathlib import Path
 from typing import Any, TypedDict
 
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -54,6 +56,11 @@ HEATMAP_DAYS_PER_WEEK = 7
 HEATMAP_CELLS = HEATMAP_WEEKS * HEATMAP_DAYS_PER_WEEK  # 364
 
 REQUEST_TIMEOUT_SECONDS = 10
+
+# Retry config for transient HTTP errors (429, 5xx). Applied to both GitHub and Steam.
+HTTP_RETRY_TOTAL = 3
+HTTP_RETRY_BACKOFF = 1.0  # 1s, 2s, 4s between retries
+HTTP_RETRY_STATUSES: tuple[int, ...] = (429, 500, 502, 503, 504)
 
 # Fraction of total grid width reserved for gaps between columns.
 GRID_SPACING_RATIO = 0.1
@@ -128,6 +135,33 @@ LEGEND_TEXT_OFFSET_X = 20  # cell left edge → label x
 LEGEND_TEXT_OFFSET_Y = 12  # cell top → text baseline
 LEGEND_LONG_ITEM_WIDTH = 321.3  # width of level-0 item (cell + long label + gap)
 LEGEND_SHORT_ITEM_WIDTH = 61.2  # width of each subsequent item (cell + short label)
+
+# ── HTTP Session ───────────────────────────────────────────────────────────────
+
+
+def _make_session() -> requests.Session:
+    """Build a requests.Session with retry on transient HTTP errors.
+
+    Retries 429 + 5xx responses with exponential backoff. Idempotent requests
+    (GET) + POST are retried; POST is safe here because the GraphQL query is
+    read-only.
+    """
+    session = requests.Session()
+    retry = Retry(
+        total=HTTP_RETRY_TOTAL,
+        backoff_factor=HTTP_RETRY_BACKOFF,
+        status_forcelist=HTTP_RETRY_STATUSES,
+        allowed_methods=("GET", "POST"),
+        raise_on_status=False,
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("http://", adapter)
+    session.mount("https://", adapter)
+    return session
+
+
+_SESSION = _make_session()
+
 
 # ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -267,28 +301,26 @@ def _fetch_all_contributions(username: str, token: str) -> tuple[dict[str, int],
         }
         logger.debug("Chunk: %s → %s", start.date(), chunk_end.date())
 
-        try:
-            response = requests.post(
-                GITHUB_GRAPHQL_URL,
-                json={"query": _GRAPHQL_QUERY, "variables": variables},
-                headers=headers,
-                timeout=REQUEST_TIMEOUT_SECONDS,
-            )
-            response.raise_for_status()
-            payload = response.json()
+        response = _SESSION.post(
+            GITHUB_GRAPHQL_URL,
+            json={"query": _GRAPHQL_QUERY, "variables": variables},
+            headers=headers,
+            timeout=REQUEST_TIMEOUT_SECONDS,
+        )
+        response.raise_for_status()
+        payload = response.json()
 
-            if "data" in payload and payload["data"].get("user"):
-                user = payload["data"]["user"]
-                if public_repos == 0:
-                    public_repos = user["repositories"]["totalCount"]
-                weeks = user["contributionsCollection"]["contributionCalendar"]["weeks"]
-                all_contributions.update(_parse_contribution_days(weeks))
-            else:
-                logger.error("Unexpected API response: %s", payload)
-        except requests.exceptions.RequestException as e:
-            logger.error(
-                "Request failed (%s → %s): %s", start.date(), chunk_end.date(), e
-            )
+        if payload.get("errors"):
+            raise RuntimeError(f"GraphQL errors: {payload['errors']}")
+
+        user = payload.get("data", {}).get("user")
+        if not user:
+            raise RuntimeError(f"Unexpected API response: {payload}")
+
+        if public_repos == 0:
+            public_repos = user["repositories"]["totalCount"]
+        weeks = user["contributionsCollection"]["contributionCalendar"]["weeks"]
+        all_contributions.update(_parse_contribution_days(weeks))
 
         start = chunk_end
 
@@ -304,7 +336,7 @@ def fetch_currently_playing_from_steam(api_key: str, steam_id: str) -> str | Non
         Name of the most-played recent game, or None if unavailable.
     """
     try:
-        response = requests.get(
+        response = _SESSION.get(
             STEAM_RECENT_GAMES_URL,
             params={
                 "key": api_key,
@@ -318,7 +350,12 @@ def fetch_currently_playing_from_steam(api_key: str, steam_id: str) -> str | Non
         games = response.json().get("response", {}).get("games", [])
         if games:
             return str(games[0]["name"])
-    except requests.exceptions.RequestException as e:
+    except (
+        requests.exceptions.RequestException,
+        ValueError,
+        KeyError,
+        IndexError,
+    ) as e:
         logger.warning("Steam API request failed: %s", e)
     return None
 
@@ -539,10 +576,15 @@ def create_svg_grid_labels(
     return "\n".join(parts)
 
 
-# ── Per-Card Placeholder Resolvers ─────────────────────────────────────────────
+# ── Per-Card Resolvers + Marker Generators ────────────────────────────────────
 #
 # One resolver per card style.  Each returns {placeholder-token: replacement}
 # for its template.  Add a new resolver + CARD_STYLES entry to support a new card.
+
+
+def _man_grid_labels(ctx: CardContext) -> str:
+    """extra_markers generator for the man card: heatmap axis labels."""
+    return create_svg_grid_labels(ctx.levels)
 
 
 def _resolve_glass_placeholders(ctx: CardContext) -> dict[str, str]:
@@ -604,9 +646,7 @@ CARD_STYLES: dict[str, CardStyle] = {
         subdir="man",
         resolver=_resolve_man_placeholders,
         extra_markers={
-            "<!-- Contribution Grid Labels -->": (
-                lambda ctx: create_svg_grid_labels(ctx.levels)
-            ),
+            "<!-- Contribution Grid Labels -->": _man_grid_labels,
         },
         needs_steam=True,
     ),
@@ -630,9 +670,33 @@ def _resolve_steam(active_styles: dict[str, CardStyle]) -> tuple[str, str]:
     api_key = os.getenv("STEAM_API_KEY")
     steam_id = os.getenv("STEAM_ID")
     if not (api_key and steam_id):
+        logger.warning(
+            "Steam-requiring style active but STEAM_API_KEY/STEAM_ID not set — "
+            "currently-playing placeholder will fall back to 'nothing'."
+        )
         return "nothing", ""
     game = fetch_currently_playing_from_steam(api_key, steam_id)
     return game or "nothing", steam_id
+
+
+def _validate_template_files(active_styles: dict[str, CardStyle]) -> None:
+    """Fail fast if any style's template or background file is missing.
+
+    Runs before any network calls so the user doesn't wait for a GitHub fetch
+    only to fail on a missing asset.
+    """
+    for style_name, style in active_styles.items():
+        template_path = ASSETS_DIR / style.template
+        if not template_path.is_file():
+            raise FileNotFoundError(
+                f"Style '{style_name}' template missing: {template_path}"
+            )
+        if style.background:
+            bg_path = DOCS_DIR / style.subdir / style.background
+            if not bg_path.is_file():
+                raise FileNotFoundError(
+                    f"Style '{style_name}' background missing: {bg_path}"
+                )
 
 
 def main() -> None:
@@ -656,6 +720,9 @@ def main() -> None:
     if not token:
         raise ValueError("Missing GITHUB_TOKEN environment variable.")
 
+    # Validate all style assets before any network calls.
+    _validate_template_files(active_styles)
+
     data = fetch_contributions_from_github(username, token)
     raw_counts = data["contributions"]
     levels = map_contributions_to_levels(raw_counts)
@@ -677,9 +744,10 @@ def main() -> None:
     }
 
     for style_name, style in active_styles.items():
-        style_dir = DOCS_DIR / style.subdir if style.subdir else DOCS_DIR
+        style_dir = DOCS_DIR / style.subdir
         style_dir.mkdir(parents=True, exist_ok=True)
 
+        template = (ASSETS_DIR / style.template).read_text(encoding="utf-8")
         bg_fragment = (
             _read_background_fragment(style_dir, style.background)
             if style.background
@@ -694,8 +762,7 @@ def main() -> None:
 
         for output_file, inject_bg in style.outputs:
             try:
-                svg = (ASSETS_DIR / style.template).read_text(encoding="utf-8")
-                svg = svg.replace(
+                svg = template.replace(
                     "<!-- Background -->", bg_fragment if inject_bg else ""
                 )
                 svg = _apply_substitutions(svg, markers)
