@@ -316,15 +316,15 @@
     <text class="mono" x="80" y="144">
       <tspan class="bold">{{user.name}}</tspan>
       <tspan> [</tspan>
-      <tspan class="flag">--hire</tspan>
+      <a href="{{link.linkedin.url}}" target="_blank"><tspan class="flag">--hire</tspan></a>
       <tspan>] [</tspan>
-      <tspan class="flag">--read-blog</tspan>
+      <a href="{{link.blog.url}}" target="_blank"><tspan class="flag">--read-blog</tspan></a>
       <tspan>] [</tspan>
-      <tspan class="flag">--judge-code</tspan>
+      <a href="{{link.github.url}}" target="_blank"><tspan class="flag">--judge-code</tspan></a>
       <tspan>] [</tspan>
-      <tspan class="flag">--buy-coffee</tspan>
+      <a href="{{link.coffee.url}}" target="_blank"><tspan class="flag">--buy-coffee</tspan></a>
       <tspan>] [</tspan>
-      <tspan class="flag">--send-meme</tspan>
+      <a href="{{link.telegram.url}}" target="_blank"><tspan class="flag">--send-meme</tspan></a>
       <tspan>]</tspan>
     </text>
   </g>
@@ -363,30 +363,34 @@
 
   <g class="section s5">
     <text class="mono hdr" x="24" y="380">STATS</text>
-    <g class="mono" transform="translate(80, 400)">
-      <text x="0" y="0" class="dim">total</text>
-      <text x="65" y="0" class="val bold">{{gh.total}}</text>
-      <text x="175" y="0" class="dim">streak</text>
-      <text x="255" y="0" class="val bold">{{gh.streak}}</text>
-      <text x="335" y="0" class="dim">longest</text>
-      <text x="425" y="0" class="val bold">{{gh.longest.count}} {{gh.longest.from}} .. {{gh.longest.to}}</text>
-    </g>
+    <a href="{{link.github.url}}" target="_blank">
+      <g class="mono" transform="translate(80, 400)">
+        <text x="0" y="0" class="dim">total</text>
+        <text x="65" y="0" class="val bold">{{gh.total}}</text>
+        <text x="175" y="0" class="dim">streak</text>
+        <text x="255" y="0" class="val bold">{{gh.streak}}</text>
+        <text x="335" y="0" class="dim">longest</text>
+        <text x="425" y="0" class="val bold">{{gh.longest.count}} {{gh.longest.from}} .. {{gh.longest.to}}</text>
+      </g>
+    </a>
   </g>
 
   <g class="section s6">
     <text class="mono hdr" x="24" y="428">HISTORY</text>
     <text class="mono dim" x="80" y="448">
-      First commit <tspan class="val">{{gh.first}}</tspan> · <tspan class="val">{{gh.years}}</tspan> active ·
-      <tspan class="val">{{gh.repos}}</tspan> repos · currently playing <a href="https://steamcommunity.com/profiles/{{st.id}}" target="_blank"><tspan class="accent">{{st.game}}</tspan></a>
+      First commit <a href="{{link.github.url}}" target="_blank"><tspan class="val">{{gh.first}}</tspan></a> · <tspan class="val">{{gh.years}}</tspan> active ·
+      <a href="{{link.github.url}}?tab=repositories" target="_blank"><tspan class="val">{{gh.repos}}</tspan></a> repos · recently playing <a href="https://steamcommunity.com/profiles/{{st.id}}" target="_blank"><tspan class="accent">{{st.game}}</tspan></a>
     </text>
   </g>
 
   <g class="section s7">
     <text class="mono hdr" x="24" y="480">HEATMAP</text>
-    <g transform="translate(80, 500)">
-      <!-- Contribution Grid Labels -->
-      <!-- Contribution Grid -->
-    </g>
+    <a href="{{link.github.url}}" target="_blank">
+      <g transform="translate(80, 500)">
+        <!-- Contribution Grid Labels -->
+        <!-- Contribution Grid -->
+      </g>
+    </a>
   </g>
 
   <rect class="surface" x="0" y="640" width="894" height="20"></rect>

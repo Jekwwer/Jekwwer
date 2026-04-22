@@ -61,7 +61,7 @@ def _resolve_steam_game(active_styles: dict[str, CardStyle], steam_id: str) -> s
     if not api_key:
         logger.warning(
             "Steam-requiring style active but STEAM_API_KEY not set — "
-            "currently-playing placeholder will fall back to 'nothing'."
+            "recently-playing placeholder will fall back to 'nothing'."
         )
         return "nothing"
     return fetch_currently_playing_from_steam(api_key, steam_id) or "nothing"
