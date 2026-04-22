@@ -8,7 +8,9 @@ network I/O in `profile_card.fetchers`. See CONTRIBUTING.md for usage.
 import argparse
 import logging
 import os
+import re
 import sys
+import time
 from pathlib import Path
 
 from profile_card import (
@@ -25,12 +27,16 @@ from profile_card import (
 )
 
 logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s",
+    datefmt="%H:%M:%S",
 )
 logger = logging.getLogger(__name__)
 
 ASSETS_DIR = Path("assets")
 DOCS_DIR = Path("docs")
+
+_UNREPLACED_PLACEHOLDER_RE = re.compile(r"\{\{[^}]+\}\}")
 
 
 def _apply_substitutions(svg: str, subs: dict[str, str]) -> str:
@@ -87,6 +93,8 @@ def main() -> None:
     active_styles = (
         CARD_STYLES if args.style == "all" else {args.style: CARD_STYLES[args.style]}
     )
+    logger.info("Generating styles: %s", ", ".join(active_styles))
+    start_time = time.perf_counter()
 
     config = load_config()
     token = os.getenv("GITHUB_TOKEN")
@@ -114,6 +122,7 @@ def main() -> None:
         "<!-- Contribution Grid -->": create_svg_grid_with_heatmap(levels, raw_counts),
     }
 
+    files_written = 0
     for style_name, style in active_styles.items():
         style_dir = DOCS_DIR / style.subdir
         style_dir.mkdir(parents=True, exist_ok=True)
@@ -138,14 +147,27 @@ def main() -> None:
                 )
                 svg = _apply_substitutions(svg, markers)
                 svg = _apply_substitutions(svg, placeholders)
+                leftover = set(_UNREPLACED_PLACEHOLDER_RE.findall(svg))
+                if leftover:
+                    logger.warning(
+                        "Unreplaced placeholders in %s/%s: %s",
+                        style_name,
+                        output_file,
+                        ", ".join(sorted(leftover)),
+                    )
                 out_path = style_dir / output_file
                 out_path.write_text(svg, encoding="utf-8")
+                files_written += 1
                 logger.info("Written: %s", out_path)
             except Exception as e:
                 logger.error(
                     "Failed to process %s → %s: %s", style_name, output_file, e
                 )
                 raise
+
+    logger.info(
+        "Done: %d file(s) in %.2fs", files_written, time.perf_counter() - start_time
+    )
 
 
 if __name__ == "__main__":

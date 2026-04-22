@@ -193,11 +193,19 @@ def fetch_contributions_from_github(username: str, token: str) -> ContributionDa
     total = sum(all_contributions.values())
     first_commit = min((d for d, c in all_contributions.items() if c > 0), default=None)
 
+    longest_range = (
+        f"{streaks['longest_streak_start']} → {streaks['longest_streak_end']}"
+        if streaks["longest_streak_start"] and streaks["longest_streak_end"]
+        else "N/A"
+    )
     logger.info(
-        "Total: %d | Current streak: %d | Longest streak: %d",
+        "Stats: total=%d repos=%d first=%s current=%d longest=%d (%s)",
         total,
+        public_repos,
+        first_commit or "N/A",
         streaks["current_streak"],
         streaks["longest_streak"],
+        longest_range,
     )
 
     return {
@@ -218,6 +226,11 @@ def calculate_streaks(contributions: dict[str, int]) -> StreakData:
     Today is excluded when it has zero contributions — the day may not be complete.
     """
     today = datetime.now(timezone.utc).date()
+    today_str = today.isoformat()
+    if contributions.get(today_str) == 0:
+        logger.info(
+            "Excluding today (%s) from streak — zero contributions so far", today_str
+        )
     active = {
         d: c
         for d, c in contributions.items()
@@ -247,14 +260,6 @@ def calculate_streaks(contributions: dict[str, int]) -> StreakData:
         else:
             current_streak = 0
             streak_start = None
-
-    logger.info(
-        "Streaks — current: %d days | longest: %d days (%s → %s)",
-        current_streak,
-        longest_streak,
-        longest_streak_start.isoformat() if longest_streak_start else "N/A",
-        longest_streak_end.isoformat() if longest_streak_end else "N/A",
-    )
 
     return {
         "current_streak": current_streak,
@@ -309,7 +314,13 @@ def fetch_currently_playing_from_steam(api_key: str, steam_id: str) -> str | Non
         response.raise_for_status()
         games = response.json().get("response", {}).get("games", [])
         if games:
-            return str(games[0]["name"])
+            candidates = ", ".join(
+                f"{g.get('name', '?')} ({g.get('playtime_2weeks', 0)}m)" for g in games
+            )
+            chosen = str(games[0]["name"])
+            logger.info("Steam candidates: [%s] — chose: %s", candidates, chosen)
+            return chosen
+        logger.info("Steam: no recent games in last 2 weeks")
     except (
         requests.exceptions.RequestException,
         ValueError,
