@@ -205,7 +205,7 @@ Rules specified in `.editorconfig`, `.markdownlint.json`, `.prettierrc`, `.yamll
   YAML)_
 - **HTML, CSS, SVG:** Max **120 characters**. _(Enforced by Prettier)_
 - **Markdown:** Max **120 characters**. _(Enforced by Prettier and markdownlint)_
-- **JSON:** No limit. _(Enforced by Prettier)_
+- **JSON:** Max **88 characters**. _(Enforced by Prettier)_
 
 ### Braces and Control Structures
 
@@ -256,7 +256,7 @@ Use an editor that supports EditorConfig to apply these settings automatically.
 - **Trailing Commas:** Added where possible
 - **Tab Width:** 2 spaces
 - **End of Line:** Unix-style (`lf`)
-- **Print Width:** 88; 120 for CSS, HTML, and Markdown; no limit for JSON
+- **Print Width:** 88; 120 for CSS, HTML, and Markdown
 
 Prettier runs in VS Code and as a pre-commit hook.
 
