@@ -9,6 +9,7 @@ ci:
   skip:
     - ruff-check # ci can't run local hooks
     - ruff-format # ci can't run local hooks
+    - markdown-link-check # ci has no network access
 
 repos:
   # ── Housekeeping Hooks ─────────────────────────────────────────────────────
@@ -106,7 +107,7 @@ repos:
         name: 'typecheck:mypy'
         additional_dependencies:
           - requests
-        args: ['--install-types', '--non-interactive']
+          - types-requests
 
   - repo: https://github.com/rbubley/mirrors-prettier
     rev: v3.8.3
