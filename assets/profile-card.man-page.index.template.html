@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="{{user.display}}'s GitHub profile card — man page style with contributions, streaks, and links."
+    />
+    <title>{{user.name}}(1) — man page</title>
+    <link rel="preload" href="./background.man-page.svg" as="image" type="image/svg+xml" />
+    <style>
+      :root {
+        --page-bg: #eff1f5;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --page-bg: #1e1e2e;
+        }
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: var(--page-bg);
+        background-image: url('./background.man-page.svg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .image-container {
+        position: relative;
+        width: 100%;
+        max-width: 894px;
+      }
+
+      .image-container img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .clickable {
+        position: absolute;
+        cursor: pointer;
+      }
+
+      /* OPTIONS entries — x: 9%–60%, height: ~2.5% each */
+      #hireButton {
+        left: 9%;
+        top: 37.5%;
+        width: 51%;
+        height: 2.8%;
+      }
+
+      #blogButton {
+        left: 9%;
+        top: 40.3%;
+        width: 51%;
+        height: 2.8%;
+      }
+
+      #judgeCodeButton {
+        left: 9%;
+        top: 43.2%;
+        width: 51%;
+        height: 2.8%;
+      }
+
+      #buyCoffeeButton {
+        left: 9%;
+        top: 46%;
+        width: 51%;
+        height: 2.8%;
+      }
+
+      #sendMemeButton {
+        left: 9%;
+        top: 48.9%;
+        width: 51%;
+        height: 2.8%;
+      }
+
+      /* HEATMAP section */
+      #contributionsGrid {
+        left: 9%;
+        bottom: 12%;
+        width: 88%;
+        height: 20%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="image-container">
+      <img src="./profile-card.man-page-no-background.svg" alt="{{user.name}}(1) man page profile card" />
+      <!-- Clickable Regions -->
+      <a
+        href="{{link.linkedin.url}}"
+        id="hireButton"
+        class="clickable"
+        aria-label="LinkedIn — hire"
+        target="_blank"
+        rel="noopener noreferrer"
+      ></a>
+      <a
+        href="{{link.blog.url}}"
+        id="blogButton"
+        class="clickable"
+        aria-label="Blog"
+        target="_blank"
+        rel="noopener noreferrer"
+      ></a>
+      <a
+        href="{{link.github.url}}"
+        id="judgeCodeButton"
+        class="clickable"
+        aria-label="GitHub"
+        target="_blank"
+        rel="noopener noreferrer"
+      ></a>
+      <a
+        href="{{link.coffee.url}}"
+        id="buyCoffeeButton"
+        class="clickable"
+        aria-label="Buy me a coffee"
+        target="_blank"
+        rel="noopener noreferrer"
+      ></a>
+      <a
+        href="{{link.telegram.url}}"
+        id="sendMemeButton"
+        class="clickable"
+        aria-label="Telegram"
+        target="_blank"
+        rel="noopener noreferrer"
+      ></a>
+      <a
+        href="{{link.github.url}}"
+        id="contributionsGrid"
+        class="clickable"
+        aria-label="GitHub Contributions"
+        target="_blank"
+        rel="noopener noreferrer"
+      ></a>
+    </div>
+  </body>
+</html>

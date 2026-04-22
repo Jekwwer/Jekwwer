@@ -46,5 +46,6 @@ register(
         resolver=_resolve_placeholders,
         extra_markers={"<!-- Contribution Grid Labels -->": _grid_labels},
         needs_steam=True,
+        index_template="profile-card.man-page.index.template.html",
     ),
 )

@@ -106,6 +106,12 @@ def _validate_template_files(active_styles: dict[str, CardStyle]) -> None:
                 raise FileNotFoundError(
                     f"Style '{style_name}' background missing: {bg_path}"
                 )
+        if style.index_template:
+            index_path = ASSETS_DIR / style.index_template
+            if not index_path.is_file():
+                raise FileNotFoundError(
+                    f"Style '{style_name}' index template missing: {index_path}"
+                )
 
 
 def main() -> None:
@@ -197,6 +203,21 @@ def main() -> None:
                     "Failed to process %s → %s: %s", style_name, output_file, e
                 )
                 raise
+
+        if style.index_template:
+            index_src = (ASSETS_DIR / style.index_template).read_text(encoding="utf-8")
+            rendered = _apply_substitutions(index_src, placeholders)
+            leftover = set(_UNREPLACED_PLACEHOLDER_RE.findall(rendered))
+            if leftover:
+                logger.warning(
+                    "Unreplaced placeholders in %s/index.html: %s",
+                    style_name,
+                    ", ".join(sorted(leftover)),
+                )
+            index_path = style_dir / "index.html"
+            index_path.write_text(rendered, encoding="utf-8")
+            files_written += 1
+            logger.info("Written: %s", index_path)
 
     _update_active_style_refs(active_style, CARD_STYLES[active_style])
 

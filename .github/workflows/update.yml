@@ -60,7 +60,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/*/profile-card.*.svg README.md docs/index.html
+          git add docs/*/profile-card.*.svg docs/*/index.html README.md docs/index.html
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0

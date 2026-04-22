@@ -105,6 +105,9 @@ class CardStyle:
         needs_steam: Whether this style's resolver reads Steam data from the
             context. `main()` skips the Steam API call when no active style
             has this set.
+        index_template: Optional HTML template filename under `ASSETS_DIR`;
+            rendered with shared placeholders and written to
+            `DOCS_DIR / subdir / index.html`.
     """
 
     template: str
@@ -114,6 +117,7 @@ class CardStyle:
     subdir: str = ""
     extra_markers: dict[str, Callable[[CardContext], str]] = field(default_factory=dict)
     needs_steam: bool = False
+    index_template: str = ""
 
 
 # ── Registry ───────────────────────────────────────────────────────────────────

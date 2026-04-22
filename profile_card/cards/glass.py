@@ -28,5 +28,6 @@ register(
         background="background.glass.svg",
         subdir="glass",
         resolver=_resolve_placeholders,
+        index_template="profile-card.glass.index.template.html",
     ),
 )
