@@ -182,26 +182,30 @@
   </g>
 
   <!-- GitHub Stats -->
-  <g>
-    <rect class="stats-box" x="360" y="260" width="504" height="165" rx="25" />
-    <text class="stats-title" x="380" y="300">📊 GitHub Stats</text>
-    <text class="stats-text" x="380" y="340">Total Contributions:</text>
-    <text class="stats-value" x="840" y="340">{{gh.total}}</text>
-    <text class="stats-text" x="380" y="370">Current Streak:</text>
-    <text class="stats-value" x="840" y="370">{{gh.streak}}</text>
-    <text class="stats-text" x="380" y="400">Longest Streak:</text>
-    <text class="stats-value" x="840" y="400">{{gh.longest.from}} .. {{gh.longest.to}} : {{gh.longest.count}}</text>
-  </g>
+  <a href="{{link.github.url}}" target="_blank">
+    <g>
+      <rect class="stats-box" x="360" y="260" width="504" height="165" rx="25" />
+      <text class="stats-title" x="380" y="300">📊 GitHub Stats</text>
+      <text class="stats-text" x="380" y="340">Total Contributions:</text>
+      <text class="stats-value" x="840" y="340">{{gh.total}}</text>
+      <text class="stats-text" x="380" y="370">Current Streak:</text>
+      <text class="stats-value" x="840" y="370">{{gh.streak}}</text>
+      <text class="stats-text" x="380" y="400">Longest Streak:</text>
+      <text class="stats-value" x="840" y="400">{{gh.longest.from}} .. {{gh.longest.to}} : {{gh.longest.count}}</text>
+    </g>
+  </a>
 
-  <rect class="stats-box" x="30" y="455" width="834" height="205" rx="25" />
-  <text class="stats-title" x="50" y="495"> 📆 Contributions in the Last 52 Weeks</text>
+  <a href="{{link.github.url}}" target="_blank">
+    <rect class="stats-box" x="30" y="455" width="834" height="205" rx="25" />
+    <text class="stats-title" x="50" y="495"> 📆 Contributions in the Last 52 Weeks</text>
 
-  <g transform="translate(50, 636)">
-    <!-- Contribution Grid Legend -->
-  </g>
+    <g transform="translate(50, 636)">
+      <!-- Contribution Grid Legend -->
+    </g>
 
-  <g transform="translate(50, 520)">
-    <!-- Contribution Grid -->
-  </g>
+    <g transform="translate(50, 520)">
+      <!-- Contribution Grid -->
+    </g>
+  </a>
 
 </svg>
