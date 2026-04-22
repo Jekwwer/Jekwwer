@@ -35,8 +35,11 @@ logger = logging.getLogger(__name__)
 
 ASSETS_DIR = Path("assets")
 DOCS_DIR = Path("docs")
+README_PATH = Path("README.md")
 
 _UNREPLACED_PLACEHOLDER_RE = re.compile(r"\{\{[^}]+\}\}")
+_README_CARD_PATH_RE = re.compile(r"docs/[^/)]+/profile-card\.[^)]+\.svg")
+_LANDING_REDIRECT_RE = re.compile(r"url=\./[^/\s]+/")
 
 
 def _apply_substitutions(svg: str, subs: dict[str, str]) -> str:
@@ -62,6 +65,31 @@ def _resolve_steam_game(active_styles: dict[str, CardStyle], steam_id: str) -> s
         )
         return "nothing"
     return fetch_currently_playing_from_steam(api_key, steam_id) or "nothing"
+
+
+def _update_active_style_refs(active_style: str, style: CardStyle) -> None:
+    """Point README and docs landing redirect at the configured active style.
+
+    Rewrites in-place: README image path (any `docs/<x>/profile-card.<y>.svg`
+    occurrences) and `docs/index.html` `<meta refresh>` target.
+    """
+    filename = style.outputs[0][0]
+    new_path = f"docs/{style.subdir}/{filename}"
+
+    if README_PATH.is_file():
+        readme = README_PATH.read_text(encoding="utf-8")
+        updated, n = _README_CARD_PATH_RE.subn(new_path, readme)
+        if n and updated != readme:
+            README_PATH.write_text(updated, encoding="utf-8")
+            logger.info("README.md: card path → %s (%d occurrence(s))", new_path, n)
+
+    landing = DOCS_DIR / "index.html"
+    if landing.is_file():
+        html = landing.read_text(encoding="utf-8")
+        updated, n = _LANDING_REDIRECT_RE.subn(f"url=./{active_style}/", html)
+        if n and updated != html:
+            landing.write_text(updated, encoding="utf-8")
+            logger.info("docs/index.html: redirect → ./%s/", active_style)
 
 
 def _validate_template_files(active_styles: dict[str, CardStyle]) -> None:
@@ -97,6 +125,11 @@ def main() -> None:
     start_time = time.perf_counter()
 
     config = load_config()
+    active_style = config["active_style"]
+    if active_style not in CARD_STYLES:
+        raise ValueError(
+            f"config.active_style '{active_style}' not in {sorted(CARD_STYLES)}"
+        )
     token = os.getenv("GITHUB_TOKEN")
     if not token:
         raise ValueError("Missing GITHUB_TOKEN environment variable.")
@@ -164,6 +197,8 @@ def main() -> None:
                     "Failed to process %s → %s: %s", style_name, output_file, e
                 )
                 raise
+
+    _update_active_style_refs(active_style, CARD_STYLES[active_style])
 
     logger.info(
         "Done: %d file(s) in %.2fs", files_written, time.perf_counter() - start_time

@@ -32,6 +32,7 @@ class Config(TypedDict):
     user: User
     links: dict[str, Link]
     steam_id: str
+    active_style: str
 
 
 def load_config() -> Config:
