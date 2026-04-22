@@ -47,11 +47,41 @@ Set the required environment variables and run the script from the repo root:
 ```bash
 export GH_USERNAME=<your-github-username>
 export GITHUB_TOKEN=<personal-access-token-with-read:user-scope>
-python generate_profile_card.py --style all
+
+# Optional — only needed when generating a style that reads Steam data (e.g. the man card):
+export STEAM_API_KEY=<steam-web-api-key>
+export STEAM_ID=<64-bit-steam-id>
+
+python generate_profile_card.py --style all   # all | glass | man
 ```
 
-Output writes to `docs/glass/profile-card.glass.svg` and `docs/glass/profile-card.glass-no-background.svg`
-(or the equivalent paths under each style's subdirectory when using `--style all`).
+Output writes to `docs/<style>/profile-card.<style>.svg` and `docs/<style>/profile-card.<style>-no-background.svg` for
+each generated style (e.g. `docs/glass/profile-card.glass.svg`, `docs/man/profile-card.man-page.svg`).
+
+## Project Layout
+
+The CLI entry point is `generate_profile_card.py` at the repo root. All library code lives under the `profile_card/`
+package:
+
+```plaintext
+profile_card/
+├── __init__.py          # re-exports used by main()
+├── fetchers.py          # HTTP session, GitHub GraphQL fetch, Steam fetch, streak/level processing
+└── cards/
+    ├── __init__.py      # side-effect imports populate CARD_STYLES
+    ├── _shared.py       # CardContext, CardStyle, shared SVG generators
+    ├── glass.py         # glass-style card
+    └── man.py           # man-page-style card
+```
+
+### Adding a New Card Style
+
+1. Create `profile_card/cards/<name>.py` that imports `register` + `CardStyle` from `profile_card.cards._shared` and
+   calls `register("<name>", CardStyle(...))` at module top level.
+2. Add `from profile_card.cards import <name>` to `profile_card/cards/__init__.py` so the module is imported for its
+   side effect.
+3. Add the corresponding template SVG under `assets/` and (optionally) a background SVG under `docs/<subdir>/`.
+4. No edits to `main()`, `fetchers.py`, or other card modules are required.
 
 ## Branching and Versioning
 

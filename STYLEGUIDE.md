@@ -34,14 +34,28 @@ Standardizes coding and documentation practices for consistency, readability, an
 │   ├── FUNDING.yml                             │   ├── # funding configuration
 │   └── PULL_REQUEST_TEMPLATE.md                │   └── # default pull request template
 ├── assets                                      ├── # SVG source templates (one per style)
-│   └── profile-card.glass.template.svg         │   └── # glass style card template
+│   ├── profile-card.glass.template.svg         │   ├── # glass style card template
+│   └── profile-card.man-page.template.svg      │   └── # man-page style card template
 ├── docs                                        ├── # GitHub Pages files
 │   ├── glass                                   │   ├── # glass style assets
 │   │   ├── background.glass.svg                │   │   ├── # animated background
 │   │   ├── index.html                          │   │   ├── # glass style page
 │   │   ├── profile-card.glass.svg              │   │   ├── # output with background
 │   │   └── profile-card.glass-no-background.svg│   │   └── # output without background
+│   ├── man                                     │   ├── # man-page style assets
+│   │   ├── background.man-page.svg             │   │   ├── # animated scanline background
+│   │   ├── index.html                          │   │   ├── # man style page
+│   │   ├── profile-card.man-page.svg           │   │   ├── # output with background
+│   │   └── profile-card.man-page-no-b..d.svg   │   │   └── # output without background
 │   └── index.html                              │   └── # redirect to active style
+├── profile_card                                ├── # profile card generator package
+│   ├── cards                                   │   ├── # per-style card modules (self-register)
+│   │   ├── __init__.py                         │   │   ├── # side-effect imports populate CARD_STYLES
+│   │   ├── _shared.py                          │   │   ├── # CardContext, CardStyle, shared SVG gens
+│   │   ├── glass.py                            │   │   ├── # glass card resolver + CardStyle entry
+│   │   └── man.py                              │   │   └── # man card resolver + CardStyle entry
+│   ├── __init__.py                             │   ├── # top-level re-exports for main()
+│   └── fetchers.py                             │   └── # HTTP session, GitHub + Steam fetch, processing
 ├── .editorconfig                               ├── # editor configuration
 ├── .gitignore                                  ├── # files to ignore in Git
 ├── .markdownlint.json                          ├── # markdown linting configuration
@@ -110,6 +124,8 @@ SVG source templates in `assets` (one per style):
 
 - `profile-card.glass.template.svg`: Glass style card template; background injected at runtime from
   `docs/glass/background.glass.svg`.
+- `profile-card.man-page.template.svg`: Man-page style card template; background injected from
+  `docs/man/background.man-page.svg`.
 
 Each style gets its own subdirectory under `docs/`:
 
@@ -119,6 +135,15 @@ Each style gets its own subdirectory under `docs/`:
 - `docs/glass/profile-card.glass.svg`: Glass style output with background (embedded in README).
 - `docs/glass/profile-card.glass-no-background.svg`: Glass style output without background (overlaid on
   `background.glass.svg` by the glass style page).
+- `docs/man/index.html`: Man-page style GitHub Pages page.
+- `docs/man/background.man-page.svg`: Animated CRT scanline background for the man-page style.
+- `docs/man/profile-card.man-page.svg`: Man-page style output with background.
+- `docs/man/profile-card.man-page-no-background.svg`: Man-page style output without background (overlaid on
+  `background.man-page.svg` by the man style page).
+
+Python source lives under the `profile_card/` package (see [`CONTRIBUTING.md`](CONTRIBUTING.md#project-layout) for
+details). Adding a new card style requires creating one file under `profile_card/cards/` plus one template SVG under
+`assets/`; see [Adding a New Card Style](CONTRIBUTING.md#adding-a-new-card-style).
 
 ## Naming Conventions
 
