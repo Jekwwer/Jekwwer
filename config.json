@@ -1,0 +1,33 @@
+{
+  "user": {
+    "name": "jekwwer",
+    "display": "Evgenii"
+  },
+  "links": {
+    "blog": {
+      "url": "https://jekwwer.com",
+      "display": "jekwwer.com"
+    },
+    "linkedin": {
+      "url": "https://linkedin.com/in/evgenii-shiliaev",
+      "display": "linkedin.com/in/evgenii-shiliaev"
+    },
+    "github": {
+      "url": "https://github.com/jekwwer",
+      "display": "github.com/jekwwer"
+    },
+    "leetcode": {
+      "url": "https://leetcode.com/u/jekwwer",
+      "display": "leetcode.com/u/jekwwer"
+    },
+    "coffee": {
+      "url": "https://buymeacoffee.com/jekwwer",
+      "display": "buymeacoffee.com/jekwwer"
+    },
+    "telegram": {
+      "url": "https://t.me/jekwwer",
+      "display": "t.me/jekwwer"
+    }
+  },
+  "steam_id": "76561197964654866"
+}

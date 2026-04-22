@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 894 690" role="img" aria-labelledby="title desc"
   preserveAspectRatio="xMidYMid meet">
-  <title id="title">jekwwer(1) — man page</title>
+  <title id="title">{{user.name}}(1) — man page</title>
   <desc id="desc">An auto-updating man-page style profile card.</desc>
 
   <defs>
@@ -296,9 +296,9 @@
       <rect class="reveal" x="0" y="0" width="0" height="48"></rect>
     </clipPath>
     <g clip-path="url(#typeClip)">
-      <text class="mono bold" x="24" y="30">JEKWWER(1)</text>
+      <text class="mono bold" x="24" y="30">{{user.name.upper}}(1)</text>
       <text class="mono bold" x="447" y="30" text-anchor="middle">User Commands</text>
-      <text class="mono bold" x="872" y="30" text-anchor="end">JEKWWER(1)</text>
+      <text class="mono bold" x="872" y="30" text-anchor="end">{{user.name.upper}}(1)</text>
     </g>
     <line class="rule" x1="24" y1="42" x2="872" y2="42" stroke-width="1"></line>
   </g>
@@ -306,7 +306,7 @@
   <g class="section s1">
     <text class="mono hdr" x="24" y="72">NAME</text>
     <text class="mono" x="80" y="92">
-      jekwwer — <tspan class="dim">automation-first software engineer; side effects include over-engineered dotfiles
+      {{user.name}} — <tspan class="dim">automation-first software engineer; side effects include over-engineered dotfiles
       </tspan>
     </text>
   </g>
@@ -314,7 +314,7 @@
   <g class="section s2">
     <text class="mono hdr" x="24" y="124">SYNOPSIS</text>
     <text class="mono" x="80" y="144">
-      <tspan class="bold">jekwwer</tspan>
+      <tspan class="bold">{{user.name}}</tspan>
       <tspan> [</tspan>
       <tspan class="flag">--hire</tspan>
       <tspan>] [</tspan>
@@ -338,25 +338,25 @@
   <g class="section s4">
     <text class="mono hdr" x="24" y="252">OPTIONS</text>
     <g class="mono">
-      <a href="https://linkedin.com/in/evgenii-shiliaev" target="_blank">
+      <a href="{{link.linkedin.url}}" target="_blank">
         <text x="80" y="272"><tspan class="flag">--hire</tspan></text>
-        <text x="210" y="272" class="val">linkedin.com/in/evgenii-shiliaev</text>
+        <text x="210" y="272" class="val">{{link.linkedin.display}}</text>
       </a>
-      <a href="https://jekwwer.com" target="_blank">
+      <a href="{{link.blog.url}}" target="_blank">
         <text x="80" y="290"><tspan class="flag">--read-blog</tspan></text>
-        <text x="210" y="290" class="val">jekwwer.com</text>
+        <text x="210" y="290" class="val">{{link.blog.display}}</text>
       </a>
-      <a href="https://github.com/Jekwwer" target="_blank">
+      <a href="{{link.github.url}}" target="_blank">
         <text x="80" y="308"><tspan class="flag">--judge-code</tspan></text>
-        <text x="210" y="308" class="val">github.com/Jekwwer</text>
+        <text x="210" y="308" class="val">{{link.github.display}}</text>
       </a>
-      <a href="https://buymeacoffee.com/jekwwer" target="_blank">
+      <a href="{{link.coffee.url}}" target="_blank">
         <text x="80" y="326"><tspan class="flag">--buy-coffee</tspan></text>
-        <text x="210" y="326" class="val">buymeacoffee.com/jekwwer</text>
+        <text x="210" y="326" class="val">{{link.coffee.display}}</text>
       </a>
-      <a href="https://t.me/jekwwer" target="_blank">
+      <a href="{{link.telegram.url}}" target="_blank">
         <text x="80" y="344"><tspan class="flag">--send-meme</tspan></text>
-        <text x="210" y="344" class="val">t.me/jekwwer</text>
+        <text x="210" y="344" class="val">{{link.telegram.display}}</text>
       </a>
     </g>
   </g>
@@ -365,19 +365,19 @@
     <text class="mono hdr" x="24" y="380">STATS</text>
     <g class="mono" transform="translate(80, 400)">
       <text x="0" y="0" class="dim">total</text>
-      <text x="65" y="0" class="val bold">total-contributions-ph</text>
+      <text x="65" y="0" class="val bold">{{gh.total}}</text>
       <text x="175" y="0" class="dim">streak</text>
-      <text x="255" y="0" class="val bold">current-streak-ph</text>
+      <text x="255" y="0" class="val bold">{{gh.streak}}</text>
       <text x="335" y="0" class="dim">longest</text>
-      <text x="425" y="0" class="val bold">longest-streak-count-ph</text>
+      <text x="425" y="0" class="val bold">{{gh.longest.count}} {{gh.longest.from}} .. {{gh.longest.to}}</text>
     </g>
   </g>
 
   <g class="section s6">
     <text class="mono hdr" x="24" y="428">HISTORY</text>
     <text class="mono dim" x="80" y="448">
-      First commit <tspan class="val">first-commit-ph</tspan> · <tspan class="val">years-active-ph</tspan> active ·
-      <tspan class="val">repos-ph</tspan> repos · currently playing <a href="https://steamcommunity.com/profiles/steam-id-ph" target="_blank"><tspan class="accent">currently-playing-ph</tspan></a>
+      First commit <tspan class="val">{{gh.first}}</tspan> · <tspan class="val">{{gh.years}}</tspan> active ·
+      <tspan class="val">{{gh.repos}}</tspan> repos · currently playing <a href="https://steamcommunity.com/profiles/{{st.id}}" target="_blank"><tspan class="accent">{{st.game}}</tspan></a>
     </text>
   </g>
 
@@ -391,7 +391,7 @@
 
   <rect class="surface" x="0" y="640" width="894" height="20"></rect>
   <g class="mono-sm">
-    <text x="12" y="655" class="hdr bold">jekwwer(1)</text>
+    <text x="12" y="655" class="hdr bold">{{user.name}}(1)</text>
     <text x="130" y="655" class="dim">lines 1-44/44 · END</text>
     <text x="872" y="655" text-anchor="end" class="dim">100%</text>
   </g>

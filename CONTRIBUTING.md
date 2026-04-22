@@ -42,18 +42,20 @@ Open in VS Code with the Dev Containers extension. The container runs `npm insta
 
 ## Running Locally
 
-Set the required environment variables and run the script from the repo root:
+Edit `config.json` at the repo root with your username, display name, public links, and Steam ID. Then set the required
+env var and run:
 
 ```bash
-export GH_USERNAME=<your-github-username>
 export GITHUB_TOKEN=<personal-access-token-with-read:user-scope>
 
 # Optional — only needed when generating a style that reads Steam data (e.g. the man card):
 export STEAM_API_KEY=<steam-web-api-key>
-export STEAM_ID=<64-bit-steam-id>
 
 python generate_profile_card.py --style all   # all | glass | man
 ```
+
+Username, links, and Steam ID are read from `config.json` (committed). Only real secrets (`GITHUB_TOKEN`,
+`STEAM_API_KEY`) live in env vars / GitHub Secrets.
 
 Output writes to `docs/<style>/profile-card.<style>.svg` and `docs/<style>/profile-card.<style>-no-background.svg` for
 each generated style (e.g. `docs/glass/profile-card.glass.svg`, `docs/man/profile-card.man-page.svg`).

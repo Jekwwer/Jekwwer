@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 
+from profile_card.config import Config
 from profile_card.fetchers import HEATMAP_WEEKS, ContributionData
 
 # ── Heatmap / Legend Constants ─────────────────────────────────────────────────
@@ -77,15 +78,15 @@ class CardContext:
         data: Contribution stats from GitHub.
         levels: ISO date → intensity level (0–5) mapping.
         raw_counts: ISO date → raw contribution count mapping.
+        config: Public runtime config (user identity, links, Steam ID).
         steam_game: Most-played Steam game name, or `"nothing"` if unavailable.
-        steam_id: Steam 64-bit user ID, or `""` if unavailable.
     """
 
     data: ContributionData
     levels: dict[str, int]
     raw_counts: dict[str, int]
+    config: Config
     steam_game: str = "nothing"
-    steam_id: str = ""
 
 
 @dataclass
@@ -150,6 +151,33 @@ def format_years_active(first_commit: str | None) -> str:
     if yrs:
         return f"{yrs} yr{'s' if yrs != 1 else ''}"
     return f"{mos} mo"
+
+
+def common_github_placeholders(data: ContributionData) -> dict[str, str]:
+    """Atomic GitHub placeholders every card reads from ContributionData."""
+    return {
+        "{{gh.total}}": f"{data['total_contributions']:,}🌟",
+        "{{gh.streak}}": f"{data['current_streak']}🔥",
+        "{{gh.longest.count}}": f"{data['longest_streak']}🏆",
+        "{{gh.longest.from}}": format_date(data["longest_streak_start"]),
+        "{{gh.longest.to}}": format_date(data["longest_streak_end"]),
+    }
+
+
+def common_site_placeholders(config: Config) -> dict[str, str]:
+    """Atomic placeholders sourced from `config.json` (user + links + Steam ID)."""
+    name = config["user"]["name"]
+    result: dict[str, str] = {
+        "{{user.name}}": name,
+        "{{user.name.upper}}": name.upper(),
+        "{{user.name.title}}": name.title(),
+        "{{user.display}}": config["user"]["display"],
+        "{{st.id}}": config["steam_id"],
+    }
+    for key, link in config["links"].items():
+        result[f"{{{{link.{key}.url}}}}"] = link["url"]
+        result[f"{{{{link.{key}.display}}}}"] = link["display"]
+    return result
 
 
 def read_background_fragment(style_dir: Path, bg_file: str) -> str:

@@ -19,6 +19,7 @@ from profile_card import (
     create_svg_legend,
     fetch_contributions_from_github,
     fetch_currently_playing_from_steam,
+    load_config,
     map_contributions_to_levels,
     read_background_fragment,
 )
@@ -39,24 +40,22 @@ def _apply_substitutions(svg: str, subs: dict[str, str]) -> str:
     return svg
 
 
-def _resolve_steam(active_styles: dict[str, CardStyle]) -> tuple[str, str]:
-    """Fetch the Steam game + id, or return defaults `("nothing", "")`.
+def _resolve_steam_game(active_styles: dict[str, CardStyle], steam_id: str) -> str:
+    """Fetch the Steam game name, or return `"nothing"`.
 
-    Defaults also apply when no active style has `needs_steam=True` or when
-    env vars are unset — in the latter case a warning is logged.
+    `"nothing"` is also returned when no active style has `needs_steam=True`
+    or when `STEAM_API_KEY` env var is unset (with a warning).
     """
     if not any(s.needs_steam for s in active_styles.values()):
-        return "nothing", ""
+        return "nothing"
     api_key = os.getenv("STEAM_API_KEY")
-    steam_id = os.getenv("STEAM_ID")
-    if not (api_key and steam_id):
+    if not api_key:
         logger.warning(
-            "Steam-requiring style active but STEAM_API_KEY/STEAM_ID not set — "
+            "Steam-requiring style active but STEAM_API_KEY not set — "
             "currently-playing placeholder will fall back to 'nothing'."
         )
-        return "nothing", ""
-    game = fetch_currently_playing_from_steam(api_key, steam_id)
-    return game or "nothing", steam_id
+        return "nothing"
+    return fetch_currently_playing_from_steam(api_key, steam_id) or "nothing"
 
 
 def _validate_template_files(active_styles: dict[str, CardStyle]) -> None:
@@ -89,27 +88,25 @@ def main() -> None:
         CARD_STYLES if args.style == "all" else {args.style: CARD_STYLES[args.style]}
     )
 
-    username = os.getenv("GH_USERNAME")
+    config = load_config()
     token = os.getenv("GITHUB_TOKEN")
-    if not username:
-        raise ValueError("Missing GH_USERNAME environment variable.")
     if not token:
         raise ValueError("Missing GITHUB_TOKEN environment variable.")
 
     _validate_template_files(active_styles)
 
-    data = fetch_contributions_from_github(username, token)
+    data = fetch_contributions_from_github(config["user"]["name"], token)
     raw_counts = data["contributions"]
     levels = map_contributions_to_levels(raw_counts)
 
-    steam_game, steam_id = _resolve_steam(active_styles)
+    steam_game = _resolve_steam_game(active_styles, config["steam_id"])
 
     ctx = CardContext(
         data=data,
         levels=levels,
         raw_counts=raw_counts,
+        config=config,
         steam_game=steam_game,
-        steam_id=steam_id,
     )
 
     shared_markers = {

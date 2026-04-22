@@ -55,7 +55,9 @@ Standardizes coding and documentation practices for consistency, readability, an
 │   │   ├── glass.py                            │   │   ├── # glass card resolver + CardStyle entry
 │   │   └── man.py                              │   │   └── # man card resolver + CardStyle entry
 │   ├── __init__.py                             │   ├── # top-level re-exports for main()
+│   ├── config.py                               │   ├── # loader + TypedDicts for config.json
 │   └── fetchers.py                             │   └── # HTTP session, GitHub + Steam fetch, processing
+├── config.json                                 ├── # committed non-secret runtime config (user + links)
 ├── .editorconfig                               ├── # editor configuration
 ├── .gitignore                                  ├── # files to ignore in Git
 ├── .markdownlint.json                          ├── # markdown linting configuration

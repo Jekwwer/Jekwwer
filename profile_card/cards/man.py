@@ -7,8 +7,9 @@ Opts into the Steam prerequisite fetch via `needs_steam=True` and adds an
 from profile_card.cards._shared import (
     CardContext,
     CardStyle,
+    common_github_placeholders,
+    common_site_placeholders,
     create_svg_grid_labels,
-    format_date,
     format_years_active,
     register,
 )
@@ -22,20 +23,13 @@ def _grid_labels(ctx: CardContext) -> str:
 def _resolve_placeholders(ctx: CardContext) -> dict[str, str]:
     """Placeholder substitutions for the man-page card template."""
     data = ctx.data
-    longest_start = format_date(data["longest_streak_start"])
-    longest_end = format_date(data["longest_streak_end"])
-    first = data["first_commit"]
     return {
-        "total-contributions-ph": f"{data['total_contributions']:,}🌟",
-        "current-streak-ph": f"{data['current_streak']}🔥",
-        "longest-streak-count-ph": (
-            f"{data['longest_streak']}🏆 {longest_start} .. {longest_end}"
-        ),
-        "first-commit-ph": first or "unknown",
-        "years-active-ph": format_years_active(first),
-        "repos-ph": str(data["public_repos"]),
-        "currently-playing-ph": ctx.steam_game,
-        "steam-id-ph": ctx.steam_id,
+        **common_github_placeholders(data),
+        **common_site_placeholders(ctx.config),
+        "{{gh.first}}": data["first_commit"] or "unknown",
+        "{{gh.years}}": format_years_active(data["first_commit"]),
+        "{{gh.repos}}": str(data["public_repos"]),
+        "{{st.game}}": ctx.steam_game,
     }
 
 

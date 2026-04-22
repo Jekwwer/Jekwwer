@@ -138,14 +138,14 @@
     }
   </style>
 
-  <title id="title">Jekwwer GitHub Profile Card</title>
+  <title id="title">{{user.name.title}} GitHub Profile Card</title>
   <desc id="desc">An SVG profile card showcasing links to a blog, LinkedIn, LeetCode, and GitHub stats.</desc>
 
   <!-- Background -->
 
   <!-- Header Section -->
   <rect class="glass-box" x="30" y="30" width="834" height="200" rx="25" />
-  <text class="header-title" x="50" y="80">Hi, I'm Evgenii! 👋</text>
+  <text class="header-title" x="50" y="80">Hi, I'm {{user.display}}! 👋</text>
   <text class="header-subtitle" x="50" y="125">Python Enthusiast | Automation Explorer | Casual Coder</text>
   <text class="header-text" x="50" y="175">
     Experimenting with automation, playing around with Python, and sharing useful finds.
@@ -157,19 +157,19 @@
   <!-- Buttons -->
   <g style="cursor: pointer;">
     <!-- Blog Button -->
-    <a href="https://jekwwer.com" target="_blank">
+    <a href="{{link.blog.url}}" target="_blank">
       <rect class="button" x="30" y="260" width="300" height="45" rx="15" />
       <text class="button-text" x="50" y="290">📝 My Blog</text>
     </a>
 
     <!-- LinkedIn Button -->
-    <a href="https://www.linkedin.com/in/evgenii-shiliaev/" target="_blank">
+    <a href="{{link.linkedin.url}}" target="_blank">
       <rect class="button" x="30" y="320" width="300" height="45" rx="15" />
       <text class="button-text" x="50" y="350">💼 LinkedIn Profile</text>
     </a>
 
     <!-- LeetCode Button -->
-    <a href="https://leetcode.com/u/Jekwwer/" target="_blank">
+    <a href="{{link.leetcode.url}}" target="_blank">
       <rect class="button" x="30" y="380" width="300" height="45" rx="15" />
       <text class="button-text" x="50" y="410">🧩 LeetCode Profile</text>
     </a>
@@ -180,11 +180,11 @@
     <rect class="stats-box" x="360" y="260" width="504" height="165" rx="25" />
     <text class="stats-title" x="380" y="300">📊 GitHub Stats</text>
     <text class="stats-text" x="380" y="340">Total Contributions:</text>
-    <text class="stats-value" x="840" y="340">total-contributions-ph</text>
+    <text class="stats-value" x="840" y="340">{{gh.total}}</text>
     <text class="stats-text" x="380" y="370">Current Streak:</text>
-    <text class="stats-value" x="840" y="370">current-streak-ph</text>
+    <text class="stats-value" x="840" y="370">{{gh.streak}}</text>
     <text class="stats-text" x="380" y="400">Longest Streak:</text>
-    <text class="stats-value" x="840" y="400">longest-streak-ph</text>
+    <text class="stats-value" x="840" y="400">{{gh.longest.from}} .. {{gh.longest.to}} : {{gh.longest.count}}</text>
   </g>
 
   <rect class="stats-box" x="30" y="455" width="834" height="205" rx="25" />
