@@ -356,15 +356,15 @@
     <text class="mono" x="80" y="144">
       <tspan class="bold">jekwwer</tspan>
       <tspan> [</tspan>
-      <tspan class="flag">--hire</tspan>
+      <a href="https://linkedin.com/in/evgenii-shiliaev" target="_blank"><tspan class="flag">--hire</tspan></a>
       <tspan>] [</tspan>
-      <tspan class="flag">--read-blog</tspan>
+      <a href="https://jekwwer.com" target="_blank"><tspan class="flag">--read-blog</tspan></a>
       <tspan>] [</tspan>
-      <tspan class="flag">--judge-code</tspan>
+      <a href="https://github.com/jekwwer" target="_blank"><tspan class="flag">--judge-code</tspan></a>
       <tspan>] [</tspan>
-      <tspan class="flag">--buy-coffee</tspan>
+      <a href="https://buymeacoffee.com/jekwwer" target="_blank"><tspan class="flag">--buy-coffee</tspan></a>
       <tspan>] [</tspan>
-      <tspan class="flag">--send-meme</tspan>
+      <a href="https://t.me/jekwwer" target="_blank"><tspan class="flag">--send-meme</tspan></a>
       <tspan>]</tspan>
     </text>
   </g>
@@ -386,9 +386,9 @@
         <text x="80" y="290"><tspan class="flag">--read-blog</tspan></text>
         <text x="210" y="290" class="val">jekwwer.com</text>
       </a>
-      <a href="https://github.com/Jekwwer" target="_blank">
+      <a href="https://github.com/jekwwer" target="_blank">
         <text x="80" y="308"><tspan class="flag">--judge-code</tspan></text>
-        <text x="210" y="308" class="val">github.com/Jekwwer</text>
+        <text x="210" y="308" class="val">github.com/jekwwer</text>
       </a>
       <a href="https://buymeacoffee.com/jekwwer" target="_blank">
         <text x="80" y="326"><tspan class="flag">--buy-coffee</tspan></text>
@@ -403,28 +403,31 @@
 
   <g class="section s5">
     <text class="mono hdr" x="24" y="380">STATS</text>
-    <g class="mono" transform="translate(80, 400)">
-      <text x="0" y="0" class="dim">total</text>
-      <text x="65" y="0" class="val bold">2,511🌟</text>
-      <text x="175" y="0" class="dim">streak</text>
-      <text x="255" y="0" class="val bold">6🔥</text>
-      <text x="335" y="0" class="dim">longest</text>
-      <text x="425" y="0" class="val bold">62🏆 2025/01/01 .. 2025/03/03</text>
-    </g>
+    <a href="https://github.com/jekwwer" target="_blank">
+      <g class="mono" transform="translate(80, 400)">
+        <text x="0" y="0" class="dim">total</text>
+        <text x="65" y="0" class="val bold">2,508🌟</text>
+        <text x="175" y="0" class="dim">streak</text>
+        <text x="255" y="0" class="val bold">7🔥</text>
+        <text x="335" y="0" class="dim">longest</text>
+        <text x="425" y="0" class="val bold">62🏆 2025/01/01 .. 2025/03/03</text>
+      </g>
+    </a>
   </g>
 
   <g class="section s6">
     <text class="mono hdr" x="24" y="428">HISTORY</text>
     <text class="mono dim" x="80" y="448">
-      First commit <tspan class="val">2018-07-25</tspan> · <tspan class="val">7 yrs 9 mo</tspan> active ·
-      <tspan class="val">11</tspan> repos · currently playing <a href="https://steamcommunity.com/profiles/76561197964654866" target="_blank"><tspan class="accent">Unrailed!</tspan></a>
+      First commit <a href="https://github.com/jekwwer" target="_blank"><tspan class="val">2018-07-25</tspan></a> · <tspan class="val">7 yrs 9 mo</tspan> active ·
+      <a href="https://github.com/jekwwer?tab=repositories" target="_blank"><tspan class="val">10</tspan></a> repos · recently playing <a href="https://steamcommunity.com/profiles/76561197964654866" target="_blank"><tspan class="accent">Risk of Rain 2</tspan></a>
     </text>
   </g>
 
   <g class="section s7">
     <text class="mono hdr" x="24" y="480">HEATMAP</text>
-    <g transform="translate(80, 500)">
-      <!-- Contribution Grid Labels -->
+    <a href="https://github.com/jekwwer" target="_blank">
+      <g transform="translate(80, 500)">
+        <!-- Contribution Grid Labels -->
 <text class="mono-sm" x="-10" y="71.6" text-anchor="end">Mon</text>
 <text class="mono-sm" x="-10" y="102.2" text-anchor="end">Wed</text>
 <text class="mono-sm" x="-10" y="25.7" text-anchor="end">Fri</text>
@@ -440,7 +443,7 @@
 <text class="mono-sm" x="550.8" y="-4">Jan</text>
 <text class="mono-sm" x="627.3" y="-4">Feb</text>
 <text class="mono-sm" x="688.5" y="-4">Mar</text>
-      <!-- Contribution Grid -->
+        <!-- Contribution Grid -->
 <rect class="grid-cell" x="0.0" y="0.0" width="13.74" height="13.74" fill="url(#heat-lvl-0)" stroke="url(#heat-lvl-0-stroke)" rx="2" title="2025-04-24: 0"/>
 <rect class="grid-cell" x="0.0" y="15.3" width="13.74" height="13.74" fill="url(#heat-lvl-0)" stroke="url(#heat-lvl-0-stroke)" rx="2" title="2025-04-25: 0"/>
 <rect class="grid-cell" x="0.0" y="30.6" width="13.74" height="13.74" fill="url(#heat-lvl-0)" stroke="url(#heat-lvl-0-stroke)" rx="2" title="2025-04-26: 0"/>
@@ -486,8 +489,8 @@
 <rect class="grid-cell" x="91.8" y="0.0" width="13.74" height="13.74" fill="url(#heat-lvl-0)" stroke="url(#heat-lvl-0-stroke)" rx="2" title="2025-06-05: 0"/>
 <rect class="grid-cell" x="91.8" y="15.3" width="13.74" height="13.74" fill="url(#heat-lvl-0)" stroke="url(#heat-lvl-0-stroke)" rx="2" title="2025-06-06: 0"/>
 <rect class="grid-cell" x="91.8" y="30.6" width="13.74" height="13.74" fill="url(#heat-lvl-1)" stroke="url(#heat-lvl-1-stroke)" rx="2" title="2025-06-07: 3"/>
-<rect class="grid-cell" x="91.8" y="45.900000000000006" width="13.74" height="13.74" fill="url(#heat-lvl-1)" stroke="url(#heat-lvl-1-stroke)" rx="2" title="2025-06-08: 5"/>
-<rect class="grid-cell" x="91.8" y="61.2" width="13.74" height="13.74" fill="url(#heat-lvl-1)" stroke="url(#heat-lvl-1-stroke)" rx="2" title="2025-06-09: 2"/>
+<rect class="grid-cell" x="91.8" y="45.900000000000006" width="13.74" height="13.74" fill="url(#heat-lvl-1)" stroke="url(#heat-lvl-1-stroke)" rx="2" title="2025-06-08: 6"/>
+<rect class="grid-cell" x="91.8" y="61.2" width="13.74" height="13.74" fill="url(#heat-lvl-1)" stroke="url(#heat-lvl-1-stroke)" rx="2" title="2025-06-09: 1"/>
 <rect class="grid-cell" x="91.8" y="76.5" width="13.74" height="13.74" fill="url(#heat-lvl-0)" stroke="url(#heat-lvl-0-stroke)" rx="2" title="2025-06-10: 0"/>
 <rect class="grid-cell" x="91.8" y="91.8" width="13.74" height="13.74" fill="url(#heat-lvl-0)" stroke="url(#heat-lvl-0-stroke)" rx="2" title="2025-06-11: 0"/>
 <rect class="grid-cell" x="107.1" y="0.0" width="13.74" height="13.74" fill="url(#heat-lvl-0)" stroke="url(#heat-lvl-0-stroke)" rx="2" title="2025-06-12: 0"/>
@@ -799,13 +802,14 @@
 <rect class="grid-cell" x="764.9999999999995" y="76.5" width="13.74" height="13.74" fill="url(#heat-lvl-0)" stroke="url(#heat-lvl-0-stroke)" rx="2" title="2026-04-14: 0"/>
 <rect class="grid-cell" x="764.9999999999995" y="91.8" width="13.74" height="13.74" fill="url(#heat-lvl-0)" stroke="url(#heat-lvl-0-stroke)" rx="2" title="2026-04-15: 0"/>
 <rect class="grid-cell" x="780.2999999999995" y="0.0" width="13.74" height="13.74" fill="url(#heat-lvl-1)" stroke="url(#heat-lvl-1-stroke)" rx="2" title="2026-04-16: 6"/>
-<rect class="grid-cell" x="780.2999999999995" y="15.3" width="13.74" height="13.74" fill="url(#heat-lvl-5)" stroke="url(#heat-lvl-5-stroke)" rx="2" title="2026-04-17: 109"/>
+<rect class="grid-cell" x="780.2999999999995" y="15.3" width="13.74" height="13.74" fill="url(#heat-lvl-5)" stroke="url(#heat-lvl-5-stroke)" rx="2" title="2026-04-17: 108"/>
 <rect class="grid-cell" x="780.2999999999995" y="30.6" width="13.74" height="13.74" fill="url(#heat-lvl-1)" stroke="url(#heat-lvl-1-stroke)" rx="2" title="2026-04-18: 5"/>
-<rect class="grid-cell" x="780.2999999999995" y="45.900000000000006" width="13.74" height="13.74" fill="url(#heat-lvl-1)" stroke="url(#heat-lvl-1-stroke)" rx="2" title="2026-04-19: 9"/>
+<rect class="grid-cell" x="780.2999999999995" y="45.900000000000006" width="13.74" height="13.74" fill="url(#heat-lvl-1)" stroke="url(#heat-lvl-1-stroke)" rx="2" title="2026-04-19: 8"/>
 <rect class="grid-cell" x="780.2999999999995" y="61.2" width="13.74" height="13.74" fill="url(#heat-lvl-4)" stroke="url(#heat-lvl-4-stroke)" rx="2" title="2026-04-20: 31"/>
-<rect class="grid-cell" x="780.2999999999995" y="76.5" width="13.74" height="13.74" fill="url(#heat-lvl-1)" stroke="url(#heat-lvl-1-stroke)" rx="2" title="2026-04-21: 9"/>
-<rect class="grid-cell" x="780.2999999999995" y="91.8" width="13.74" height="13.74" fill="url(#heat-lvl-0)" stroke="url(#heat-lvl-0-stroke)" rx="2" title="2026-04-22: 0"/>
-    </g>
+<rect class="grid-cell" x="780.2999999999995" y="76.5" width="13.74" height="13.74" fill="url(#heat-lvl-2)" stroke="url(#heat-lvl-2-stroke)" rx="2" title="2026-04-21: 11"/>
+<rect class="grid-cell" x="780.2999999999995" y="91.8" width="13.74" height="13.74" fill="url(#heat-lvl-2)" stroke="url(#heat-lvl-2-stroke)" rx="2" title="2026-04-22: 20"/>
+      </g>
+    </a>
   </g>
 
   <rect class="surface" x="0" y="640" width="894" height="20"></rect>

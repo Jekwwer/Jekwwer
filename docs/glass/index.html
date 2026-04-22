@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Evgenii Shiliaev's GitHub profile card — contributions, streaks, and links." />
+    <meta name="description" content="Evgenii's GitHub profile card — contributions, streaks, and links." />
     <title>Jekwwer Github README</title>
     <link rel="preload" href="./background.glass.svg" as="image" type="image/svg+xml" />
     <style>
@@ -19,104 +19,20 @@
         background-repeat: no-repeat;
       }
 
-      .image-container {
-        position: relative;
+      .card {
         width: 100%;
         max-width: 894px;
-      }
-
-      .image-container img {
-        max-width: 100%;
-        height: auto;
         display: block;
-      }
-
-      .clickable {
-        position: absolute;
-        cursor: pointer;
-      }
-
-      /* Clickable Regions */
-      #blogButton {
-        left: 3%;
-        top: 37.75%;
-        width: 34%;
-        height: 8%;
-      }
-
-      #linkedinButton {
-        left: 3%;
-        top: 46.5%;
-        width: 34%;
-        height: 8%;
-      }
-
-      #leetcodeButton {
-        left: 3%;
-        top: 55.5%;
-        width: 34%;
-        height: 8%;
-      }
-
-      #githubStats {
-        right: 3%;
-        top: 38%;
-        width: 57%;
-        height: 25%;
-      }
-
-      #githubContributionsGrid {
-        left: 3%;
-        bottom: 3.5%;
-        width: 94%;
-        height: 30%;
       }
     </style>
   </head>
   <body>
-    <div class="image-container">
-      <img src="./profile-card.glass-no-background.svg" alt="Jekwwer GitHub profile card" />
-      <!-- Clickable Regions -->
-      <a
-        href="https://jekwwer.com"
-        id="blogButton"
-        class="clickable"
-        aria-label="My Blog"
-        target="_blank"
-        rel="noopener noreferrer"
-      ></a>
-      <a
-        href="https://www.linkedin.com/in/evgenii-shiliaev/"
-        id="linkedinButton"
-        class="clickable"
-        aria-label="LinkedIn Profile"
-        target="_blank"
-        rel="noopener noreferrer"
-      ></a>
-      <a
-        href="https://leetcode.com/u/Jekwwer/"
-        id="leetcodeButton"
-        class="clickable"
-        aria-label="LeetCode Profile"
-        target="_blank"
-        rel="noopener noreferrer"
-      ></a>
-      <a
-        href="https://github.com/Jekwwer"
-        id="githubStats"
-        class="clickable"
-        aria-label="GitHub Profile"
-        target="_blank"
-        rel="noopener noreferrer"
-      ></a>
-      <a
-        href="https://github.com/Jekwwer"
-        id="githubContributionsGrid"
-        class="clickable"
-        aria-label="GitHub Contributions"
-        target="_blank"
-        rel="noopener noreferrer"
-      ></a>
-    </div>
+    <object
+      class="card"
+      type="image/svg+xml"
+      data="./profile-card.glass-no-background.svg"
+      role="img"
+      aria-label="Jekwwer GitHub profile card"
+    ></object>
   </body>
 </html>
