@@ -1,24 +1,21 @@
 """GitHub contribution heatmap generator.
 
 Fetches contribution data from the GitHub GraphQL API, calculates streaks,
-and writes updated SVG profile cards to the assets/ directory.
+and writes updated SVG profile cards to the docs/ directory.
 
-Pipeline:
-    1. _fetch_all_contributions          — paginate GitHub GraphQL year by year.
-    2. calculate_streaks                 — compute current/longest streak with dates.
-    3. map_contributions_to_levels       — map raw counts to 6 heatmap intensity levels.
-    4. create_svg_grid_with_heatmap      — render a 52×7 SVG <rect> grid.
-    5. create_svg_legend                 — render the colour-scale legend.
-    6. fetch_currently_playing_from_steam — fetch most-played game in last 2 weeks.
-    7. replace_placeholders_in_svg       — inject stats into SVG text-node placeholders.
-    8. main                              — orchestrate and write output files.
+Architecture:
+    Each card style in CARD_STYLES owns its placeholder resolver and any
+    card-specific SVG marker generators.  main() fetches shared data once,
+    conditionally fetches per-card prerequisites (e.g. Steam), and dispatches
+    to each style's resolver.  Adding a new style = one CARD_STYLES entry
+    plus one resolver function.
 
 Required environment variables:
     GH_USERNAME  — GitHub username.
     GITHUB_TOKEN — Personal access token with read:user scope.
 
 Optional environment variables:
-    STEAM_API_KEY — Steam Web API key (enables currently-playing-ph placeholder).
+    STEAM_API_KEY — Steam Web API key (used by styles with needs_steam=True).
     STEAM_ID      — 64-bit Steam user ID.
 """
 
@@ -26,7 +23,8 @@ import argparse
 import logging
 import os
 import sys
-from dataclasses import dataclass
+from collections.abc import Callable
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, TypedDict
@@ -62,48 +60,6 @@ GRID_SPACING_RATIO = 0.1
 
 ASSETS_DIR = Path("assets")  # source files: template SVGs
 DOCS_DIR = Path("docs")  # deployment output: generated SVGs + backgrounds
-
-
-@dataclass
-class CardStyle:
-    """Configuration for a single profile card style.
-
-    Attributes:
-        template: SVG template filename relative to ASSETS_DIR.
-        outputs: (output_filename, inject_background) pairs written to the style subdir.
-        background: Background SVG filename in the style subdir; empty string if unused.
-        subdir: Subdirectory under DOCS_DIR for all outputs and background.
-    """
-
-    template: str
-    outputs: list[tuple[str, bool]]
-    background: str = ""
-    subdir: str = ""
-
-
-# Registry of supported card styles.
-# Add a new CardStyle entry here to support an additional style — no other
-# code changes required.
-CARD_STYLES: dict[str, CardStyle] = {
-    "glass": CardStyle(
-        template="profile-card.glass.template.svg",
-        outputs=[
-            ("profile-card.glass.svg", True),
-            ("profile-card.glass-no-background.svg", False),
-        ],
-        background="background.glass.svg",
-        subdir="glass",
-    ),
-    "man": CardStyle(
-        template="profile-card.man-page.template.svg",
-        outputs=[
-            ("profile-card.man-page.svg", True),
-            ("profile-card.man-page-no-background.svg", False),
-        ],
-        background="background.man-page.svg",
-        subdir="man",
-    ),
-}
 
 # GraphQL query fetches contribution counts per day for a given date range.
 # repositories.totalCount is fetched on every call but only used from the first.
@@ -177,18 +133,7 @@ LEGEND_SHORT_ITEM_WIDTH = 61.2  # width of each subsequent item (cell + short la
 
 
 class ContributionData(TypedDict):
-    """Contribution stats returned by fetch_contributions_from_github.
-
-    Attributes:
-        contributions (dict[str, int]): Daily counts for the last 52 weeks.
-        total_contributions (int): All-time total contribution count.
-        current_streak (int): Current consecutive-day streak length.
-        longest_streak (int): Longest consecutive-day streak ever.
-        longest_streak_start (str | None): ISO date the longest streak began.
-        longest_streak_end (str | None): ISO date the longest streak ended.
-        first_commit (str | None): ISO date of the earliest contribution day.
-        public_repos (int): Number of public repositories owned by the user.
-    """
+    """Contribution stats returned by fetch_contributions_from_github."""
 
     contributions: dict[str, int]
     total_contributions: int
@@ -201,19 +146,56 @@ class ContributionData(TypedDict):
 
 
 class StreakData(TypedDict):
-    """Streak stats returned by calculate_streaks.
-
-    Attributes:
-        current_streak (int): Current consecutive-day streak length.
-        longest_streak (int): Longest consecutive-day streak ever.
-        longest_streak_start (str | None): ISO date the longest streak began.
-        longest_streak_end (str | None): ISO date the longest streak ended.
-    """
+    """Streak stats returned by calculate_streaks."""
 
     current_streak: int
     longest_streak: int
     longest_streak_start: str | None
     longest_streak_end: str | None
+
+
+@dataclass
+class CardContext:
+    """Shared state passed to per-card resolvers and marker generators.
+
+    Attributes:
+        data: Contribution stats from GitHub.
+        levels: ISO date → intensity level (0–5) mapping.
+        raw_counts: ISO date → raw contribution count mapping.
+        steam_game: Most-played Steam game name, or "nothing" if unavailable.
+        steam_id: Steam 64-bit user ID, or "" if unavailable.
+    """
+
+    data: ContributionData
+    levels: dict[str, int]
+    raw_counts: dict[str, int]
+    steam_game: str = "nothing"
+    steam_id: str = ""
+
+
+@dataclass
+class CardStyle:
+    """Configuration for a single profile card style.
+
+    Attributes:
+        template: SVG template filename relative to ASSETS_DIR.
+        outputs: (output_filename, inject_background) pairs written to the style subdir.
+        resolver: Callable returning a {placeholder: value} dict for this style.
+        background: Background SVG filename in the style subdir; empty string if unused.
+        subdir: Subdirectory under DOCS_DIR for outputs and background.
+        extra_markers: {marker_comment: callable} for style-specific SVG injection
+            beyond the shared Grid + Legend markers (e.g. heatmap axis labels).
+        needs_steam: Whether this style's resolver reads Steam data from CardContext.
+            Used by main() to skip the Steam API call when no active style needs it.
+    """
+
+    template: str
+    outputs: list[tuple[str, bool]]
+    resolver: Callable[[CardContext], dict[str, str]]
+    background: str = ""
+    subdir: str = ""
+    extra_markers: dict[str, Callable[[CardContext], str]] = field(default_factory=dict)
+    needs_steam: bool = False
 
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
@@ -226,14 +208,24 @@ def format_date(date_value: str | None) -> str:
     return "N/A"
 
 
-def _read_background_fragment(style_dir: Path, bg_file: str) -> str:
-    """Return a background SVG's inner content with the outer <svg> wrapper stripped.
+def _format_years_active(first_commit: str | None) -> str:
+    """Format elapsed time since first_commit as '<N> yr[s] [<M> mo]'."""
+    if not first_commit:
+        return "unknown"
+    today = datetime.now(timezone.utc).date()
+    delta = today - datetime.fromisoformat(first_commit).date()
+    yrs, rem = divmod(delta.days, 365)
+    mos = rem // 30
+    if yrs and mos:
+        return f"{yrs} yr{'s' if yrs != 1 else ''} {mos} mo"
+    if yrs:
+        return f"{yrs} yr{'s' if yrs != 1 else ''}"
+    return f"{mos} mo"
 
-    Stripping the wrapper makes the fragment embeddable inside the card SVG.
-    Secondary <defs> and <style> blocks are valid SVG and render correctly.
-    """
+
+def _read_background_fragment(style_dir: Path, bg_file: str) -> str:
+    """Return a background SVG's inner content with the outer <svg> wrapper stripped."""
     raw = (style_dir / bg_file).read_text(encoding="utf-8")
-    # Drop the opening <svg ...> tag and the closing </svg>.
     start = raw.index(">") + 1
     end = raw.rindex("<")
     return raw[start:end].strip()
@@ -253,13 +245,6 @@ def _parse_contribution_days(weeks: list[Any]) -> dict[str, int]:
 
 def _fetch_all_contributions(username: str, token: str) -> tuple[dict[str, int], int]:
     """Fetch all contributions since CONTRIBUTIONS_START_DATE, one year at a time.
-
-    GitHub's GraphQL API limits contributionsCollection queries to a one-year
-    window, so this function paginates in FETCH_CHUNK_SIZE steps.
-
-    Args:
-        username: GitHub username.
-        token: GitHub personal access token.
 
     Returns:
         Tuple of (date → count mapping, public repository count).
@@ -315,10 +300,6 @@ def fetch_currently_playing_from_steam(api_key: str, steam_id: str) -> str | Non
 
     Requires the Steam profile's game details to be set to Public.
 
-    Args:
-        api_key: Steam Web API key.
-        steam_id: 64-bit Steam user ID.
-
     Returns:
         Name of the most-played recent game, or None if unavailable.
     """
@@ -346,18 +327,7 @@ def fetch_currently_playing_from_steam(api_key: str, steam_id: str) -> str | Non
 
 
 def fetch_contributions_from_github(username: str, token: str) -> ContributionData:
-    """Fetch contribution data and calculate streaks for a GitHub user.
-
-    Retrieves all-time contributions via _fetch_all_contributions, then filters
-    to the last HEATMAP_WEEKS weeks for the heatmap display.
-
-    Args:
-        username: GitHub username.
-        token: GitHub personal access token with read:user scope.
-
-    Returns:
-        ContributionData with heatmap contributions and all-time streak stats.
-    """
+    """Fetch contribution data and calculate streaks for a GitHub user."""
     all_contributions, public_repos = _fetch_all_contributions(username, token)
 
     cutoff = (
@@ -391,17 +361,7 @@ def fetch_contributions_from_github(username: str, token: str) -> ContributionDa
 
 
 def calculate_streaks(contributions: dict[str, int]) -> StreakData:
-    """Calculate the current and longest contribution streaks.
-
-    A streak is a consecutive sequence of days with at least one contribution.
-    Dates are processed in chronological order.
-
-    Args:
-        contributions: Dict mapping ISO date strings to daily contribution counts.
-
-    Returns:
-        StreakData with current/longest streak lengths and the longest streak's dates.
-    """
+    """Calculate the current and longest contribution streaks."""
     today = datetime.now(timezone.utc).date()
     # Exclude today when it has no contributions — the day may not be complete yet.
     active = {
@@ -455,22 +415,7 @@ def calculate_streaks(contributions: dict[str, int]) -> StreakData:
 
 
 def map_contributions_to_levels(contributions: dict[str, int]) -> dict[str, int]:
-    """Map raw contribution counts to heatmap intensity levels (0–5).
-
-    Level thresholds:
-        0  — no contributions
-        1  — 1–10
-        2  — 11–20
-        3  — 21–30
-        4  — 31–49
-        5  — 50+
-
-    Args:
-        contributions: Dict mapping ISO date strings to daily contribution counts.
-
-    Returns:
-        Dict mapping the same dates to intensity levels.
-    """
+    """Map raw contribution counts to heatmap intensity levels (0–5)."""
 
     def _count_to_level(count: int) -> int:
         if count == 0:
@@ -491,18 +436,7 @@ def map_contributions_to_levels(contributions: dict[str, int]) -> dict[str, int]
 def calculate_cell_dimensions(
     grid_width: int, weeks: int = HEATMAP_WEEKS
 ) -> tuple[float, float]:
-    """Calculate the cell size and inter-cell spacing for the heatmap grid.
-
-    GRID_SPACING_RATIO of the total grid width is reserved for column gaps;
-    the remainder is divided equally across all week columns.
-
-    Args:
-        grid_width: Total grid width in pixels.
-        weeks: Number of week columns.
-
-    Returns:
-        Tuple of (cell_size, cell_spacing), both rounded to 2 decimal places.
-    """
+    """Calculate cell size and inter-cell spacing for the heatmap grid."""
     gap_total = grid_width * GRID_SPACING_RATIO
     cell_size = (grid_width - gap_total) / weeks
     cell_spacing = gap_total / (weeks - 1)
@@ -514,23 +448,9 @@ def create_svg_grid_with_heatmap(
     raw_counts: dict[str, int],
     grid_width: int = 794,
 ) -> str:
-    """Render the contribution heatmap as an SVG <g> element.
-
-    Produces HEATMAP_CELLS <rect> elements arranged in a 52-column × 7-row grid,
-    with CSS class and fill references matching the SVG template's style definitions.
-
-    Args:
-        levels: Dict mapping ISO date strings to intensity levels (0–5).
-        raw_counts: Dict mapping ISO date strings to raw contribution counts,
-            used to populate cell tooltip titles.
-        grid_width: Total grid width in pixels.
-
-    Returns:
-        SVG markup string, including the opening <!-- Contribution Grid --> marker.
-    """
+    """Render the contribution heatmap as a sequence of SVG <rect> elements."""
     cell_size, cell_spacing = calculate_cell_dimensions(grid_width)
 
-    # Take the most recent HEATMAP_CELLS entries so the grid is always full.
     entries = list(levels.items())[-HEATMAP_CELLS:]
 
     svg_parts = ["<!-- Contribution Grid -->"]
@@ -555,21 +475,7 @@ def create_svg_grid_with_heatmap(
 
 
 def create_svg_legend(grid_width: int = 794) -> str:
-    """Render the heatmap colour-scale legend as an SVG <g> element.
-
-    Generates one labelled cell per intensity level. Level-0 uses a long
-    descriptive label; levels 1–5 use compact range labels. Positions are
-    computed from LEGEND_LONG_ITEM_WIDTH / LEGEND_SHORT_ITEM_WIDTH constants
-    so gaps remain consistent with the grid's cell size.
-
-    Args:
-        grid_width: Total grid width in pixels (must match
-            create_svg_grid_with_heatmap).
-
-    Returns:
-        SVG markup string, including the opening
-        <!-- Contribution Grid Legend --> marker.
-    """
+    """Render the heatmap colour-scale legend."""
     cell_size, _ = calculate_cell_dimensions(grid_width)
 
     parts = ["<!-- Contribution Grid Legend -->"]
@@ -598,21 +504,7 @@ def create_svg_grid_labels(
     levels: dict[str, int],
     grid_width: int = 794,
 ) -> str:
-    """Render day-of-week and month labels for the heatmap grid.
-
-    Day labels (Mon / Wed / Fri) are positioned by computing which row each
-    falls on given the weekday of the first visible date.  Month labels are
-    placed at the x-coordinate of the first column belonging to each new month.
-
-    Args:
-        levels: Dict mapping ISO date strings to intensity levels (0–5).
-        grid_width: Total grid width in pixels (must match
-            create_svg_grid_with_heatmap).
-
-    Returns:
-        SVG markup string, including the opening
-        <!-- Contribution Grid Labels --> marker.
-    """
+    """Render day-of-week and month labels for the heatmap grid."""
     cell_size, cell_spacing = calculate_cell_dimensions(grid_width)
     step = cell_size + cell_spacing
 
@@ -647,74 +539,100 @@ def create_svg_grid_labels(
     return "\n".join(parts)
 
 
-def replace_placeholders_in_svg(
-    svg_content: str,
-    stats: ContributionData,
-    currently_playing: str = "nothing",
-    steam_id: str = "",
-) -> str:
-    """Replace stat placeholders in an SVG template with real values.
+# ── Per-Card Placeholder Resolvers ─────────────────────────────────────────────
+#
+# One resolver per card style.  Each returns {placeholder-token: replacement}
+# for its template.  Add a new resolver + CARD_STYLES entry to support a new card.
 
-    Placeholder tokens in the SVG are substituted in a single pass:
-        total-contributions-ph       → formatted total with thousands separator
-        current-streak-ph            → current streak in days
-        longest-streak-ph            → date range and length of longest streak
-        longest-streak-count-ph      → count + date range of longest streak
-        first-commit-ph              → ISO date of the earliest contribution
-        years-active-ph              → years/months active since first commit
-        repos-ph                     → public repository count
-        currently-playing-ph         → most-played Steam game in last 2 weeks
-        steam-id-ph                  → Steam user ID (used in profile URL)
 
-    Args:
-        svg_content: Raw SVG string containing placeholder tokens.
-        stats: Contribution stats to inject.
-        currently_playing: Steam game name; defaults to "nothing".
-        steam_id: Steam 64-bit user ID; defaults to empty string.
-
-    Returns:
-        SVG string with all placeholders replaced.
-    """
-    longest_start = format_date(stats["longest_streak_start"])
-    longest_end = format_date(stats["longest_streak_end"])
-
-    first = stats["first_commit"]
-    if first:
-        delta = datetime.now(timezone.utc).date() - datetime.fromisoformat(first).date()
-        yrs, rem = divmod(delta.days, 365)
-        mos = rem // 30
-        if yrs and mos:
-            years_active = f"{yrs} yr{'s' if yrs != 1 else ''} {mos} mo"
-        elif yrs:
-            years_active = f"{yrs} yr{'s' if yrs != 1 else ''}"
-        else:
-            years_active = f"{mos} mo"
-    else:
-        years_active = "unknown"
-
-    replacements = {
-        "total-contributions-ph": f"{stats['total_contributions']:,}🌟",
-        "current-streak-ph": f"{stats['current_streak']}🔥",
+def _resolve_glass_placeholders(ctx: CardContext) -> dict[str, str]:
+    """Placeholders for the glass style card."""
+    data = ctx.data
+    longest_start = format_date(data["longest_streak_start"])
+    longest_end = format_date(data["longest_streak_end"])
+    return {
+        "total-contributions-ph": f"{data['total_contributions']:,}🌟",
+        "current-streak-ph": f"{data['current_streak']}🔥",
         "longest-streak-ph": (
-            f"{longest_start} .. {longest_end} : {stats['longest_streak']}🏆"
+            f"{longest_start} .. {longest_end} : {data['longest_streak']}🏆"
         ),
-        "longest-streak-count-ph": (
-            f"{stats['longest_streak']}🏆 {longest_start} .. {longest_end}"
-        ),
-        "first-commit-ph": first or "unknown",
-        "years-active-ph": years_active,
-        "repos-ph": str(stats["public_repos"]),
-        "currently-playing-ph": currently_playing,
-        "steam-id-ph": steam_id,
     }
 
-    result = svg_content
-    for placeholder, value in replacements.items():
-        result = result.replace(placeholder, value)
-    return result
+
+def _resolve_man_placeholders(ctx: CardContext) -> dict[str, str]:
+    """Placeholders for the man-page style card."""
+    data = ctx.data
+    longest_start = format_date(data["longest_streak_start"])
+    longest_end = format_date(data["longest_streak_end"])
+    first = data["first_commit"]
+    return {
+        "total-contributions-ph": f"{data['total_contributions']:,}🌟",
+        "current-streak-ph": f"{data['current_streak']}🔥",
+        "longest-streak-count-ph": (
+            f"{data['longest_streak']}🏆 {longest_start} .. {longest_end}"
+        ),
+        "first-commit-ph": first or "unknown",
+        "years-active-ph": _format_years_active(first),
+        "repos-ph": str(data["public_repos"]),
+        "currently-playing-ph": ctx.steam_game,
+        "steam-id-ph": ctx.steam_id,
+    }
+
+
+# ── Card Style Registry ────────────────────────────────────────────────────────
+#
+# Adding a new style: add one entry here + one resolver above.
+
+CARD_STYLES: dict[str, CardStyle] = {
+    "glass": CardStyle(
+        template="profile-card.glass.template.svg",
+        outputs=[
+            ("profile-card.glass.svg", True),
+            ("profile-card.glass-no-background.svg", False),
+        ],
+        background="background.glass.svg",
+        subdir="glass",
+        resolver=_resolve_glass_placeholders,
+    ),
+    "man": CardStyle(
+        template="profile-card.man-page.template.svg",
+        outputs=[
+            ("profile-card.man-page.svg", True),
+            ("profile-card.man-page-no-background.svg", False),
+        ],
+        background="background.man-page.svg",
+        subdir="man",
+        resolver=_resolve_man_placeholders,
+        extra_markers={
+            "<!-- Contribution Grid Labels -->": (
+                lambda ctx: create_svg_grid_labels(ctx.levels)
+            ),
+        },
+        needs_steam=True,
+    ),
+}
 
 
 # ── Entry Point ────────────────────────────────────────────────────────────────
+
+
+def _apply_substitutions(svg: str, subs: dict[str, str]) -> str:
+    """Replace every key in subs with its value. Single pass per key."""
+    for key, value in subs.items():
+        svg = svg.replace(key, value)
+    return svg
+
+
+def _resolve_steam(active_styles: dict[str, CardStyle]) -> tuple[str, str]:
+    """Fetch Steam game + id if any active style needs it. Defaults otherwise."""
+    if not any(s.needs_steam for s in active_styles.values()):
+        return "nothing", ""
+    api_key = os.getenv("STEAM_API_KEY")
+    steam_id = os.getenv("STEAM_ID")
+    if not (api_key and steam_id):
+        return "nothing", ""
+    game = fetch_currently_playing_from_steam(api_key, steam_id)
+    return game or "nothing", steam_id
 
 
 def main() -> None:
@@ -727,54 +645,61 @@ def main() -> None:
         help="Card style to generate (default: all).",
     )
     args = parser.parse_args()
-    styles = (
+    active_styles = (
         CARD_STYLES if args.style == "all" else {args.style: CARD_STYLES[args.style]}
     )
 
     username = os.getenv("GH_USERNAME")
     token = os.getenv("GITHUB_TOKEN")
-
     if not username:
-        logger.error("GH_USERNAME environment variable is required but not set.")
         raise ValueError("Missing GH_USERNAME environment variable.")
     if not token:
-        logger.error("GITHUB_TOKEN environment variable is required but not set.")
         raise ValueError("Missing GITHUB_TOKEN environment variable.")
 
-    steam_key = os.getenv("STEAM_API_KEY")
-    steam_id = os.getenv("STEAM_ID")
-    currently_playing = "nothing"
-    if steam_key and steam_id:
-        game = fetch_currently_playing_from_steam(steam_key, steam_id)
-        if game:
-            currently_playing = game
-
     data = fetch_contributions_from_github(username, token)
-    raw = data["contributions"]
-    levels = map_contributions_to_levels(raw)
-    grid = create_svg_grid_with_heatmap(levels, raw)
-    legend = create_svg_legend()
-    labels = create_svg_grid_labels(levels)
+    raw_counts = data["contributions"]
+    levels = map_contributions_to_levels(raw_counts)
 
-    for style_name, style in styles.items():
+    steam_game, steam_id = _resolve_steam(active_styles)
+
+    ctx = CardContext(
+        data=data,
+        levels=levels,
+        raw_counts=raw_counts,
+        steam_game=steam_game,
+        steam_id=steam_id,
+    )
+
+    # Shared markers used by every card.
+    shared_markers = {
+        "<!-- Contribution Grid Legend -->": create_svg_legend(),
+        "<!-- Contribution Grid -->": create_svg_grid_with_heatmap(levels, raw_counts),
+    }
+
+    for style_name, style in active_styles.items():
         style_dir = DOCS_DIR / style.subdir if style.subdir else DOCS_DIR
         style_dir.mkdir(parents=True, exist_ok=True)
+
         bg_fragment = (
             _read_background_fragment(style_dir, style.background)
             if style.background
             else ""
         )
+
+        markers = {
+            **shared_markers,
+            **{marker: fn(ctx) for marker, fn in style.extra_markers.items()},
+        }
+        placeholders = style.resolver(ctx)
+
         for output_file, inject_bg in style.outputs:
             try:
                 svg = (ASSETS_DIR / style.template).read_text(encoding="utf-8")
-                bg = bg_fragment if inject_bg else ""
-                svg = svg.replace("<!-- Background -->", bg)
-                svg = svg.replace("<!-- Contribution Grid Legend -->", legend)
-                svg = svg.replace("<!-- Contribution Grid Labels -->", labels)
-                svg = svg.replace("<!-- Contribution Grid -->", grid)
-                svg = replace_placeholders_in_svg(
-                    svg, data, currently_playing, steam_id or ""
+                svg = svg.replace(
+                    "<!-- Background -->", bg_fragment if inject_bg else ""
                 )
+                svg = _apply_substitutions(svg, markers)
+                svg = _apply_substitutions(svg, placeholders)
                 out_path = style_dir / output_file
                 out_path.write_text(svg, encoding="utf-8")
                 logger.info("Written: %s", out_path)
