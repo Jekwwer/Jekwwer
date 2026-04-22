@@ -26,6 +26,8 @@ updates:
     directory: '/'
     schedule:
       interval: 'monthly'
+    allow:
+      - dependency-type: 'direct'
     groups:
       npm-deps:
         patterns:
@@ -47,6 +49,8 @@ updates:
     schedule:
       interval: 'monthly'
     versioning-strategy: increase
+    allow:
+      - dependency-type: 'direct'
     groups:
       poetry-deps:
         patterns:
