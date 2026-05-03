@@ -2,7 +2,7 @@
   "name": "jekwwer/jekwwer",
   "image": "mcr.microsoft.com/devcontainers/python:3.12",
   "features": {
-    "ghcr.io/devcontainers/features/node:1.6.3": {
+    "ghcr.io/devcontainers/features/node:1.7.1": {
       "version": "22"
     }
   },
