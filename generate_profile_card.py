@@ -40,6 +40,7 @@ README_PATH = Path("README.md")
 _UNREPLACED_PLACEHOLDER_RE = re.compile(r"\{\{[^}]+\}\}")
 _README_CARD_PATH_RE = re.compile(r"docs/[^/)]+/profile-card\.[^)]+\.svg")
 _LANDING_REDIRECT_RE = re.compile(r"url=\./[^/\s]+/")
+_TRAILING_WS_RE = re.compile(r"[ \t]+$", re.MULTILINE)
 
 
 def _apply_substitutions(svg: str, subs: dict[str, str]) -> str:
@@ -186,6 +187,7 @@ def main() -> None:
                 )
                 svg = _apply_substitutions(svg, markers)
                 svg = _apply_substitutions(svg, placeholders)
+                svg = _TRAILING_WS_RE.sub("", svg)
                 leftover = set(_UNREPLACED_PLACEHOLDER_RE.findall(svg))
                 if leftover:
                     logger.warning(
