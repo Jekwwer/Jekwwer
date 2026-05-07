@@ -15,8 +15,8 @@ pre-commit = "^4.6.0"
 ruff = "^0.15.0"
 
 [tool.poetry.group.mypy.dependencies]
-mypy = "^1.20.2"
-types-requests = "^2.33.0.20260408"
+mypy = "^2.0.0"
+types-requests = "^2.33.0.20260503"
 
 [tool.mypy]
 platform = "linux"
