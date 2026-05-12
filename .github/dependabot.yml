@@ -1,67 +1,127 @@
 ---
 version: 2
-updates:
-  # GitHub Actions dependencies
-  - package-ecosystem: 'github-actions'
-    directory: '.github/workflows'
-    schedule:
-      interval: 'monthly'
-    groups:
-      github-actions-deps:
-        patterns:
-          - '*'
-    labels:
-      - 'dependencies'
-      - 'github-actions'
-    reviewers:
-      - 'Jekwwer'
-    assignees:
-      - 'Jekwwer'
-    commit-message:
-      prefix: 'deps(actions)'
-    open-pull-requests-limit: 2
 
-  # NPM dependencies
-  - package-ecosystem: 'npm'
+updates:
+  # Dev Container Features
+  - package-ecosystem: 'devcontainers'
     directory: '/'
     schedule:
       interval: 'monthly'
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: 'direct'
     groups:
-      npm-deps:
+      devcontainers-deps:
+        applies-to: version-updates
         patterns:
           - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
     labels:
       - 'dependencies'
-      - 'npm'
-    reviewers:
-      - 'Jekwwer'
-    assignees:
-      - 'Jekwwer'
+      - 'devcontainers-deps'
     commit-message:
-      prefix: 'deps(npm)'
-    open-pull-requests-limit: 2
+      prefix: 'deps(devcontainers)'
+    open-pull-requests-limit: 3
 
   # Python dependencies
   - package-ecosystem: 'pip'
     directory: '/'
     schedule:
       interval: 'monthly'
-    versioning-strategy: increase
+    cooldown:
+      semver-major-days: 14
+      semver-minor-days: 7
+      semver-patch-days: 3
     allow:
       - dependency-type: 'direct'
     groups:
-      poetry-deps:
+      pip-deps:
+        applies-to: version-updates
         patterns:
           - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
     labels:
       - 'dependencies'
-      - 'python'
-    reviewers:
-      - 'Jekwwer'
-    assignees:
-      - 'Jekwwer'
+      - 'pip-deps'
     commit-message:
-      prefix: 'deps(poetry)'
-    open-pull-requests-limit: 2
+      prefix: 'deps(pip)'
+    open-pull-requests-limit: 3
+
+  # NPM dependencies
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      semver-major-days: 14
+      semver-minor-days: 7
+      semver-patch-days: 3
+    allow:
+      - dependency-type: 'direct'
+    groups:
+      npm-deps:
+        applies-to: version-updates
+        patterns:
+          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
+    labels:
+      - 'dependencies'
+      - 'npm-deps'
+    commit-message:
+      prefix: 'deps(npm)'
+    open-pull-requests-limit: 3
+
+  # Pre-commit hook revs
+  - package-ecosystem: 'pre-commit'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+    allow:
+      - dependency-type: 'direct'
+    groups:
+      pre-commit-deps:
+        applies-to: version-updates
+        patterns:
+          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
+    labels:
+      - 'dependencies'
+      - 'pre-commit-deps'
+    commit-message:
+      prefix: 'deps(pre-commit)'
+    open-pull-requests-limit: 3
+
+  # GitHub Actions dependencies
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+    allow:
+      - dependency-type: 'direct'
+    groups:
+      actions-deps:
+        applies-to: version-updates
+        patterns:
+          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
+    labels:
+      - 'dependencies'
+      - 'actions-deps'
+    commit-message:
+      prefix: 'deps(actions)'
+    open-pull-requests-limit: 3
