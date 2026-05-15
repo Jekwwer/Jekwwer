@@ -1,0 +1,43 @@
+# === File Classification ===
+
+# All files: auto-detect text and normalize line endings
+* text=auto
+
+# --- Text: web / JS ecosystem ---
+*.html      text eol=lf
+
+# --- Text: languages ---
+*.py        text eol=lf
+
+# --- Text: shell / build ---
+*.sh        text eol=lf
+Makefile    text eol=lf
+
+# --- Text: data / config ---
+*.json      text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+*.toml      text eol=lf
+*.lock      text eol=lf
+
+# --- Text: docs ---
+*.md        text eol=lf
+
+# --- Text: SVG (HTML-based markup, hand-editable) ---
+*.svg       text eol=lf diff=html
+
+# === Diff Behavior ===
+
+# Custom diff drivers (markup-aware hunk headers)
+*.json      diff=json
+
+# Suppress diffs (too noisy or not useful)
+*.lock              -diff
+package-lock.json   -diff
+
+# === Metadata ===
+
+# --- GitHub linguist: generated outputs ---
+package-lock.json                   linguist-generated
+poetry.lock                         linguist-generated
+docs/**/profile-card.*.svg          linguist-generated
