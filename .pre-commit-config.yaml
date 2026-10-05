@@ -69,14 +69,14 @@ repos:
 
   # ── Markdown Hooks ─────────────────────────────────────────────────────────
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.48.0
+    rev: v0.49.1
     hooks:
       - id: markdownlint
         name: 'lint:markdown'
         args: ['--ignore-path', '.gitignore']
 
   - repo: https://github.com/tcort/markdown-link-check
-    rev: v3.14.2
+    rev: v3.15.0
     hooks:
       - id: markdown-link-check
         name: 'check:md-links'
@@ -101,7 +101,7 @@ repos:
         args: ['--py312-plus']
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.20.1
+    rev: v2.4.0
     hooks:
       - id: mypy
         name: 'typecheck:mypy'
@@ -110,7 +110,7 @@ repos:
           - types-requests
 
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: v3.8.3
+    rev: v3.9.9
     hooks:
       - id: prettier
         name: 'format:prettier'
@@ -119,7 +119,7 @@ repos:
 
   # ── Spelling Hooks ─────────────────────────────────────────────────────────
   - repo: https://github.com/streetsidesoftware/cspell-cli
-    rev: v10.0.0
+    rev: v10.3.0
     hooks:
       - id: cspell
         name: 'check:spelling'
