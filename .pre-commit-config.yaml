@@ -101,7 +101,7 @@ repos:
         args: ['--py312-plus']
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.20.1
+    rev: v2.1.0
     hooks:
       - id: mypy
         name: 'typecheck:mypy'
